@@ -1,7 +1,7 @@
 from graph import Graph
 
 
-class AdjacencyList__graph(Graph):
+class AdjacencyListGraph(Graph):
     """
     Adjacency List implementation of a Graph
     """
