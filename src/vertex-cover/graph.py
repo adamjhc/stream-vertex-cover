@@ -3,6 +3,20 @@ class Graph(object):
     Graph Interface
     """
 
+    def vertices(self):
+        """
+        Returns:
+            List of vertices in the graph
+        """
+        raise NotImplementedError()
+
+    def edges(self):
+        """
+        Returns:
+            List of all edges as pairs in the graph
+        """
+        raise NotImplementedError()
+
     def add_vertex(self, vertex):
         """
         Adds a vertex to the graph
@@ -23,7 +37,8 @@ class Graph(object):
 
     def add_edge(self, src, dest):
         """
-        Adds an edge connecting two vertices
+        Adds an edge connecting two vertices. Also adds the vertices if they
+        don't exist in the graph
 
         Agrs:
             src (str): Name of the source vertex
@@ -50,4 +65,3 @@ class Graph(object):
             b (str): Name of the second vertex
         """
         raise NotImplementedError()
-
