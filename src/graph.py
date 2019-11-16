@@ -56,7 +56,30 @@ class Graph(object):
         """
         raise NotImplementedError()
 
-    def areAdjacent(self, a, b):
+    def get_neighbours(self, vertex):
+        """
+        Gets connected vertices of a single vertex
+
+        Args:
+            vertex (str): Name of vertex
+
+        Returns:
+            Set of connected vertices
+        """
+        raise NotImplementedError()
+
+    def get_edges(self, vertex):
+        """
+        Gets all edges connected to a vertex
+
+        Args:
+            vertex (str): Name of vertex
+
+        Returns:
+            Set of tuples as edges
+        """
+
+    def are_adjacent(self, a, b):
         """
         Checks if two vertices are adjacent
 
