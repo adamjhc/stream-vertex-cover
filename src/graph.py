@@ -1,28 +1,29 @@
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Set, Tuple
 
-T = TypeVar("T")
+Vertex = TypeVar("Vertex")
+Edge = Tuple[Vertex, Vertex]
 
 
-class Graph(Generic[T]):
+class Graph(Generic[Vertex]):
     """
     Graph Interface
     """
 
-    def vertices(self) -> set[T]:
+    def vertices(self) -> Set[Vertex]:
         """
         Returns:
             Set of vertices in the graph
         """
         raise NotImplementedError()
 
-    def edges(self) -> set[()]:
+    def edges(self) -> Set[Edge]:
         """
         Returns:
             Set of all edges as pairs in the graph
         """
         raise NotImplementedError()
 
-    def add_vertex(self, vertex: T) -> None:
+    def add_vertex(self, vertex: Vertex) -> None:
         """
         Adds a vertex to the graph
 
@@ -31,7 +32,7 @@ class Graph(Generic[T]):
         """
         raise NotImplementedError()
 
-    def remove_vertex(self, vertex: T) -> None:
+    def remove_vertex(self, vertex: Vertex) -> None:
         """
         Removes a vertex from the graph as well as edges connected to it
 
@@ -40,7 +41,7 @@ class Graph(Generic[T]):
         """
         raise NotImplementedError()
 
-    def add_edge(self, src: T, dest: T) -> None:
+    def add_edge(self, src: Vertex, dest: Vertex) -> None:
         """
         Adds an edge connecting two vertices. Also adds the vertices if they
         don't exist in the graph
@@ -51,7 +52,7 @@ class Graph(Generic[T]):
         """
         raise NotImplementedError()
 
-    def remove_edge(self, src: T, dest: T) -> None:
+    def remove_edge(self, src: Vertex, dest: Vertex) -> None:
         """
         Removes an edge connecting two vertices
 
@@ -61,7 +62,7 @@ class Graph(Generic[T]):
         """
         raise NotImplementedError()
 
-    def get_neighbours(self, vertex: T) -> set[T]:
+    def get_neighbours(self, vertex: Vertex) -> Set[Vertex]:
         """
         Gets connected vertices of a single vertex
 
@@ -73,7 +74,7 @@ class Graph(Generic[T]):
         """
         raise NotImplementedError()
 
-    def get_edges(self, vertex: T) -> set[()]:
+    def get_edges(self, vertex: Vertex) -> Set[Edge]:
         """
         Gets all edges connected to a vertex
 
@@ -84,7 +85,7 @@ class Graph(Generic[T]):
             Set of tuples as edges
         """
 
-    def are_adjacent(self, a: T, b: T) -> bool:
+    def are_adjacent(self, a: Vertex, b: Vertex) -> bool:
         """
         Checks if two vertices are adjacent
 
