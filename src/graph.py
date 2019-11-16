@@ -1,90 +1,95 @@
-class Graph(object):
+from typing import TypeVar, Generic
+
+T = TypeVar("T")
+
+
+class Graph(Generic[T]):
     """
     Graph Interface
     """
 
-    def vertices(self):
+    def vertices(self) -> set[T]:
         """
         Returns:
-            List of vertices in the graph
+            Set of vertices in the graph
         """
         raise NotImplementedError()
 
-    def edges(self):
+    def edges(self) -> set[()]:
         """
         Returns:
-            List of all edges as pairs in the graph
+            Set of all edges as pairs in the graph
         """
         raise NotImplementedError()
 
-    def add_vertex(self, vertex):
+    def add_vertex(self, vertex: T) -> None:
         """
         Adds a vertex to the graph
 
         Args:
-            vertex (str): Name of the vertex to add
+            vertex (T): Name of the vertex to add
         """
         raise NotImplementedError()
 
-    def remove_vertex(self, vertex):
+    def remove_vertex(self, vertex: T) -> None:
         """
         Removes a vertex from the graph as well as edges connected to it
 
         Args:
-            vertex (str): Name of the vertex to remove
+            vertex (T): Name of the vertex to remove
         """
         raise NotImplementedError()
 
-    def add_edge(self, src, dest):
+    def add_edge(self, src: T, dest: T) -> None:
         """
         Adds an edge connecting two vertices. Also adds the vertices if they
         don't exist in the graph
 
         Agrs:
-            src (str): Name of the source vertex
-            dest (str): Name of the destination vertex
+            src (T): Name of the source vertex
+            dest (T): Name of the destination vertex
         """
         raise NotImplementedError()
 
-    def remove_edge(self, src, dest):
+    def remove_edge(self, src: T, dest: T) -> None:
         """
         Removes an edge connecting two vertices
 
         Args:
-            src (str): Name of the source vertex
-            dest (str): Name of the destination vertex
+            src (T): Name of the source vertex
+            dest (T): Name of the destination vertex
         """
         raise NotImplementedError()
 
-    def get_neighbours(self, vertex):
+    def get_neighbours(self, vertex: T) -> set[T]:
         """
         Gets connected vertices of a single vertex
 
         Args:
-            vertex (str): Name of vertex
+            vertex (T): Name of vertex
 
         Returns:
             Set of connected vertices
         """
         raise NotImplementedError()
 
-    def get_edges(self, vertex):
+    def get_edges(self, vertex: T) -> set[()]:
         """
         Gets all edges connected to a vertex
 
         Args:
-            vertex (str): Name of vertex
+            vertex (T): Name of vertex
 
         Returns:
             Set of tuples as edges
         """
 
-    def are_adjacent(self, a, b):
+    def are_adjacent(self, a: T, b: T) -> bool:
         """
         Checks if two vertices are adjacent
 
         Args:
-            a (str): Name of the first vertex
-            b (str): Name of the second vertex
+            a (T): Name of the first vertex
+            b (T): Name of the second vertex
         """
         raise NotImplementedError()
