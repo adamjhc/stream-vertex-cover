@@ -1,4 +1,4 @@
-from graph import Graph
+from src.graph import Graph
 
 
 class AdjacencyListGraph(Graph):
@@ -42,7 +42,7 @@ class AdjacencyListGraph(Graph):
 
     def add_vertex(self, vertex):
         """
-        Adds a vertex to the __graph
+        Adds a vertex to the graph
 
         Args:
             vertex (str): Name of the vertex to add
@@ -52,7 +52,7 @@ class AdjacencyListGraph(Graph):
 
     def remove_vertex(self, vertex):
         """
-        Removes a vertex from the __graph as well as edges connected to it
+        Removes a vertex from the graph as well as edges connected to it
 
         Args:
             vertex (str): Name of the vertex to remove
@@ -67,7 +67,7 @@ class AdjacencyListGraph(Graph):
     def add_edge(self, src, dest):
         """
         Adds an edge connecting two vertices. Also adds the vertices if they
-        don't exist in the __graph
+        don't exist in the graph
 
         Agrs:
             src (str): Name of the source vertex
