@@ -41,6 +41,6 @@ def test_add_edge(graph):
     graph.add_edge(vertexA, vertexB)
 
     # assert
-    # assert vertexA in graph.__graph[vertexB]
-    # assert vertexB in graph.__graph[vertexA]
+    assert vertexA in graph._AdjacencyListGraph__graph[vertexB]
+    assert vertexB in graph._AdjacencyListGraph__graph[vertexA]
     assert (vertexA, vertexB) in graph.edges()
