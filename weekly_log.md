@@ -4,7 +4,7 @@
 
 Friday 11:30:
 
-- Met with Rajesh for the first time. We talked about our areas of interest; his being graph theory and algorithms surrounding it, mine being more of software engineering and hardware. 
+- Met with Rajesh for the first time. We talked about our areas of interest; his being graph theory and algorithms surrounding it, mine being more of software engineering and hardware.
 - I was flexible with the topic of my project so we decided it was best if it was based in graph theory. Possibly implementation and testing of graph algorithms that have not yet been put into practice.
 
 ## Semester 1 Week 2 - 07/10
@@ -48,3 +48,17 @@ Started implementing graph representations and algorithms in python.
 Python seems a good choice for quick implementations, clear readability, and is used in streaming environments. C may be a better choice for trying to get speedy code while I'm still testing on my laptop.
 
 Finally got round to typing up the last 5 weeks worth of week logs.
+
+## Semester 1 Week 6 - 04/11
+
+Monday 14:00
+
+- Rajesh and I talked over the kind on timeline I would have over the remaining weeks: to have the given graph algorithms implemented locally and tested by Christmas, over Christmas learn streaming frameworks and in the new year start testing algorithms in a streaming environment.
+
+## Semester 1 Week 7 - 11/11
+
+Monday 14:00
+
+- Another short meeting setting in stone the aims of the project.
+
+Started on implementation of vertex cover kernelization algorithm as well as setting up types for the graph implementations and tests for each.
