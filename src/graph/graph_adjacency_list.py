@@ -1,5 +1,6 @@
 from typing import TypeVar
-from src.graph import Graph
+
+from .graph_interface import Graph
 
 Vertex = TypeVar("Vertex")
 

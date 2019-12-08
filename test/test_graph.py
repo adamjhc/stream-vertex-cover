@@ -1,10 +1,9 @@
 from pytest import fixture
 
-from src.graph import Graph
-from src.graph_adjacency_list import AdjacencyListGraph
-from src.graph_adjacency_matrix import (
-    AdjacencyMatrixDictGraph,
-    AdjacencyMatrixListGraph,
+from src.graph import (
+    AdjacencyListGraph,
+    # AdjacencyMatrixDictGraph,
+    # AdjacencyMatrixListGraph,
 )
 
 
