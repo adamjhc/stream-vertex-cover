@@ -1,18 +1,19 @@
+from typing import TypeVar
 from src.graph import Graph
 
+Vertex = TypeVar("Vertex")
 
-class AdjacencyListGraph(Graph):
+
+class AdjacencyListGraph(Graph[Vertex]):
     """
     Adjacency List implementation of a Graph
     """
 
-    def __init__(self, graph=None):
+    def __init__(self, graph: dict = dict()):
         """
         Initialises the graph with the option to pass in an existing graph
         """
-        if graph == None:
-            graph = dict()
-        self.__graph = dict()
+        self.__graph = graph
 
     def __repr__(self):
         """
@@ -33,14 +34,13 @@ class AdjacencyListGraph(Graph):
         Returns:
             List of all edges as pairs in the graph
         """
-        edges = []
-        for vertex in self.__graph:
-            for connected in self.__graph:
-                edges.append((vertex, connected))
+        return [
+            (vertex, connected)
+            for vertex in self.__graph
+            for connected in self.__graph[vertex]
+        ]
 
-        return edges
-
-    def add_vertex(self, vertex):
+    def add_vertex(self, vertex: Vertex):
         """
         Adds a vertex to the graph
 
@@ -50,7 +50,7 @@ class AdjacencyListGraph(Graph):
         if vertex not in self.__graph:
             self.__graph[vertex] = set()
 
-    def remove_vertex(self, vertex):
+    def remove_vertex(self, vertex: Vertex):
         """
         Removes a vertex from the graph as well as edges connected to it
 
@@ -64,7 +64,7 @@ class AdjacencyListGraph(Graph):
 
             self.__graph.pop(vertex)
 
-    def add_edge(self, src, dest):
+    def add_edge(self, src: Vertex, dest: Vertex):
         """
         Adds an edge connecting two vertices. Also adds the vertices if they
         don't exist in the graph
@@ -79,7 +79,7 @@ class AdjacencyListGraph(Graph):
         self.__graph[src].add(dest)
         self.__graph[dest].add(src)
 
-    def remove_edge(self, src, dest):
+    def remove_edge(self, src: Vertex, dest: Vertex):
         """
         Removes an edge connecting two vertices
 
@@ -92,7 +92,7 @@ class AdjacencyListGraph(Graph):
                 self.__graph[src].remove(dest)
                 self.__graph[dest].remove(src)
 
-    def areAdjacent(self, a, b):
+    def areAdjacent(self, a: Vertex, b: Vertex):
         """
         Checks if two vertices are adjacent
 
