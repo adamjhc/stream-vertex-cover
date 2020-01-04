@@ -45,18 +45,19 @@
 \usepackage[normalem]{ulem}
 \usepackage{verbatim}
 \usepackage{soul} %highlighting, strike through etc.
+\usepackage{microtype} %for better justification
 
 %Automated appendices
 \usepackage[titletoc,title,header]{appendix} %advanced functionality
 
 %language settings
-\usepackage[utf8]{inputenc}
-\usepackage[australian]{babel}
-\usepackage{csquotes}
+% \usepackage[utf8]{inputenc}
+% \usepackage[australian]{babel}
+% \usepackage{csquotes}
 
 %page setup
 %this where we adjust the binding offset, if relevant
-\usepackage[a4paper]{geometry}
+\usepackage[a4paper,margin=1.0in]{geometry}
 \usepackage{lastpage} % for page 1 of n footers
 
 %cross referencing
@@ -73,10 +74,11 @@
 \usepackage{enumitem}
 
 %working collaboratively
-% \usepackage[backgroundcolor=yellow]{todonotes}
+\setlength {\marginparwidth }{2cm} %bug fix
+\usepackage[backgroundcolor=yellow]{todonotes}
 
 %reference list 
-\usepackage[backend=biber,style=ieee]{biblatex} %Sbliography with IEEE style.
+\usepackage[backend=biber,style=ieee]{biblatex} %bibliography with IEEE style.
 \addbibresource{3_footer/ref.bib} %Imports bibliography file
 \usepackage{url} %for URL fonts
 \urlstyle{same}
@@ -87,4 +89,4 @@
 \input{1_header/glossary}
 
 %line spacing
-\linespread{1.25}
+% \linespread{1.25}
