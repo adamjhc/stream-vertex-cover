@@ -5,14 +5,9 @@
 % general incantations
 \usepackage[export]{adjustbox}
 \usepackage{afterpage}
-
-\usepackage{graphicx}
-\usepackage{placeins}
-\usepackage{pdfpages}
 \usepackage{algorithm2e}
 \usepackage{array}
 \usepackage{booktabs}
-\usepackage[most]{tcolorbox}
 \usepackage{calligra}
 \usepackage{caption}
 \usepackage{datetime}
@@ -24,11 +19,10 @@
 \usepackage{fix-cm}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp,gensymb} %for \degree C symbol
-\usepackage{graphicx}
 \usepackage{lipsum}
 \usepackage{listings}
-\usepackage{transparent}
 \usepackage[everyline=true,framemethod=tikz]{mdframed}
+\usepackage{microtype} %for better justification
 \usepackage{mparhack}
 \usepackage{multicol}
 \usepackage{multirow}
@@ -40,12 +34,13 @@
 \usepackage[document]{ragged2e}
 \usepackage{rotating}
 \usepackage{setspace}
+\usepackage{soul} %highlighting, strike through etc.
 \usepackage{subcaption}
+\usepackage[most]{tcolorbox}
 \usepackage{threeparttable}
+\usepackage{transparent}
 \usepackage[normalem]{ulem}
 \usepackage{verbatim}
-\usepackage{soul} %highlighting, strike through etc.
-\usepackage{microtype} %for better justification
 
 %Automated appendices
 \usepackage[titletoc,title,header]{appendix} %advanced functionality
@@ -75,18 +70,29 @@
 
 %working collaboratively
 \setlength {\marginparwidth }{2cm} %bug fix
-\usepackage[backgroundcolor=yellow]{todonotes}
+\usepackage[colorinlistoftodos, color=yellow]{todonotes}
+\newcommand{\todoinline}[1]{\todo[inline]{#1}}
+\newcommand{\note}[1]{\todo[color=cyan]{#1}}
+\newcommand{\noteinline}[1]{\todo[color=cyan,inline]{#1}}
+
+\newcommand{\notstarted}{\todo[color=red]{Not started}}
+\newcommand{\wip}{\todo[color=orange]{WIP}}
+\newcommand{\done}{\todo[color=green]{Done}}
 
 %reference list 
 \usepackage[backend=biber,style=ieee]{biblatex} %bibliography with IEEE style.
 \addbibresource{3_footer/ref.bib} %Imports bibliography file
 \usepackage{url} %for URL fonts
-\urlstyle{same}
+% \urlstyle{same}
 
 %glossary for acronyms
 \usepackage[acronym,nonumberlist,toc,section=subsection,numberedsection=nolabel]{glossaries} 
 \makeglossaries
 \input{1_header/glossary}
+
+%images
+\usepackage{graphicx}
+\graphicspath{ {./img/} }
 
 %line spacing
 % \linespread{1.25}
