@@ -86,7 +86,11 @@
 % \urlstyle{same}
 
 %glossary for acronyms
-\usepackage[acronym,nonumberlist,toc,section=subsection,numberedsection=nolabel]{glossaries} 
+% to compile:
+% pdflatex main.tex
+% makeglossaries main
+% pdflatex main.tex
+\usepackage[acronym,nonumberlist,toc,numberedsection=nolabel]{glossaries}
 \makeglossaries
 \input{1_header/glossary}
 
