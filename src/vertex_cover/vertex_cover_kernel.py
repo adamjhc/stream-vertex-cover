@@ -15,78 +15,77 @@ Kernel Algorithm for Vertex Cover
     can only cover at most k edges and a set of k vertices could only cover at 
     most k^2 edges. In this case, the instance may be replaced by an instance 
     with two vertices, one edge, and k=0, which also has no solution.
+
+An algorithm that applies these rules repeatedly until no more reductions can 
+be made necessarily terminates with a kernel that has at most k^2 edges and 
+(because each edge has at most two endpoints and there are no isolated 
+vertices) at most 2k^{2} vertices. This kernelization may be implemented in 
+linear time. Once the kernel has been constructed, the vertex cover problem may
+be solved by a brute force search algorithm that tests whether each subset of 
+the kernel is a cover of the kernel. Thus, the vertex cover problem can be 
+solved in time O(2^{{2k^{2}}}+n+m) for a graph with n vertices and m edges, 
+allowing it to be solved efficiently when k is small even if n and m are both 
+large.
 """
+from typing import Tuple
+
+import networkx as nx
+from networkx import Graph
+from networkx.algorithms.approximation.vertex_cover import min_weighted_vertex_cover
+from networkx.classes.function import number_of_edges
 
 
-def vertex_cover_kernelization(graph, k):
+def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     """
-    Finds a vertex cover using kernelization with size k 
+    Finds a vertex cover of size k using kernelization
 
     Args:
-        graph (Graph): Graph to perform on
-        k (int): Size k
+    - graph (Graph): Graph to perform on
+    - k (int): Size k
 
     Returns:
-        Set of vertices that cover all edges
+    - Set of at most k vertices that includes the endpoint of every edge in the
+      graph or None if no such set exists
     """
 
-    (kernel, vertexCover) = kernelize(graph, k)
-    if len(kernel.vertices()) > k * (k + 1) or len(kernel.edges()) > k ** 2:
-        return None
+    kernel = _kernelize(graph, k)
+    # if len(kernel.vertices()) > k * (k + 1) or len(kernel.edges()) > k ** 2:
+    #     return None
 
-    return vertexCover + __brute_force(graph)
+    # Once the kernel has been constructed, the vertex cover problem may be 
+    # solved by a brute force search algorithm that tests whether each subset of 
+    # the kernel is a cover of the kernel.
+    # return min_weighted_vertex_cover(kernel)
+    
 
 
-def kernelize(graph, k):
+def _kernelize(graph: Graph, k: int) -> Graph:
     """
-    Kernelizes a graph given size k
+    Kernelizes a graph given size k 
 
     Args:
-        k (int): Size k
+    - graph (Graph): Graph to kernelize
+    - k (int): Size k
 
     Returns:
-        Pair of kernel and the partial vertex cover
+    - kernel (Graph): Kernelized graph
     """
 
-    vertexCover = set()
     kernel = graph
-    while True:
-        rulesApplied = False
-
+    reductionsCanBeMade = True
+    while reductionsCanBeMade:
         v = kernel.randomVertex()
         if k > 0 and v.degree() > k:
-            vertexCover.add(v)
             kernel.remove(v)
             k -= 1
-            rulesApplied = True
-
-        if v.degree() == 0:
+        elif v.degree() == 0:
             kernel.remove(v)
-            rulesApplied = True
-
-        if not rulesApplied and len(kernel.edges()) > k ** 2:
+        elif number_of_edges(kernel) > k ** 2:
             return None
+        else:
+            reductionsCanBeMade = False
 
-    return (kernel, vertexCover)
-
-
-def __brute_force(graph):
-    vertices = graph.vertices()
-    edges = graph.edges()
-
-    for size in range(len(vertices)):
-        vertexCovers = __generate_power_set(vertices, size)
-        for vertexCover in vertexCovers:
-            if __is_vertex_cover(edges, vertexCover):
-                return vertexCover
-
-
-def __generate_power_set(vertices, size):
-    return []
-
-
-def __is_vertex_cover(edges, vertexCover):
-    return True
+    return kernel
 
 
 if __name__ == "__main__":
