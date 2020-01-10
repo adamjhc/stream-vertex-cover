@@ -1,5 +1,5 @@
 """
-Kernel Algorithm for Vertex Cover
+Kernelization Algorithm for Vertex Cover
 (from https://en.wikipedia.org/wiki/Kernelization#Example:_vertex_cover)
 
 1.  If k > 0 and v is a vertex of degree > k, remove v from the graph and 
@@ -27,42 +27,29 @@ solved in time O(2^{{2k^{2}}}+n+m) for a graph with n vertices and m edges,
 allowing it to be solved efficiently when k is small even if n and m are both 
 large.
 """
-from typing import Tuple
-
-import networkx as nx
 from networkx import Graph
-from networkx.algorithms.approximation.vertex_cover import min_weighted_vertex_cover
-from networkx.classes.function import number_of_edges
+from .vertex_cover_brute_force import vertex_cover_brute_force
 
 
 def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     """
     Finds a vertex cover of size k using kernelization
 
+    Returning a set of at most k vertices that includes the endpoint of every 
+    edge in the graph or None if no such set exists
+
     Args:
     - graph (Graph): Graph to perform on
     - k (int): Size k
 
     Returns:
-    - Set of at most k vertices that includes the endpoint of every edge in the
-      graph or None if no such set exists
+    - set
     """
-
     kernel = _kernelize(graph, k)
+    if not kernel:
+        return None
 
-    # from random paper?
-    # if len(kernel.vertices()) > k * (k + 1) or len(kernel.edges()) > k ** 2:
-    #     return None
-
-    # "Once the kernel has been constructed, the vertex cover problem may be
-    # solved by a brute force search algorithm that tests whether each subset of
-    # the kernel is a cover of the kernel."
-    ps_vertices = _powerset(list(kernel.nodes))
-    for vertex_cover in ps_vertices:
-        if _is_vertex_cover(kernel, vertex_cover):
-            return vertex_cover
-
-    # return min_weighted_vertex_cover(kernel)
+    return vertex_cover_brute_force(kernel)
 
 
 def _kernelize(graph: Graph, k: int) -> Graph:
@@ -76,51 +63,25 @@ def _kernelize(graph: Graph, k: int) -> Graph:
     Returns:
     - Graph
     """
-
     kernel = graph
     reductionsCanBeMade = True
     while reductionsCanBeMade:
-        v = kernel.randomVertex()
-        if k > 0 and v.degree() > k:
-            kernel.remove(v)
-            k -= 1
-        elif v.degree() == 0:
-            kernel.remove(v)
-        elif number_of_edges(kernel) > k ** 2:
-            return None
-        else:
+        reductionMade = False
+        for node in list(kernel.nodes):
+            if k > 0 and kernel.degree[node] > k:
+                reductionMade = True
+                kernel.remove_node(node)
+                k -= 1
+            elif kernel.degree[node] == 0:
+                reductionMade = True
+                kernel.remove_node(node)
+            elif kernel.number_of_edges() > k ** 2:
+                return None
+
+        if not reductionMade:
             reductionsCanBeMade = False
 
     return kernel
-
-
-def _powerset(seq):
-    """
-    Returns all the subsets of this set. This is a generator.
-
-    Taken from: https://www.technomancy.org/python/powerset-generator-python/
-    """
-    if len(seq) <= 1:
-        yield seq
-        yield []
-    else:
-        for item in _powerset(seq[1:]):
-            yield [seq[0]] + item
-            yield item
-
-
-def _is_vertex_cover(graph: Graph, vertex_cover: set) -> bool:
-    """
-    Determines whether the given set of vertices is a vertex cover of the given graph
-
-    Args:
-    - graph (Graph): The graph of which to check the vertex cover
-    - vertex_cover (set): Set of vertices
-
-    Returns:
-    - bool
-    """
-    pass
 
 
 if __name__ == "__main__":
