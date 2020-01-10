@@ -4,7 +4,7 @@ Kernel Algorithm for Vertex Cover
 
 1.  If k > 0 and v is a vertex of degree > k, remove v from the graph and 
     decrease k by 1. Every vertex of size k must contain v since otherwise too 
-    many of its neighbors would have to be picked to cover the incident edges. 
+    many of its neighbours would have to be picked to cover the incident edges. 
     Thus, an optimal vertex cover for the original graph may be formed from a 
     cover of the reduced problem by adding v back to the cover
 2.  If v is an isolated vertex, remove it. An isolated vertex cannot cover any 
@@ -49,14 +49,20 @@ def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     """
 
     kernel = _kernelize(graph, k)
+
+    # from random paper?
     # if len(kernel.vertices()) > k * (k + 1) or len(kernel.edges()) > k ** 2:
     #     return None
 
-    # Once the kernel has been constructed, the vertex cover problem may be 
-    # solved by a brute force search algorithm that tests whether each subset of 
-    # the kernel is a cover of the kernel.
+    # "Once the kernel has been constructed, the vertex cover problem may be
+    # solved by a brute force search algorithm that tests whether each subset of
+    # the kernel is a cover of the kernel."
+    ps_vertices = _powerset(list(kernel.nodes))
+    for vertex_cover in ps_vertices:
+        if _is_vertex_cover(kernel, vertex_cover):
+            return vertex_cover
+
     # return min_weighted_vertex_cover(kernel)
-    
 
 
 def _kernelize(graph: Graph, k: int) -> Graph:
@@ -68,7 +74,7 @@ def _kernelize(graph: Graph, k: int) -> Graph:
     - k (int): Size k
 
     Returns:
-    - kernel (Graph): Kernelized graph
+    - Graph
     """
 
     kernel = graph
@@ -86,6 +92,35 @@ def _kernelize(graph: Graph, k: int) -> Graph:
             reductionsCanBeMade = False
 
     return kernel
+
+
+def _powerset(seq):
+    """
+    Returns all the subsets of this set. This is a generator.
+
+    Taken from: https://www.technomancy.org/python/powerset-generator-python/
+    """
+    if len(seq) <= 1:
+        yield seq
+        yield []
+    else:
+        for item in _powerset(seq[1:]):
+            yield [seq[0]] + item
+            yield item
+
+
+def _is_vertex_cover(graph: Graph, vertex_cover: set) -> bool:
+    """
+    Determines whether the given set of vertices is a vertex cover of the given graph
+
+    Args:
+    - graph (Graph): The graph of which to check the vertex cover
+    - vertex_cover (set): Set of vertices
+
+    Returns:
+    - bool
+    """
+    pass
 
 
 if __name__ == "__main__":
