@@ -1,3 +1,3 @@
-from .vertex_cover_kernel import *
-from .vertex_cover_brute_force import *
+from .kernel import *
+from .brute_force import *
 
