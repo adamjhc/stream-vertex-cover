@@ -16,3 +16,29 @@
         \item Should probably be merged with the above
     \end{itemize}
 \end{enumerate}
+
+\subsection{What I Plan To Do}
+
+\subsubsection{File Formats}
+\begin{itemize}
+    \item CSV Format: Data being presented in either Edgelist format or Adjacency List format. Edge List format contains two/three values in each line (To, From, [Weight]) node giving an idea about edges that exist in graph with any weight if attached. In Adjacency List first value in a row is source node and succeeding nodes are the ones to which edge is present. For example: [Source, Node1, Node2, …].
+    \item GML Format: One of the most common formats as provide huge flexibility for graphs to store information. It is modelling language to store information about node, edges, labels, attributes etc.
+    \item Pajek Net Format: Uses .NET extensions. There are two columns present in this format one vertices which specifies label of nodes another specifies edges between nodes. If nodes don’t have any labels then row entries below vertices column can be skipped. Also, an attribute value can be added if needed.
+    \item GraphML Format: Uses xml tag structures to store information about a graph ends with .graphml extension. Here, graphml tag store metadata about the graph, graph tag for attributes about graph. Node tag, which specifies all the properties about nodes and than edge tags are there to give edge specifications. Also, an optional key tag can be used to assign weight to edges and attributes to nodes.
+    \item GEXF Format: Graph Exchange XML Format, developed by Gephi organization. Much similar to graphXML format. It is a language for describing complex networks structures, their associated data and dynamics. Gephi tool is also used for easy visualization of network graphs.
+\end{itemize}
+
+\hrulefill
+
+Sparse Matrix File Formats:
+
+Since most of the matrix is presumably zero, a great deal of storage can be saved if only the nonzero entries are stored. The file format offers a choice of two suitable representations for the nonzero data: a compressed column format, or a format suitable for finite element matrices.
+
+The two representations, compressed column or finite element, may then be stored in a file using either
+\begin{itemize}
+    \item Rutherford Boeing Format: 
+    \item Matrix Market Format:
+\end{itemize}
+
+
+\subsection{How I Plan To Do It}
