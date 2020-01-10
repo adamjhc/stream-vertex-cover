@@ -18,7 +18,11 @@ def powerset(seq: list):
 
 def is_vertex_cover(graph: Graph, vertex_cover: set) -> bool:
     """
-    Determines whether the given set of vertices is a vertex cover of the given graph
+    Determines whether the given set of vertices is a vertex cover of the 
+    given graph
+
+    Loops through the graphs edges checking whether at least one end of the 
+    edge is included in the vertex cover
 
     Args:
     - graph (Graph): The graph of which to check the vertex cover
@@ -32,3 +36,22 @@ def is_vertex_cover(graph: Graph, vertex_cover: set) -> bool:
             return False
 
     return True
+
+
+def is_vertex_cover_alt(graph: Graph, vertex_cover: set) -> bool:
+    """
+    Determines whether the given set of vertices is a vertex cover of the 
+    given graph
+
+    Removes each vertex one by one from the graph and checks whether any edges 
+    are left at the end
+
+    Args:
+    - graph (Graph): The graph of which to check the vertex cover
+    - vertex_cover (set): Set of vertices
+
+    Returns:
+    - bool
+    """
+    graph.remove_nodes_from(vertex_cover)
+    return graph.number_of_edges() == 0
