@@ -1,13 +1,13 @@
 # Final Year Project Weekly Log
 
-## Semester 1 Week 01 - 30/09
+## Semester 1 - Week 01 - 30/09
 
 Friday 11:30:
 
 - Met with Rajesh for the first time. We talked about our areas of interest; his being graph theory and algorithms surrounding it, mine being more of software engineering and hardware.
 - I was flexible with the topic of my project so we decided it was best if it was based in graph theory. Possibly implementation and testing of graph algorithms that have not yet been put into practice.
 
-## Semester 1 Week 02 - 07/10
+## Semester 1 - Week 02 - 07/10
 
 Tuesday 11:00:
 
@@ -19,7 +19,7 @@ Tuesday 11:00:
 
 Rajesh sent me some papers from each of the three topics for me to get an idea of the area I'd be researching. Streaming algorithms seems most interesting since I've never had any exposure to big data technologies such as MapReduce and Hadoop plus would be a great area to have at least a beginner level experience in.
 
-## Semester 1 Week 03 - 14/10
+## Semester 1 - Week 03 - 14/10
 
 Monday 14:00:
 
@@ -29,7 +29,7 @@ Rajesh sent me a couple more papers to look over.
 
 Rajesh had asked me to figure out if the matching.cpp code was an implementation of an algorithm written in a paper he had sent me and after looking at the code for a while I confirmed that it was.
 
-## Semester 1 Week 04 - 21/10
+## Semester 1 - Week 04 - 21/10
 
 Monday 14:00:
 
@@ -37,7 +37,7 @@ Monday 14:00:
 
 Submitted the project proposal. I noted that the project was on k-core/streaming graph algorithms and looking into the motivations for such algorithms. Which I should hopefully be able to put the knowledge towards a usable program such as an app which makes use of the algorithms studied.
 
-## Semester 1 Week 05 - 28/10
+## Semester 1 - Week 05 - 28/10
 
 Monday 14:00
 
@@ -49,13 +49,13 @@ Python seems a good choice for quick implementations, clear readability, and is 
 
 Finally got round to typing up the last 5 weeks worth of week logs.
 
-## Semester 1 Week 06 - 04/11
+## Semester 1 - Week 06 - 04/11
 
 Monday 14:00
 
 - Rajesh and I talked over the kind on timeline I would have over the remaining weeks: to have the given graph algorithms implemented locally and tested by Christmas, over Christmas learn streaming frameworks and in the new year start testing algorithms in a streaming environment.
 
-## Semester 1 Week 07 - 11/11
+## Semester 1 - Week 07 - 11/11
 
 Monday 14:00
 
@@ -63,13 +63,13 @@ Monday 14:00
 
 Started on implementation of vertex cover kernelization algorithm as well as setting up types for the graph implementations and tests for each.
 
-## Semester 1 Week 08 - 18/11
+## Semester 1 - Week 08 - 18/11
 
-## Semester 1 Week 09 - 25/11
+## Semester 1 - Week 09 - 25/11
 
-## Semester 1 Week 10 - 02/12
+## Semester 1 - Week 10 - 02/12
 
-## Semester 1 Week 11 - 09/12
+## Semester 1 - Week 11 - 09/12
 
 Had my inspection meeting.
 
@@ -90,24 +90,24 @@ Suffered from glandular fever for the most part. In the final week managed to ge
 - Started research on streaming technologies that I would need to create my own streaming environment for testing these algorithms properly
 - Started on binary search tree algorithms
 
-## Semester 2 Week 01 - 13/01
+## Semester 2 - Week 01 - 13/01
 
-## Semester 2 Week 02 - 20/01
+## Semester 2 - Week 02 - 20/01
 
-## Semester 2 Week 03 - 27/01
+## Semester 2 - Week 03 - 27/01
 
-## Semester 2 Week 04 - 03/02
+## Semester 2 - Week 04 - 03/02
 
-## Semester 2 Week 05 - 10/02
+## Semester 2 - Week 05 - 10/02
 
-## Semester 2 Week 06 - 17/02
+## Semester 2 - Week 06 - 17/02
 
-## Semester 2 Week 07 - 24/02
+## Semester 2 - Week 07 - 24/02
 
-## Semester 2 Week 08 - 02/03
+## Semester 2 - Week 08 - 02/03
 
-## Semester 2 Week 09 - 09/03
+## Semester 2 - Week 09 - 09/03
 
-## Semester 2 Week 10 - 16/03
+## Semester 2 - Week 10 - 16/03
 
-## Semester 2 Week 11 - 23/03
+## Semester 2 - Week 11 - 23/03
