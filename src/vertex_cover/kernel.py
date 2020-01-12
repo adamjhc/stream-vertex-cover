@@ -38,12 +38,16 @@ def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     Returning a set of at most k vertices that includes the endpoint of every 
     edge in the graph or None if no such set exists
 
-    Args:
-    - graph (Graph): Graph to perform on
-    - k (int): Size k
+    Parameters
+    ----------
+        graph : Graph
+            Graph to perform on
+        k : int
+            Size k
 
-    Returns:
-    - set
+    Returns
+    -------
+        set
     """
     kernel = _kernelize(graph, k)
     if not kernel:
@@ -56,12 +60,16 @@ def _kernelize(graph: Graph, k: int) -> Graph:
     """
     Kernelizes a graph given size k 
 
-    Args:
-    - graph (Graph): Graph to kernelize
-    - k (int): Size k
+    Parameters
+    ----------
+        graph : Graph
+            Graph to kernelize
+        k : int
+            Size k
 
-    Returns:
-    - Graph
+    Returns
+    -------
+        Graph
     """
     kernel = graph
     reductionsCanBeMade = True

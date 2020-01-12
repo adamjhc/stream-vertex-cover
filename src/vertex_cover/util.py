@@ -24,12 +24,16 @@ def is_vertex_cover(graph: Graph, vertex_cover: set) -> bool:
     Loops through the graphs edges checking whether at least one end of the 
     edge is included in the vertex cover
 
-    Args:
-    - graph (Graph): The graph of which to check the vertex cover
-    - vertex_cover (set): Set of vertices
+    Parameters
+    ----------
+        graph : Graph
+            The graph of which to check the vertex cover
+        vertex_cover : set
+            Set of vertices
 
-    Returns:
-    - bool
+    Returns
+    -------
+        bool
     """
     for (u, v) in graph.edges:
         if u not in vertex_cover and v not in vertex_cover:
@@ -46,12 +50,16 @@ def is_vertex_cover_alt(graph: Graph, vertex_cover: set) -> bool:
     Removes each vertex one by one from the graph and checks whether any edges 
     are left at the end
 
-    Args:
-    - graph (Graph): The graph of which to check the vertex cover
-    - vertex_cover (set): Set of vertices
+    Parameters
+    ----------
+        graph : Graph
+            The graph of which to check the vertex cover
+        vertex_cover :set
+            Set of vertices
 
-    Returns:
-    - bool
+    Returns
+    -------
+        bool
     """
     graph.remove_nodes_from(vertex_cover)
     return graph.number_of_edges() == 0

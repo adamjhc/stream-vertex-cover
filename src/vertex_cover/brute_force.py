@@ -7,11 +7,14 @@ def vertex_cover_brute_force(graph: Graph):
 
     Returns the first found vertex cover
 
-    Args:
-    - graph (Graph): The graph to find a vertex cover of
+    Parameters
+    ----------
+        graph : Graph 
+            The graph to find a vertex cover of
 
-    Returns:
-    - set
+    Returns
+    -------
+        set
     """
     ps_vertices = powerset(list(graph.nodes))
     for vertex_cover in ps_vertices:
@@ -27,11 +30,14 @@ def vertex_cover_brute_force_all(graph: Graph):
 
     Returns all vertex covers found as a generator
 
-    Args:
-    - graph (Graph): The graph to find a vertex cover of
+    Parameters
+    ----------
+        graph : Graph
+            The graph to find a vertex cover of
 
-    Returns:
-    - list
+    Returns
+    -------
+        list
     """
     ps_vertices = powerset(list(graph.nodes))
     for vertex_cover in ps_vertices:
