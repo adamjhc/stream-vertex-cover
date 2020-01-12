@@ -41,7 +41,7 @@ def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     Parameters
     ----------
         graph : Graph
-            Graph to perform on
+            The graph to find a vertex cover of
         k : int
             Size k
 
