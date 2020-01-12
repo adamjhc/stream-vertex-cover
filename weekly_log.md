@@ -89,3 +89,25 @@ Suffered from glandular fever for the most part. In the final week managed to ge
 - Started on report, making drafts of sections, and adding notes
 - Started research on streaming technologies that I would need to create my own streaming environment for testing these algorithms properly
 - Started on binary search tree algorithms
+
+## Semester 2 Week 01 - 13/01
+
+## Semester 2 Week 02 - 20/01
+
+## Semester 2 Week 03 - 27/01
+
+## Semester 2 Week 04 - 03/02
+
+## Semester 2 Week 05 - 10/02
+
+## Semester 2 Week 06 - 17/02
+
+## Semester 2 Week 07 - 24/02
+
+## Semester 2 Week 08 - 02/03
+
+## Semester 2 Week 09 - 09/03
+
+## Semester 2 Week 10 - 16/03
+
+## Semester 2 Week 11 - 23/03
