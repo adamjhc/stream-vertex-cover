@@ -6,7 +6,7 @@ from networkx import Graph
 from math import log2, ceil
 
 
-def vertex_cover_bst_2k_pass(graph: Graph, k: int) -> set:
+def vertex_cover_branching_2k_pass(graph: Graph, k: int) -> set:
     """
     Finds a vertex cover of size k using a binary search tree
 
@@ -26,7 +26,7 @@ def vertex_cover_bst_2k_pass(graph: Graph, k: int) -> set:
     pass
 
 
-def vertex_cover_bst_1_pass(graph: Graph, k: int) -> set:
+def vertex_cover_branching_1_pass(graph: Graph, k: int) -> set:
     """
     Finds a vertex cover of size k using a binary search tree
 
