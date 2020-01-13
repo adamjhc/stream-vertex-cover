@@ -49,19 +49,19 @@ def vertex_cover_branching_1_pass(graph: Graph, k: int) -> set:
 
 def _get_binary_strings(k: int) -> list:
     """
-    Calculates all binary strings up to a given value of k
+    Generates binary strings up to a given length k
 
     Parameters
     ----------
         k : int
-            Value to generate binary strings up to
+            Length of binary strings to generate
 
     Returns
     -------
         list
             List of binary strings
     """
-    return [bin(i)[2:].rjust(ceil(log2(k)), "0") for i in range(k)]
+    return [bin(i)[2:].rjust(k, "0") for i in range(2 ** k)]
 
 
 class _Node(object):
