@@ -23,7 +23,25 @@ def vertex_cover_branching_2k_pass(graph: Graph, k: int) -> set:
     -------
         set
     """
-    pass
+    edges = list(graph.edges)
+    for x in _get_binary_strings(k):
+        S = set()
+        i = 0
+        j = 0
+        while i != k + 1:
+            (u, v) = edges[j]
+            if u not in S and v not in S:
+                if X[i] == '0':
+                    S.add(u)
+                else:
+                    S.add(v)
+                i += 1
+            j += 1
+
+        if j = m + 1:
+            return S
+
+    return None 
 
 
 def vertex_cover_branching_1_pass(graph: Graph, k: int) -> set:
