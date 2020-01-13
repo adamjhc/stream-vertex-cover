@@ -42,7 +42,7 @@ def vertex_cover_branching_2k_pass(graph: Graph, k: int) -> set:
             return S
 
     return None 
-
+            
 
 def vertex_cover_branching_1_pass(graph: Graph, k: int) -> set:
     """
@@ -80,10 +80,3 @@ def _get_binary_strings(k: int) -> list:
             List of binary strings
     """
     return [bin(i)[2:].rjust(k, "0") for i in range(2 ** k)]
-
-
-class _Node(object):
-    def __init__(self, value, left=None, right=None):
-        self.value = value  # The node value
-        self.left = left  # Left child
-        self.right = right  # Right child
