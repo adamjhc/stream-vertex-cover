@@ -3,14 +3,11 @@
 1-Pass BST usingO(k^2·logn)bits
 """
 from networkx import Graph
-from math import log2, ceil
 
 
 def vertex_cover_branching_2k_pass(graph: Graph, k: int) -> set:
     """
-    Finds a vertex cover of size k using a binary search tree
-
-    Essentially a depth-first search of a binary search tree
+    Finds a vertex cover of size k using branching
 
     Parameters
     ----------
@@ -24,6 +21,8 @@ def vertex_cover_branching_2k_pass(graph: Graph, k: int) -> set:
         set
     """
     edges = list(graph.edges)
+
+    # each loop acts as another pass
     for x in _get_binary_strings(k):
         S = set()
         i = 0
@@ -46,9 +45,7 @@ def vertex_cover_branching_2k_pass(graph: Graph, k: int) -> set:
 
 def vertex_cover_branching_1_pass(graph: Graph, k: int) -> set:
     """
-    Finds a vertex cover of size k using a binary search tree
-
-    Essentially a breadth-first search of a binary search tree
+    Finds a vertex cover of size k using branching
 
     Parameters
     ----------
