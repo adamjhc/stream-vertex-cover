@@ -1,4 +1,5 @@
-from .vertex_cover_util import powerset, is_vertex_cover
+from networkx import Graph
+from .util import powerset, is_vertex_cover
 
 
 def vertex_cover_brute_force(graph: Graph):

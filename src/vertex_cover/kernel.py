@@ -28,7 +28,7 @@ allowing it to be solved efficiently when k is small even if n and m are both
 large.
 """
 from networkx import Graph
-from .vertex_cover_brute_force import vertex_cover_brute_force
+from .brute_force import vertex_cover_brute_force
 
 
 def vertex_cover_kernelization(graph: Graph, k: int) -> set:
