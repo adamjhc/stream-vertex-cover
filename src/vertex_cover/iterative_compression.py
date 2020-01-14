@@ -21,6 +21,12 @@ def vertex_cover_iterative_compression(graph: Graph, k: int) -> set:
             Vertex cover if one exists otherwise None
     """
     #  1: Find a maximal matching M (upto size k) in 1 pass which saturates the vertices VM
+    M = set()
+    edges = list(graph.edges)
+    for u, v in edges:
+        if not any(u in e or v in e for e in M):
+            M.add((u, v))
+
     #  2: If |M| exceeds k, then return NO and abort
     #  3: Let S = VM
     #  4: for i = |VM| to k + 1 do
