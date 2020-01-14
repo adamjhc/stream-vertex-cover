@@ -6,6 +6,16 @@ def powerset(seq: list):
     Returns all the subsets of this set. This is a generator.
 
     Taken from: https://www.technomancy.org/python/powerset-generator-python/
+
+    Parameters
+    ----------
+        seq : list
+            List to generate subsets of
+
+    Yields
+    ------
+        list
+            Yields a list of subsets
     """
     if len(seq) <= 1:
         yield seq
