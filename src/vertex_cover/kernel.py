@@ -71,7 +71,7 @@ def _kernelize(graph: Graph, k: int) -> Graph:
     -------
         Graph
     """
-    kernel = graph
+    kernel = graph.copy()
     reductionsCanBeMade = True
     while reductionsCanBeMade:
         reductionMade = False

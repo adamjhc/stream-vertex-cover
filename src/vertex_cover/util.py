@@ -80,5 +80,6 @@ def is_vertex_cover_alt(graph: Graph, vertex_cover: set) -> bool:
     -------
         bool
     """
-    graph.remove_nodes_from(vertex_cover)
-    return graph.number_of_edges() == 0
+    g = graph.copy()
+    g.remove_nodes_from(vertex_cover)
+    return g.number_of_edges() == 0
