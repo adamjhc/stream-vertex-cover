@@ -41,4 +41,4 @@ def vertex_cover_brute_force_all(graph: Graph, k: int = None) -> set:
     """
     for subset in map(set, powerset(list(graph.nodes), k)):
         if is_vertex_cover(graph, subset):
-            return subset
+            yield subset
