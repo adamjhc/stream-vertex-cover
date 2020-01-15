@@ -2,7 +2,7 @@ from networkx import Graph
 from .util import powerset, is_vertex_cover
 
 
-def vertex_cover_brute_force(graph: Graph) -> set:
+def vertex_cover_brute_force(graph: Graph, k: int = None) -> set:
     """
     Brute forces the subsets of the given graph to find a vertex cover
 
@@ -17,16 +17,6 @@ def vertex_cover_brute_force(graph: Graph) -> set:
     -------
         set
     """
-    for subset in powerset(list(graph.nodes)):
-        if is_vertex_cover(graph, subset):
-            return subset
-
-    assert False, "This graph doesn't have a vertex cover?"
-
-
-def vertex_cover_brute_force(graph: Graph, k: int) -> set:
-    """
-    """
     for subset in powerset(list(graph.nodes), k):
         if is_vertex_cover(graph, subset):
             return subset
@@ -34,7 +24,7 @@ def vertex_cover_brute_force(graph: Graph, k: int) -> set:
     return None
 
 
-def vertex_cover_brute_force_all(graph: Graph) -> set:
+def vertex_cover_brute_force_all(graph: Graph, k: int = None) -> set:
     """
     Brute forces the subsets of the given graph to find a vertex cover
 
@@ -49,14 +39,6 @@ def vertex_cover_brute_force_all(graph: Graph) -> set:
     ------
         set
     """
-    for subset in powerset(list(graph.nodes)):
-        if is_vertex_cover(graph, subset):
-            yield subset
-
-
-def vertex_cover_brute_force_all(graph: Graph, k: int) -> set:
-    """
-    """
     for subset in powerset(list(graph.nodes), k):
         if is_vertex_cover(graph, subset):
-            yield subset
+            return subset

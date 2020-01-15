@@ -2,34 +2,11 @@ from networkx import Graph
 from itertools import combinations
 
 
-def powerset(seq: list):
-    """
-    Returns all the subsets of this set. This is a generator.
-
-    Taken from: https://www.technomancy.org/python/powerset-generator-python/
-
-    Parameters
-    ----------
-        seq : list
-            List to generate subsets of
-
-    Yields
-    ------
-        list
-            List of subsets
-    """
-    if len(seq) <= 1:
-        yield seq
-        yield []
-    else:
-        for item in powerset(seq[1:]):
-            yield [seq[0]] + item
-            yield item
-
-
-def powerset(seq: list, k: int):
+def powerset(seq: list, k: int = None):
     """
     Returns all subsets up to a size of k of a given set
+
+    Returns all subsets if no k is given
 
     Parameters
     ----------
@@ -43,9 +20,19 @@ def powerset(seq: list, k: int):
         list
             List of subsets
     """
-    for i in range(k + 1):
-        for subset in map(list, combinations(seq, i)):
-            yield subset
+    if k:
+        for i in range(k + 1):
+            for subset in combinations(seq, i):
+                yield subset
+    else:
+        # Taken from: https://www.technomancy.org/python/powerset-generator-python/
+        if len(seq) <= 1:
+            yield seq
+            yield []
+        else:
+            for item in powerset(seq[1:]):
+                yield [seq[0]] + item
+                yield item
 
 
 def is_vertex_cover(graph: Graph, vertex_cover: set) -> bool:
