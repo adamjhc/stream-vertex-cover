@@ -53,7 +53,7 @@ def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     if not kernel:
         return None
 
-    return vertex_cover_brute_force(kernel)
+    return vertex_cover_brute_force(kernel, k)
 
 
 def _kernelize(graph: Graph, k: int) -> Graph:
