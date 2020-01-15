@@ -1,4 +1,5 @@
 from networkx import Graph
+from itertools import combinations
 
 
 def powerset(seq: list):
@@ -24,6 +25,27 @@ def powerset(seq: list):
         for item in powerset(seq[1:]):
             yield [seq[0]] + item
             yield item
+
+
+def powerset(seq: list, k: int):
+    """
+    Returns all subsets up to a size of k of a given set
+
+    Parameters
+    ----------
+        seq : list
+            List to generate subsets of
+        k : int
+            Maximum size of subset
+
+    Yields
+    ------
+        list
+            List of subsets
+    """
+    for i in range(k + 1):
+        for subset in map(list, combinations(seq, i)):
+            yield subset
 
 
 def is_vertex_cover(graph: Graph, vertex_cover: set) -> bool:
