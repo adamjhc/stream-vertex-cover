@@ -17,10 +17,9 @@ def vertex_cover_brute_force(graph: Graph):
     -------
         set
     """
-    ps_vertices = powerset(list(graph.nodes))
-    for vertex_cover in ps_vertices:
-        if is_vertex_cover(graph, vertex_cover):
-            return vertex_cover
+    for subset in powerset(list(graph.nodes)):
+        if is_vertex_cover(graph, subset):
+            return subset
 
     assert False, "This graph doesn't have a vertex cover?"
 
@@ -36,11 +35,10 @@ def vertex_cover_brute_force_all(graph: Graph):
         graph : Graph
             The graph to find a vertex cover of
 
-    Returns
-    -------
-        list
+    Yields
+    ------
+        set
     """
-    ps_vertices = powerset(list(graph.nodes))
-    for vertex_cover in ps_vertices:
-        if is_vertex_cover(graph, vertex_cover):
-            yield vertex_cover
+    for subset in powerset(list(graph.nodes)):
+        if is_vertex_cover(graph, subset):
+            yield subset

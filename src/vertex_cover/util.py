@@ -15,7 +15,7 @@ def powerset(seq: list):
     Yields
     ------
         list
-            Yields a list of subsets
+            List of subsets
     """
     if len(seq) <= 1:
         yield seq
