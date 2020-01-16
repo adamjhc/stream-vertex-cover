@@ -43,25 +43,6 @@ def vertex_cover_branching_2k_pass(graph: Graph, k: int) -> set:
     return None
 
 
-def vertex_cover_branching_1_pass(graph: Graph, k: int) -> set:
-    """
-    Finds a vertex cover of size k using branching
-
-    Parameters
-    ----------
-        graph : Graph
-            The graph to find a vertex cover of
-        k : int
-            Size k
-
-    Returns
-    -------
-        set
-            Vertex cover if one exists otherwise None
-    """
-    pass
-
-
 def _get_binary_strings(k: int) -> list:
     """
     Generates binary strings up to a given length k
