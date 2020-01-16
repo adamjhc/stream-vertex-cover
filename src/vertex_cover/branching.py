@@ -5,9 +5,11 @@
 from networkx import Graph
 
 
-def vertex_cover_branching_2k_pass(graph: Graph, k: int) -> set:
+def vertex_cover_branching_recursive(graph: Graph, k: int, vc: set = set()) -> set:
     """
-    Finds a vertex cover of size k using branching
+    Finds a vertex cover of at most size k using branching
+
+    Uses a recursive depth-first method
 
     Parameters
     ----------
@@ -20,41 +22,26 @@ def vertex_cover_branching_2k_pass(graph: Graph, k: int) -> set:
     -------
         set
     """
-    edges = list(graph.edges)
+    if graph.number_of_edges() == 0:
+        return vc
 
-    # each loop acts as another pass
-    for x in _get_binary_strings(k):
-        S = set()
-        i = 0
-        j = 0
-        while i != k + 1:
-            (u, v) = edges[j]
-            if u not in S and v not in S:
-                if x[i] == "0":
-                    S.add(u)
-                else:
-                    S.add(v)
-                i += 1
-            j += 1
+    if k == 0:
+        return None
 
-        if j == m + 1:
-            return S
+    (u, v) = list(graph.edges)[0]
 
-    return None
+    left_graph = graph.copy()
+    left_graph.remove_node(u)
+    left_vc = vc.copy()
+    left_vc.add(u)
+    left_vc = vertex_cover_branching(left_graph, k - 1, left_vc)
 
+    if left_vc:
+        return left_vc
 
-def _get_binary_strings(k: int) -> list:
-    """
-    Generates binary strings up to a given length k
-
-    Parameters
-    ----------
-        k : int
-            Length of binary strings to generate
-
-    Returns
-    -------
-        list
-            List of binary strings
-    """
-    return [bin(i)[2:].rjust(k, "0") for i in range(2 ** k)]
+    right_graph = graph.copy()
+    right_graph.remove_node(v)
+    right_vc = vc.copy()
+    right_vc.add(v)
+    right_vc = vertex_cover_branching(right_graph, k - 1, right_vc)
+    return right_vc
