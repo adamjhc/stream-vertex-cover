@@ -9,7 +9,7 @@ def vertex_cover_branching_recursive(graph: Graph, k: int, vc: set = set()) -> s
     """
     Finds a vertex cover of at most size k using branching
 
-    Uses a recursive depth-first method
+    Uses a recursive depth-first preorder method
 
     Parameters
     ----------
@@ -30,18 +30,18 @@ def vertex_cover_branching_recursive(graph: Graph, k: int, vc: set = set()) -> s
 
     (u, v) = list(graph.edges)[0]
 
-    left_graph = graph.copy()
-    left_graph.remove_node(u)
-    left_vc = vc.copy()
-    left_vc.add(u)
-    left_vc = vertex_cover_branching(left_graph, k - 1, left_vc)
+    graph_left = graph.copy()
+    graph_left.remove_node(u)
+    vc_left = vc.copy()
+    vc_left.add(u)
+    vc_left = vertex_cover_branching(graph_left, k - 1, vc_left)
 
-    if left_vc:
-        return left_vc
+    if vc_left:
+        return vc_left
 
-    right_graph = graph.copy()
-    right_graph.remove_node(v)
-    right_vc = vc.copy()
-    right_vc.add(v)
-    right_vc = vertex_cover_branching(right_graph, k - 1, right_vc)
-    return right_vc
+    graph_right = graph.copy()
+    graph_right.remove_node(v)
+    vc_right = vc.copy()
+    vc_right.add(v)
+    vc_right = vertex_cover_branching(graph_right, k - 1, vc_right)
+    return vc_right
