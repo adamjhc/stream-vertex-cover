@@ -29,6 +29,7 @@ large.
 """
 from networkx import Graph
 from .brute_force import vertex_cover_brute_force
+from typing import Tuple
 
 
 def vertex_cover_kernelization(graph: Graph, k: int) -> set:
@@ -49,14 +50,17 @@ def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     -------
         set
     """
-    kernel = _kernelize(graph, k)
-    if not kernel:
+    kernel, vertex_cover = _kernelize(graph, k)
+
+    if kernel.number_of_nodes() > k ** 2 + k or kernel.number_of_edges() > k ** 2:
         return None
 
-    return vertex_cover_brute_force(kernel, k)
+    vertex_cover.update(vertex_cover_brute_force(kernel))
+
+    return vertex_cover
 
 
-def _kernelize(graph: Graph, k: int) -> Graph:
+def _kernelize(graph: Graph, k: int) -> Tuple[Graph, set]:
     """
     Kernelizes a graph given size k 
 
@@ -72,25 +76,21 @@ def _kernelize(graph: Graph, k: int) -> Graph:
         Graph
     """
     kernel = graph.copy()
+    vertex_cover = set()
     reductionsCanBeMade = True
     while reductionsCanBeMade:
         reductionMade = False
         for node in list(kernel.nodes):
-            if k > 0 and kernel.degree[node] > k:
+            degree = kernel.degree[node]
+            if k > 0 and degree > k:
                 reductionMade = True
                 kernel.remove_node(node)
+                vc.add(node)
                 k -= 1
-            elif kernel.degree[node] == 0:
-                reductionMade = True
+            elif degree == 0:
                 kernel.remove_node(node)
-            elif kernel.number_of_edges() > k ** 2:
-                return None
 
         if not reductionMade:
             reductionsCanBeMade = False
 
-    return kernel
-
-
-if __name__ == "__main__":
-    pass
+    return kernel, vertex_cover
