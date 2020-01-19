@@ -92,6 +92,23 @@ Suffered from glandular fever for the most part. In the final week managed to ge
 
 ## Semester 2 - Week 01 - 13/01
 
+Main focus of this week has been on getting the non-streaming algorithms correctly implemented locally. Working through what is and what isn't the correct way of implementing both of the algorithms. Starting performance testing using Jupyter. Had a meeting with Rajesh on Thursday clarifying the algorithms I'd be covering as well as what kind of structure to have in the report.
+
+### Plan for Semester 2
+
+- Week 02:
+  - Finish local implementations
+  - Layout runtime analysis requirements
+  - Find suitable datasets
+  - Test
+- Week 03-05:
+  - Build streaming/batch processing pipeline
+  - Implement streaming algorithms
+- Week 06-08:
+  - Streaming testing
+- Week 09-11:
+  - Report writing
+
 ## Semester 2 - Week 02 - 20/01
 
 ## Semester 2 - Week 03 - 27/01
