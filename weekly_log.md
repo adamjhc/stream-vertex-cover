@@ -109,6 +109,10 @@ Main focus of this week has been on getting the non-streaming algorithms correct
 - Week 09-11:
   - Report writing
 
+### Report guidelines
+
+Your report should have a minimum of 1.25 line spacing, a minimum of 10.5pt. font and a minimum of 2.5cm margins (all edges).
+
 ## Semester 2 - Week 02 - 20/01
 
 ## Semester 2 - Week 03 - 27/01
