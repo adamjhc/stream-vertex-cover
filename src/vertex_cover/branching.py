@@ -66,10 +66,10 @@ def vertex_cover_branching_dfs_iterative(graph: Graph, k: int) -> set:
         set
     """
     stack = []
-    stack.append((graph, []))
+    stack.append((graph, set()))
 
     while len(stack) > 0:
-        (graph, vc) = stack.pop()
+        graph, vc = stack.pop()
 
         if graph.number_of_edges() == 0:
             return vc
@@ -77,7 +77,7 @@ def vertex_cover_branching_dfs_iterative(graph: Graph, k: int) -> set:
         if len(vc) == k:
             continue
 
-        (u, v) = list(graph.edges)[0]
+        u, v = list(graph.edges)[0]
 
         graph_left = graph.copy()
         graph_left.remove_node(u)
@@ -113,7 +113,7 @@ def vertex_cover_branching_bfs(graph: Graph, k: int) -> set:
     queue.append((graph, set()))
 
     while len(queue) > 0:
-        (graph, vc) = queue.popleft()
+        graph, vc = queue.popleft()
 
         if graph.number_of_edges() == 0:
             return vc
@@ -121,7 +121,7 @@ def vertex_cover_branching_bfs(graph: Graph, k: int) -> set:
         if len(vc) == k:
             continue
 
-        (u, v) = list(graph.edges)[0]
+        u, v = list(graph.edges)[0]
 
         graph_left = graph.copy()
         graph_left.remove_node(u)
