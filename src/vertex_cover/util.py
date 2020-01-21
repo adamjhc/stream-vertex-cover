@@ -1,5 +1,6 @@
 from networkx import Graph
 from itertools import combinations
+from warnings import warn
 
 
 def powerset(seq: list, k: int = None):
@@ -80,6 +81,7 @@ def is_vertex_cover_alt(graph: Graph, vertex_cover: set) -> bool:
     -------
         bool
     """
+    warn("is_vertex_cover_alt is slow, use is_vertex_cover instead", DeprecationWarning, 2)
     g = graph.copy()
     g.remove_nodes_from(vertex_cover)
     return g.number_of_edges() == 0
