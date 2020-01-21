@@ -91,6 +91,8 @@ def vertex_cover_branching_dfs_iterative(graph: Graph, k: int) -> set:
         vc_right.add(u)
         stack.append((graph_right, vc_right))
 
+    return None
+
 
 def vertex_cover_branching_bfs(graph: Graph, k: int) -> set:
     """
@@ -134,3 +136,5 @@ def vertex_cover_branching_bfs(graph: Graph, k: int) -> set:
         vc_right = vc.copy()
         vc_right.add(u)
         queue.append((graph_right, vc_right))
+
+    return None
