@@ -55,7 +55,7 @@ def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     if kernel.number_of_nodes() > k ** 2 + k or kernel.number_of_edges() > k ** 2:
         return None
 
-    vertex_cover.update(vertex_cover_brute_force(kernel))
+    vertex_cover.update(vertex_cover_brute_force(kernel, k - len(vc), vertex_cover))
 
     return vertex_cover
 
