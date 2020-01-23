@@ -101,12 +101,12 @@ Main focus of this week has been on getting the non-streaming algorithms correct
   - Layout runtime analysis requirements
   - Find suitable datasets
   - Test
-- Week 03-05:
+- Week 03-04:
   - Build streaming/batch processing pipeline
   - Implement streaming algorithms
-- Week 06-08:
+- Week 05-06:
   - Streaming testing
-- Week 09-11:
+- Week 07-11:
   - Report writing
 
 ### Report guidelines
