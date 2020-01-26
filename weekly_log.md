@@ -115,6 +115,10 @@ Your report should have a minimum of 1.25 line spacing, a minimum of 10.5pt. fon
 
 ## Semester 2 - Week 02 - 20/01
 
+Started playing around with runtime analysis, setting out the requirements for the testing. Testing packages such as tqdm and pandas for data analysis. Created an plan for the rest of term.
+
+Meeting with Rajesh covered testing methods and that I should be testing the streaming algorithms locally to simply compare against the older non-streaming algorithms.
+
 ## Semester 2 - Week 03 - 27/01
 
 ## Semester 2 - Week 04 - 03/02
