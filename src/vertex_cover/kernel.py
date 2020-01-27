@@ -78,7 +78,7 @@ def _kernelize(graph: Graph, k: int) -> Tuple[Graph, set]:
     reductionsCanBeMade = True
     while reductionsCanBeMade:
         reductionMade = False
-        for node in kernel.nodes:
+        for node in list(kernel.nodes):
             degree = kernel.degree[node]
             if k > 0 and degree > k:
                 reductionMade = True
