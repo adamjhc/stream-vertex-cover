@@ -20,7 +20,7 @@ def vertex_cover_brute_force(
         set
     """
     if vertex_cover:
-        nodes = set(graphs.nodes)
+        nodes = set(graph.nodes)
         nodes.difference_update(vertex_cover)
         for subset in map(set, powerset(nodes, k)):
             subset.update(vertex_cover)
