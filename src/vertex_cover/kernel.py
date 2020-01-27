@@ -83,7 +83,7 @@ def _kernelize(graph: Graph, k: int) -> Tuple[Graph, set]:
             if k > 0 and degree > k:
                 reductionMade = True
                 kernel.remove_node(node)
-                vc.add(node)
+                vertex_cover.add(node)
                 k -= 1
             elif degree == 0:
                 kernel.remove_node(node)
