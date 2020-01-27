@@ -1,6 +1,6 @@
-Name,Category,|edges|,|nodes|,density,clustering coefficient,real/synthetic?
-Petersen,Small,15,10,0.3333333333333333,0.0,synthetic
-Tutte,Small,69,46,0.06666666666666667,0.0,synthetic
-Florentine Families,Social,20,15,0.19047619047619047,0.16,real
-Karate Club,Social,78,34,0.13903743315508021,0.5706384782076823,real
-Les Miserables,Social,254,77,0.08680792891319207,0.5731367499320134,real
+  ,Name                ,Category ,|nodes| ,|edges| ,density             ,clustering coefficient ,real/synthetic?
+1 ,Petersen            ,Small    ,10      ,15      ,0.3333333333333333  ,0.0                    ,synthetic
+2 ,Tutte               ,Small    ,46      ,69      ,0.06666666666666667 ,0.0                    ,synthetic
+3 ,Florentine Families ,Social   ,15      ,20      ,0.19047619047619047 ,0.16                   ,real
+4 ,Karate Club         ,Social   ,34      ,78      ,0.13903743315508021 ,0.5706384782076823     ,real
+5 ,Les Miserables      ,Social   ,77      ,254     ,0.08680792891319207 ,0.5731367499320134     ,real
