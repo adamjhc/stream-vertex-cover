@@ -1,0 +1,35 @@
+Branching BFS           ,Florentine Families ,11 ,144652100
+Branching BFS           ,Florentine Families ,12 ,144262000
+Branching BFS           ,Florentine Families ,13 ,144847700
+Branching BFS           ,Florentine Families ,14 ,144393200
+Branching BFS           ,Florentine Families ,15 ,144074700
+Branching DFS Iterative ,Florentine Families ,11 ,1480900
+Branching DFS Iterative ,Florentine Families ,12 ,1467300
+Branching DFS Iterative ,Florentine Families ,13 ,1467700
+Branching DFS Iterative ,Florentine Families ,14 ,1197700
+Branching DFS Iterative ,Florentine Families ,15 ,1095700
+Branching DFS Recursive ,Florentine Families ,8  ,20614900
+Branching DFS Recursive ,Florentine Families ,9  ,1231300
+Branching DFS Recursive ,Florentine Families ,10 ,951700
+Branching DFS Recursive ,Florentine Families ,11 ,1092300
+Branching DFS Recursive ,Florentine Families ,12 ,982400
+Branching DFS Recursive ,Florentine Families ,13 ,964300
+Branching DFS Recursive ,Florentine Families ,14 ,918000
+Branching DFS Recursive ,Florentine Families ,15 ,979700
+
+Branching DFS Iterative ,Petersen            ,8  ,1351100
+Branching DFS Iterative ,Petersen            ,9  ,923400
+Branching DFS Iterative ,Petersen            ,10 ,1851700
+Branching BFS           ,Petersen            ,8  ,33203700
+Branching BFS           ,Petersen            ,9  ,32170200
+Branching BFS           ,Petersen            ,10 ,32524200
+Branching DFS Recursive ,Petersen            ,6  ,3090400
+Branching DFS Recursive ,Petersen            ,7  ,1019600
+Branching DFS Recursive ,Petersen            ,8  ,679600
+Branching DFS Recursive ,Petersen            ,9  ,718400
+Branching DFS Recursive ,Petersen            ,10 ,689500
+Kernelization           ,Petersen            ,6  ,2903800
+Kernelization           ,Petersen            ,7  ,2718300
+Kernelization           ,Petersen            ,8  ,2886700
+Kernelization           ,Petersen            ,9  ,2798200
+Kernelization           ,Petersen            ,10 ,3052300
