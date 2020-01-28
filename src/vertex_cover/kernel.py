@@ -28,7 +28,7 @@ allowing it to be solved efficiently when k is small even if n and m are both
 large.
 """
 from networkx import Graph
-from .branching import vertex_cover_branching_dfs_recursive
+from .branching import vertex_cover_branching
 from typing import Tuple
 
 
@@ -55,7 +55,8 @@ def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     if kernel.number_of_nodes() > k ** 2 + k or kernel.number_of_edges() > k ** 2:
         return None
 
-    return vertex_cover_branching_dfs_recursive(kernel, k - len(vertex_cover), vertex_cover)
+    return vertex_cover_branching(kernel, k - len(vertex_cover), vertex_cover)
+
 
 
 def _kernelize(graph: Graph, k: int) -> Tuple[Graph, set]:

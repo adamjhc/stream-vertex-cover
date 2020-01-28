@@ -6,7 +6,7 @@ from networkx import Graph
 from collections import deque
 
 
-def vertex_cover_branching_dfs_recursive(graph: Graph, k: int, vc: set = set()) -> set:
+def vertex_cover_branching(graph: Graph, k: int, vc: set = set()) -> set:
     """
     Finds a vertex cover of at most size k using branching
 
@@ -35,7 +35,7 @@ def vertex_cover_branching_dfs_recursive(graph: Graph, k: int, vc: set = set()) 
     graph_left.remove_node(u)
     vc_left = vc.copy()
     vc_left.add(u)
-    vc_left = vertex_cover_branching_dfs_recursive(graph_left, k - 1, vc_left)
+    vc_left = vertex_cover_branching(graph_left, k - 1, vc_left)
 
     if vc_left:
         return vc_left
@@ -44,7 +44,7 @@ def vertex_cover_branching_dfs_recursive(graph: Graph, k: int, vc: set = set()) 
     graph_right.remove_node(v)
     vc_right = vc.copy()
     vc_right.add(v)
-    vc_right = vertex_cover_branching_dfs_recursive(graph_right, k - 1, vc_right)
+    vc_right = vertex_cover_branching(graph_right, k - 1, vc_right)
     return vc_right
 
 
