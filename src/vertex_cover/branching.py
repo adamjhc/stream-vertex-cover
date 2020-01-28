@@ -48,6 +48,49 @@ def vertex_cover_branching(graph: Graph, k: int, vc: set = set()) -> set:
     return vc_right
 
 
+def vertex_cover_branching_stream(graph: Graph, k: int) -> set:
+    """
+    Finds a vertex cover of at most size k using branching
+
+    Algorithm from Chitnis and Cormode 2019 - Towards a Theory of Parameterized
+    Streaming Algorithms
+
+    Parameters
+    ----------
+        graph : Graph
+            The graph to find a vertex cover of
+        k : int
+            Size k
+
+    Returns
+    -------
+        set
+    """
+    edges = list(graph.edges)
+    no_of_edges = len(edges)
+
+    # each loop acts as another pass
+    for bin_string in _get_binary_strings(k):
+        vertex_cover = set()
+        bin_string_pos = 1
+        edge_pos = 1
+        while bin_string_pos != k + 1:
+            (u, v) = edges[edge_pos - 1]
+            if u not in vertex_cover and v not in vertex_cover:
+                # FIXME: check if u is less than v in a type safe way
+                if bin_string[bin_string_pos - 1] == "0":
+                    vertex_cover.add(u)
+                else:
+                    vertex_cover.add(v)
+                bin_string_pos += 1
+            edge_pos += 1
+
+        if edge_pos == no_of_edges + 1:
+            return vertex_cover
+
+    return None
+
+
 def vertex_cover_branching_dfs_iterative(graph: Graph, k: int) -> set:
     """
     Finds a vertex cover of at most size k using branching
@@ -138,3 +181,21 @@ def vertex_cover_branching_bfs(graph: Graph, k: int) -> set:
         queue.append((graph_right, vc_right))
 
     return None
+
+
+def _get_binary_strings(k: int) -> list:
+    """
+    Generates binary strings up to a given length k
+
+    Parameters
+    ----------
+        k : int
+            Length of binary strings to generate
+
+    Yields
+    ------
+        list
+            List of binary strings
+    """
+    for i in range(2 ** k):
+        yield bin(i)[2:].rjust(k, "0")
