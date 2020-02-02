@@ -121,6 +121,12 @@ Meeting with Rajesh covered testing methods and that I should be testing the str
 
 ## Semester 2 - Week 03 - 27/01
 
+Slowly iterating on the runtime analysis of the non-streaming algorithms. Think I'm at a point now that I should be able to pull the trigger once the streaming algorithms have been implemented and random graphs have been set up. Looking more into pandas for data analysis and seems like I can just about get what I want out of it even if it is fiddly. Implemented streaming branch algorithm again as I had already done that previously so only required finding it and making tweaks to it from what I've learnt through this process. Finally learnt what `m` is as well. Only found a wordy outline of how the kernel streaming algorithm is implemented so haven't got round to that yet.
+
+Met with Rajesh and talked a lot more on time complexity and how the point of all this isn't to make it efficient since it's an NP-Hard problem and so, by definition, can't be. It's so that this problem can even be tackled at large scales. The memory capacity needed for some of these real world graphs just isn't possible and so this is the only way to tackle it.
+
+Spent the weekend researching and designing the streaming pipeline. About 90% sure I'm going with MongoDB (or some NoSQL DB) into Apache Kafka into Apache Spark. MongoDB is obviously on a server, Kafka seems to run in some kind of cluster and then Spark will be run locally from the looks of things.
+
 ## Semester 2 - Week 04 - 03/02
 
 ## Semester 2 - Week 05 - 10/02
