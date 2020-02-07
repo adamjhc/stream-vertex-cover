@@ -58,6 +58,14 @@ def vertex_cover_kernelization(graph: Graph, k: int) -> set:
     return vertex_cover_branching(kernel, k - len(vertex_cover), vertex_cover)
 
 
+def vertex_cover_kernelization_stream(graph: Graph, k: int) -> set:
+    """
+    """
+    # maintain a maximal matching M
+    # for every matched vertex v, we also store up to k edges incident on v in a set E_m
+    # if at the ith update we observe that |M| > k we report that the size of any vertex cover is more than k and quit
+    # at the end of the stream we run the non-stream kernelization algorithm
+
 
 def _kernelize(graph: Graph, k: int) -> Tuple[Graph, set]:
     """
