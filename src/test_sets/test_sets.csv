@@ -1,0 +1,39 @@
+Dataset,Description,Filename,Nodes,Edges,Density,Transitivity,Clustering Coefficient,Number of Triangles,Fraction of Closed Triangles,Category,Source,Link
+Petersen,The Petersen graph.,,10,15,0.333333333,,0,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.small.petersen_graph.html
+Tutte,The Tutte graph.,,46,69,0.066666667,,0,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.small.tutte_graph.html
+Florentine Families,Florentine families graph.,,15,20,0.19047619,,0.16,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+Karate Club,Zachary's Karate Club graph.,,34,78,0.139037433,,0.570638478,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+Les Miserables,Coappearance network of characters in the novel Les Miserables.,,77,254,0.086807929,,0.57313675,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+ego-Facebook,Social circles from Facebook,facebook_combined.txt,4039,88234,,,0.6055,1612010,0.2647,Real - Social Network,SNAP,https://snap.stanford.edu/data/ego-Facebook.html
+gemsec-Deezer,Gemsec Deezer dataset,RO_edges.csv,41773,125826,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Deezer.html
+gemsec-Deezer,Gemsec Deezer dataset,HR_edges.csv,54573,498202,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Deezer.html
+gemsec-Deezer,Gemsec Deezer dataset,HU_edges.csv,47538,222887,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Deezer.html
+gemsec-Facebook,Gemsec Facebook dataset,government_edges.csv,7057,89455,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
+gemsec-Facebook,Gemsec Facebook dataset,new_sites_edges.csv,27917,206259,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
+gemsec-Facebook,Gemsec Facebook dataset,athletes_edges.csv,13866,86858,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
+gemsec-Facebook,Gemsec Facebook dataset,public_figure_edges.csv,11565,67114,,,,,,Real - Social Network,SNAP,ehttps://snap.stanford.edu/data/gemsec-Facebook.html
+gemsec-Facebook,Gemsec Facebook dataset,tvshow_edges.csv,3892,17262,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
+gemsec-Facebook,Gemsec Facebook dataset,politician_edges.csv,5908,41729,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
+gemsec-Facebook,Gemsec Facebook dataset,artist_edges.csv,50515,819306,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
+gemsec-Facebook,Gemsec Facebook dataset,company_edges.csv,14113,52310,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
+musae-twitch,Social networks of Twitch users.,musae_DE_edges.csv,9498,153138,0.003,0.047,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/twitch-social-networks.html
+musae-twitch,Social networks of Twitch users.,musae_ENGB_edges.csv,7126,35324,0.002,0.042,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/twitch-social-networks.html
+musae-twitch,Social networks of Twitch users.,musae_ES_edges.csv,4648,59382,0.006,0.084,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/twitch-social-networks.html
+musae-twitch,Social networks of Twitch users.,musae_FR_edges.csv,6549,112666,0.005,0.054,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/twitch-social-networks.html
+musae-twitch,Social networks of Twitch users.,musae_PTBR_edges.csv,1912,31299,0.017,0.131,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/twitch-social-networks.html
+musae-twitch,Social networks of Twitch users.,musae_RU_edges.csv,4385,37304,0.004,0.049,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/twitch-social-networks.html
+musae-facebook,Facebook page-page network with page names.,musae_facebook_edges.csv,22470,171002,0.001,0.232,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/facebook-large-page-page-network.html
+musae-github,Social network of Github developers.,musae_git_edges.csv,37700,289003,0.001,0.013,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/github-social.html
+com-LiveJournal,LiveJournal online social network,com-lj.ungraph.txt,3997962,34681189,,,0.2843,177820130,0.04559,Real - Social Communities,SNAP,https://snap.stanford.edu/data/com-LiveJournal.html
+com-Friendster,Friendster online social network,com-friendster.ungraph.txt,65608366,1806067135,,,0.1623,4173724142,0.005859,Real - Social Communities,SNAP,https://snap.stanford.edu/data/com-Friendster.html
+com-Youtube,Youtube online social network,com-youtube.ungraph.txt,1134890,2987624,,,0.0808,3056386,0.002081,Real - Social Communities,SNAP,https://snap.stanford.edu/data/com-Youtube.html
+wiki-topcats,Wikipedia hyperlinks,wiki-topcats.txt,1791489,28511807,,,0.2746,52106893,0.00165,Real - Social Communities,SNAP,https://snap.stanford.edu/data/wiki-topcats.html
+ca-AstroPh,Collaboration network of Arxiv Astro Physics,CA-AstroPh.txt,18772,198110,,,0.6306,1351441,0.1345,Real - Collaboration Network,SNAP,https://snap.stanford.edu/data/ca-AstroPh.html
+ca-CondMat,Collaboration network of Arxiv Condensed Matter,CA-CondMat.txt,23133,93497,,,0.6334,173361,0.107,Real - Collaboration Network,SNAP,https://snap.stanford.edu/data/ca-CondMat.html
+ca-GrQc,Collaboration network of Arxiv General Relativity,CA-GrQc.txt,5242,14496,,,0.5296,48260,0.3619,Real - Collaboration Network,SNAP,https://snap.stanford.edu/data/ca-GrQc.html
+ca-HepPh,Collaboration network of Arxiv High Energy Physics,CA-HepPh.txt,12008,118521,,,0.6115,3358499,0.3923,Real - Collaboration Network,SNAP,https://snap.stanford.edu/data/ca-HepPh.html
+ca-HepTh,Collaboration network of Arxiv High Energy Physics Theory,CA-HepTh.txt,9877,25998,,,0.4714,28339,0.1168,Real - Collaboration Network,SNAP,https://snap.stanford.edu/data/ca-HepTh.html
+roadNet-CA,Road network of California,roadNet-CA.txt,1965206,2766607,,,0.0464,120676,0.02097,Real - Road Network,SNAP,https://snap.stanford.edu/data/roadNet-CA.html
+roadNet-PA,Road network of Pennsylvania,roadNet-PA.txt,1088092,1541898,,,0.0465,67150,0.02062,Real - Road Network,SNAP,https://snap.stanford.edu/data/roadNet-PA.html
+roadNet-TX,Road network of Texas,roadNet-TX.txt,1379917,1921660,,,0.047,82869,0.02091,Real - Road Network,SNAP,https://snap.stanford.edu/data/roadNet-TX.html
+DIMACS Grand Challenge #9,12 USA road networks,USA-road-d.USA.gr,23947347,58333344,,,,,,Real - Road Network,DIMACS,http://users.diag.uniroma1.it/challenge9/download.shtml
