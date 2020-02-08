@@ -407,3 +407,5 @@ dmypy.json
 
 
 requirements.txt
+
+src/test_sets/*.txt
