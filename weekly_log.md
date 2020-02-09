@@ -129,6 +129,12 @@ Spent the weekend researching and designing the streaming pipeline. About 90% su
 
 ## Semester 2 - Week 04 - 03/02
 
+Working through design of streaming platform. Eventually came to the conclusion that Big Data streaming platforms weren't necessarily needed after spending perhaps too much time trying to learn them. Settled on two versions of a streaming implementation: first, streaming "locally" line by line from a text file and, second, using Kafka as a streaming platform to stream edges from a database.
+
+Told Rajesh about this and he seemed happy to continue with this idea of having two stages of streaming. He said to focus on the memory profiling of each implementation since as we've spoke about in previous weeks these algorithms aren't about time complexity. This makes most of the work I've done so far on the runtime analysis redundant but oh well.
+
+Spent a lot of time collating datasets and information on them. Have a pretty good collection of real world graphs now, just need to generate some synthetic ones for comparison. Cleaned up the Trello board a bit as I haven't been that active in using it but have a clear path of my next tasks.
+
 ## Semester 2 - Week 05 - 10/02
 
 ## Semester 2 - Week 06 - 17/02
