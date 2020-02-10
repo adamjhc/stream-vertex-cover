@@ -31,6 +31,7 @@ gemsec-Deezer,Gemsec Deezer dataset,HU_edges.csv,47538,222887,,,,,,Real - Social
 gemsec-Facebook,Gemsec Facebook dataset,artist_edges.csv,50515,819306,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
 gemsec-Deezer,Gemsec Deezer dataset,HR_edges.csv,54573,498202,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Deezer.html
 DIMACS Grand Challenge #9,New York City road network,USA-road-d.NY.gr,264346,733846,,,,,,,,
+DBLP,The dblp computer science bibliography provides open bibliographic information on major computer science journals and proceedings.,com-dblp.ungraph.txt,317080,1049866,,,0.6324,2224385,0.1283,Real - Collaboration Network,SNAP,https://snap.stanford.edu/data/com-DBLP.html
 DIMACS Grand Challenge #9,San Francisco Bay Area road network,USA-road-d.BAY.gr,321270,800172,,,,,,,,
 DIMACS Grand Challenge #9,Colorado road network,USA-road-d.COL.gr,435666,1057066,,,,,,,,
 DIMACS Grand Challenge #9,Florida road network,USA-road-d.FLA.gr,1070376,2712798,,,,,,,,
@@ -38,6 +39,7 @@ roadNet-PA,Road network of Pennsylvania,roadNet-PA.txt,1088092,1541898,,,0.0465,
 com-Youtube,Youtube online social network,com-youtube.ungraph.txt,1134890,2987624,,,0.0808,3056386,0.002081,Real - Social Communities,SNAP,https://snap.stanford.edu/data/com-Youtube.html
 DIMACS Grand Challenge #9,Northwest USA road network,USA-road-d.NW.gr,1207945,2840208,,,,,,,,
 roadNet-TX,Road network of Texas,roadNet-TX.txt,1379917,1921660,,,0.047,82869,0.02091,Real - Road Network,SNAP,https://snap.stanford.edu/data/roadNet-TX.html
+DBLP,The dblp computer science bibliography provides open bibliographic information on major computer science journals and proceedings.,dblp_coauthorship.json,1482029,10615809,,,,,,Real - Collaboration Network,BigDND,https://projects.csail.mit.edu/dnd/DBLP/
 DIMACS Grand Challenge #9,Northeast USA road network,USA-road-d.NE.gr,1524453,3897636,,,,,,,,
 wiki-topcats,Wikipedia hyperlinks,wiki-topcats.txt,1791489,28511807,,,0.2746,52106893,0.00165,Real - Social Communities,SNAP,https://snap.stanford.edu/data/wiki-topcats.html
 DIMACS Grand Challenge #9,California and Nevada road network,USA-road-d.CAL.gr,1890815,4657742,,,,,,,,
