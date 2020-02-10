@@ -36,7 +36,18 @@ ca-HepTh,Collaboration network of Arxiv High Energy Physics Theory,CA-HepTh.txt,
 roadNet-CA,Road network of California,roadNet-CA.txt,1965206,2766607,,,0.0464,120676,0.02097,Real - Road Network,SNAP,https://snap.stanford.edu/data/roadNet-CA.html
 roadNet-PA,Road network of Pennsylvania,roadNet-PA.txt,1088092,1541898,,,0.0465,67150,0.02062,Real - Road Network,SNAP,https://snap.stanford.edu/data/roadNet-PA.html
 roadNet-TX,Road network of Texas,roadNet-TX.txt,1379917,1921660,,,0.047,82869,0.02091,Real - Road Network,SNAP,https://snap.stanford.edu/data/roadNet-TX.html
-DIMACS Grand Challenge #9,12 USA road networks,USA-road-d.USA.gr,23947347,58333344,,,,,,Real - Road Network,DIMACS,http://users.diag.uniroma1.it/challenge9/download.shtml
+DIMACS Grand Challenge #9,Full USA road network,USA-road-d.USA.gr,23947347,58333344,,,,,,Real - Road Network,DIMACS,http://users.diag.uniroma1.it/challenge9/download.shtml
+DIMACS Grand Challenge #9,Central USA road network,USA-road-d.CTR.gr,14081816,34292496,,,,,,,,
+DIMACS Grand Challenge #9,Western USA road network,USA-road-d.W.gr,6262104,15248146,,,,,,,,
+DIMACS Grand Challenge #9,Eastern USA road network,USA-road-d.E.gr,3598623,8778114,,,,,,,,
+DIMACS Grand Challenge #9,Great Lakes road network,USA-road-d.LKS.gr,2758119,6885658,,,,,,,,
+DIMACS Grand Challenge #9,California and Nevada road network,USA-road-d.CAL.gr,1890815,4657742,,,,,,,,
+DIMACS Grand Challenge #9,Northeast USA road network,USA-road-d.NE.gr,1524453,3897636,,,,,,,,
+DIMACS Grand Challenge #9,Northwest USA road network,USA-road-d.NW.gr,1207945,2840208,,,,,,,,
+DIMACS Grand Challenge #9,Florida road network,USA-road-d.FLA.gr,1070376,2712798,,,,,,,,
+DIMACS Grand Challenge #9,Colorado road network,USA-road-d.COL.gr,435666,1057066,,,,,,,,
+DIMACS Grand Challenge #9,San Francisco Bay Area road network,USA-road-d.BAY.gr,321270,800172,,,,,,,,
+DIMACS Grand Challenge #9,New York City road network,USA-road-d.NY.gr,264346,733846,,,,,,,,
 Rome99,"Large portion of the directed road network of the city of Rome, Italy, from 1999.",rome99.gr.txt,3353,8870,,,,,,Real - Road Network,DIMACS,http://users.diag.uniroma1.it/challenge9/download.shtml
 OSM BaWü,The following graphs were extracted from OpenStreetMap data.,osm-bawu.gr,3064263,6183798,,,,,,Real - Road Network,OSM,https://i11www.iti.kit.edu/resources/roadgraphs.php
 OSM Germany,The following graphs were extracted from OpenStreetMap data.,osm-ger.gr,20690320,41791542,,,,,,Real - Road Network,OSM,https://i11www.iti.kit.edu/resources/roadgraphs.php
