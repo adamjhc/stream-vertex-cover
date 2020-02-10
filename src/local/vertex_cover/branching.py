@@ -77,11 +77,11 @@ def vertex_cover_branching_stream(graph: Graph, k: int) -> set:
         while bin_string_pos != k + 1:
             (u, v) = edges[edge_pos - 1]
             if u not in vertex_cover and v not in vertex_cover:
-                # FIXME: check if u is less than v in a type safe way
+                edge_sm, edge_bg = u, v if u < v else v, u
                 if bin_string[bin_string_pos - 1] == "0":
-                    vertex_cover.add(u)
+                    vertex_cover.add(edge_sm)
                 else:
-                    vertex_cover.add(v)
+                    vertex_cover.add(edge_bg)
                 bin_string_pos += 1
             edge_pos += 1
 
