@@ -411,3 +411,5 @@ requirements.txt
 src/test_sets/*
 !src/test_sets/README.md
 !src/test_sets/test_sets.csv
+
+src/local_stream/*.csv
