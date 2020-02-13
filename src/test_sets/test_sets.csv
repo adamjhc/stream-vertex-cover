@@ -1,9 +1,9 @@
 Dataset,Description,Filename,Nodes,Edges,Density,Transitivity,Clustering Coefficient,Number of Triangles,Fraction of Closed Triangles,Category,Source,Link
-Petersen,The Petersen graph.,,10,15,0.333,,0,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.small.petersen_graph.html
-Florentine Families,Florentine families graph.,,15,20,0.19,,0.16,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
-Karate Club,Zachary's Karate Club graph.,,34,78,0.139,,0.5706,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
-Tutte,The Tutte graph.,,46,69,0.067,,0,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.small.tutte_graph.html
-Les Miserables,Coappearance network of characters in the novel Les Miserables.,,77,254,0.087,,0.5731,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+Petersen,The Petersen graph.,petersen.txt,10,15,0.333,,0,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.small.petersen_graph.html
+Florentine Families,Florentine families graph.,florentine_families.txt,15,20,0.19,,0.16,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+Karate Club,Zachary's Karate Club graph.,karate_club.txt,34,78,0.139,,0.5706,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+Tutte,The Tutte graph.,tutte.txt,46,69,0.067,,0,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.small.tutte_graph.html
+Les Miserables,Coappearance network of characters in the novel Les Miserables.,les_miserables.txt,77,254,0.087,,0.5731,,,Constructed,NetworkX,https://networkx.github.io/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
 musae-twitch,Social networks of Twitch users.,musae_PTBR_edges.csv,1912,31299,0.017,0.131,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/twitch-social-networks.html
 Rome99,"Large portion of the directed road network of the city of Rome, Italy, from 1999.",rome99.gr.txt,3353,8870,,,,,,Real - Road Network,DIMACS,http://users.diag.uniroma1.it/challenge9/download.shtml
 gemsec-Facebook,Gemsec Facebook dataset,tvshow_edges.csv,3892,17262,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
@@ -17,7 +17,7 @@ gemsec-Facebook,Gemsec Facebook dataset,government_edges.csv,7057,89455,,,,,,Rea
 musae-twitch,Social networks of Twitch users.,musae_ENGB_edges.csv,7126,35324,0.002,0.042,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/twitch-social-networks.html
 musae-twitch,Social networks of Twitch users.,musae_DE_edges.csv,9498,153138,0.003,0.047,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/twitch-social-networks.html
 ca-HepTh,Collaboration network of Arxiv High Energy Physics Theory,CA-HepTh.txt,9877,25998,,,0.4714,28339,0.1168,Real - Collaboration Network,SNAP,https://snap.stanford.edu/data/ca-HepTh.html
-gemsec-Facebook,Gemsec Facebook dataset,public_figure_edges.csv,11565,67114,,,,,,Real - Social Network,SNAP,ehttps://snap.stanford.edu/data/gemsec-Facebook.html
+gemsec-Facebook,Gemsec Facebook dataset,public_figure_edges.csv,11565,67114,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
 ca-HepPh,Collaboration network of Arxiv High Energy Physics,CA-HepPh.txt,12008,118521,,,0.6115,3358499,0.3923,Real - Collaboration Network,SNAP,https://snap.stanford.edu/data/ca-HepPh.html
 gemsec-Facebook,Gemsec Facebook dataset,athletes_edges.csv,13866,86858,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
 gemsec-Facebook,Gemsec Facebook dataset,company_edges.csv,14113,52310,,,,,,Real - Social Network,SNAP,https://snap.stanford.edu/data/gemsec-Facebook.html
