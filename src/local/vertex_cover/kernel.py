@@ -28,7 +28,7 @@ allowing it to be solved efficiently when k is small even if n and m are both
 large.
 """
 from networkx import Graph
-from .branching import vertex_cover_branching
+from .branching import vertex_cover_branching, vertex_cover_branching_stream
 from typing import Tuple
 
 
@@ -60,11 +60,53 @@ def vertex_cover_kernelization(graph: Graph, k: int) -> set:
 
 def vertex_cover_kernelization_stream(graph: Graph, k: int) -> set:
     """
+    Finds a vertex cover of at most size k using kernelization and branching
+
+    Parameters
+    ----------
+        graph : Graph
+            The graph to find a vertex cover of
+        k : int
+            Size k
+
+    Returns
+    -------
+        set
+
+    Notes
+    -----
+    The kernelization algorithm works by maintaining a maximal matching M. For 
+    every matched vertex v, we also store up to k edges incident on v in a set 
+    E_m if at the ith update we observe that |M| > k we report that the size of
+    any vertex cover is more than k and quit. At the end of the stream we run 
+    the branching algorithm
     """
-    # maintain a maximal matching M
-    # for every matched vertex v, we also store up to k edges incident on v in a set E_m
-    # if at the ith update we observe that |M| > k we report that the size of any vertex cover is more than k and quit
-    # at the end of the stream we run the non-stream kernelization algorithm
+    edges = list(graph.edges)
+
+    kernel = Graph()
+    no_in_matching = 0
+    maximal_matching = set()
+
+    for u, v in edges:
+
+        is_neighbour = False
+        if u in maximal_matching and kernel.degree[u] < k:
+            kernel.add_edge(u, v)
+            is_neighbour = True
+
+        if v in maximal_matching and kernel.degree[v] < k:
+            kernel.add_edge(u, v)
+            is_neighbour = True
+
+        if not is_neighbour:
+            no_in_matching += 1
+            maximal_matching.update(u, v)
+            kernel.add_edge(u, v)
+
+            if no_in_matching > k:
+                return None
+
+    return vertex_cover_branching_stream(kernel, k)
 
 
 def _kernelize(graph: Graph, k: int) -> Tuple[Graph, set]:
