@@ -1,4 +1,4 @@
-"""Usage: kernel_stream_demo.py <edge_list_file> <k>
+"""Usage: kernel_stream_demo.py <edge_list_file> <k> [--speed=SPEED]
 
 Demonstration of the kernelization of a graph stream
 
@@ -8,6 +8,7 @@ Arguments:
 
 Options:
     -h --help           Show this screen
+    --speed=SPEED       Specify time between updates [default: 0.5]
 """
 import sys
 import networkx as nx
@@ -71,7 +72,7 @@ def kernel_stream_demo(arguments: Dict[str, object]):
             node_color=node_colours,
             edge_color=edge_colours,
         )
-        plot.pause(0.5)
+        plot.pause(float(arguments["--speed"]))
 
     print("Finished")
     plot.show()
