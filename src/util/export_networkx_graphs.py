@@ -28,8 +28,8 @@ def export_networkx_graphs():
 
         with open(name + ".txt", "x") as output:
             output.write(f"{len(edges)}\n")
-            for u, v in edges:
-                output.write(f"{u} {v}\n")
+            for line in nx.generate_edgelist(graph, data=False):
+                output.write(f"{line}\n")
 
 
 if __name__ == "__main__":
