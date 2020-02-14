@@ -137,6 +137,30 @@ Spent a lot of time collating datasets and information on them. Have a pretty go
 
 ## Semester 2 - Week 05 - 10/02
 
+### Demonstration
+
+#### Info
+
+- "very likely" to be the second marker for your project
+- 20 min slot
+  - 10-15 presentation/demo
+  - 5 mins for questions
+- Not directly assessed
+  - making an impression of your project will help them form at opinion
+
+#### Presentation
+
+- Start with introducing the problem you're trying to solve at a high level
+  - Don't assume they will know about the area of your work or the specific topic you're working on
+- You should highlight important aspects, challenges and decisions
+- You're trying to tell a story about the project, the work you've done, the decisions you've made
+- You're trying to convince them that you've done work that's good and interesting
+
+#### My Ideas
+
+- Show kernel stream algorithm working live with an updating kernel as the stream runs
+- memory usage graphs for each implementation
+
 ## Semester 2 - Week 06 - 17/02
 
 ## Semester 2 - Week 07 - 24/02
