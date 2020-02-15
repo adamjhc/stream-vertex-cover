@@ -9,7 +9,7 @@ Arguments:
 Options:
     -h --help           Show this screen
     --delay=DELAY       Specify delay between iterations [default: 0.5]
-    --label             Show labels in animation
+    --label             Show labels on nodes
 """
 import sys
 from typing import Any, Dict
@@ -67,20 +67,30 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
 
         # Red colour for nodes in the matching
         node_colours = [
-            "r" if _in(node, maximal_matching) else "#1f78b4" for node in kernel.nodes
+            "r" if _in(node, maximal_matching) else "k" for node in kernel.nodes
         ]
 
-        # Red colour for edges between two matched nodes
-        edge_colours = [
-            "r" if (u, v) in maximal_matching else "k" for u, v in kernel.edges
+        # Smaller node for nodes not in the matching
+        node_sizes = [
+            300 if _in(node, maximal_matching) else 50 for node in kernel.nodes
         ]
+
+        # Red colour for edges in matching
+        edge_colours = [
+            "r" if edge in maximal_matching else "k" for edge in kernel.edges
+        ]
+
+        # Thicker edge for edges between edges in matching
+        edge_widths = [2 if edge in maximal_matching else 0.5 for edge in kernel.edges]
 
         nx.draw(
             kernel,
             pos=layout,
             with_labels=arguments["--label"],
             node_color=node_colours,
+            node_size=node_sizes,
             edge_color=edge_colours,
+            width=edge_widths,
         )
         plot.pause(float(arguments["--delay"]))
 
