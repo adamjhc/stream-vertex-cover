@@ -1,4 +1,4 @@
-"""Usage: kernel_stream_demo.py <edge_list_file> <k> [--speed=SPEED --label]
+"""Usage: kernel_stream_demo.py <edge_list_file> <k> [--delay=DELAY --label]
 
 Demonstration of the kernelization of a graph stream
 
@@ -8,7 +8,7 @@ Arguments:
 
 Options:
     -h --help           Show this screen
-    --speed=SPEED       Specify time between updates [default: 0.5]
+    --delay=DELAY       Specify delay between iterations [default: 0.5]
     --label             Show labels in animation
 """
 import sys
