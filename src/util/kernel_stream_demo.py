@@ -19,13 +19,14 @@ from typing import Dict
 
 
 def kernel_stream_demo(arguments: Dict[str, object]):
-    # Set up graphs
+    # Check whether given edgelist is weighted
     read_func = nx.read_edgelist
     with open(arguments["<edge_list_file>"], "r") as edgelist:
         line = edgelist.readline()
         if len(line.split()) > 2:
             read_func = nx.read_weighted_edgelist
 
+    # Set up graphs
     graph = read_func(arguments["<edge_list_file>"])
     k = int(arguments["<k>"])
     kernel = nx.Graph()
