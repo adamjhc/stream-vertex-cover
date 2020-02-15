@@ -20,7 +20,13 @@ from typing import Dict
 
 def kernel_stream_demo(arguments: Dict[str, object]):
     # Set up graphs
-    graph = nx.read_edgelist(arguments["<edge_list_file>"])
+    read_func = nx.read_edgelist
+    with open(arguments["<edge_list_file>"], "r") as edgelist:
+        line = edgelist.readline()
+        if len(line.split()) > 2:
+            read_func = nx.read_weighted_edgelist
+
+    graph = read_func(arguments["<edge_list_file>"])
     k = int(arguments["<k>"])
     kernel = nx.Graph()
     no_in_matching = 0
