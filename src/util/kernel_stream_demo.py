@@ -1,4 +1,4 @@
-"""Usage: kernel_stream_demo.py <edge_list_file> <k> [--speed=SPEED]
+"""Usage: kernel_stream_demo.py <edge_list_file> <k> [--speed=SPEED --label]
 
 Demonstration of the kernelization of a graph stream
 
@@ -9,6 +9,7 @@ Arguments:
 Options:
     -h --help           Show this screen
     --speed=SPEED       Specify time between updates [default: 0.5]
+    --label             Show labels in animation
 """
 import sys
 import networkx as nx
@@ -65,10 +66,11 @@ def kernel_stream_demo(arguments: Dict[str, object]):
         edge_colours = [
             "r" if (u, v) in maximal_matching else "k" for u, v in kernel.edges
         ]
+
         nx.draw(
             kernel,
             pos=position,
-            with_labels=True,
+            with_labels=arguments["--label"],
             node_color=node_colours,
             edge_color=edge_colours,
         )
