@@ -1,6 +1,6 @@
 """Usage: kernel_stream_demo.py <edge_list_file> <k> [--delay=DELAY --label]
 
-Demonstration of the kernelization of a graph stream
+Demonstration of the kernelization of a graph edgelist
 
 Arguments:
     edge_list_file      Path to a graph in the form of an edge list
@@ -12,13 +12,14 @@ Options:
     --label             Show labels in animation
 """
 import sys
-import networkx as nx
+from typing import Any, Dict
+
 import matplotlib.pyplot as plot
+import networkx as nx
 from docopt import docopt
-from typing import Dict
 
 
-def kernel_stream_demo(arguments: Dict[str, object]):
+def kernel_stream_demo(arguments: Dict[str, Any]):
     # Check whether given edgelist is weighted
     read_func = nx.read_edgelist
     with open(arguments["<edge_list_file>"], "r") as edgelist:
@@ -34,7 +35,7 @@ def kernel_stream_demo(arguments: Dict[str, object]):
     maximal_matching = set()
 
     # Set up matplotlib
-    position = nx.spring_layout(graph)
+    layout = nx.spring_layout(graph)
     plot.show()
 
     for i, (u, v) in enumerate(list(graph.edges)):
@@ -76,7 +77,7 @@ def kernel_stream_demo(arguments: Dict[str, object]):
 
         nx.draw(
             kernel,
-            pos=position,
+            pos=layout,
             with_labels=arguments["--label"],
             node_color=node_colours,
             edge_color=edge_colours,
