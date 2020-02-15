@@ -82,7 +82,7 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
             node_color=node_colours,
             edge_color=edge_colours,
         )
-        plot.pause(float(arguments["--speed"]))
+        plot.pause(float(arguments["--delay"]))
 
     print("Finished")
     plot.show()
