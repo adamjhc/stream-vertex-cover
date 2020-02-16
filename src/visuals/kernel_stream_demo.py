@@ -140,6 +140,15 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
             for node in graph.nodes
         ]
 
+        edge_colours = [
+            node_type_colours[0]
+            if edge == (u, v)
+            else node_type_colours[1]
+            if edge in kernel.edges
+            else node_type_colours[2]
+            for edge in graph.edges
+        ]
+
         nx.draw(
             graph,
             ax=ax2,
@@ -147,6 +156,7 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
             with_labels=arguments["--label"],
             node_color=node_colours,
             node_size=50,
+            edge_color=edge_colours,
         )
 
         # Wait for update
