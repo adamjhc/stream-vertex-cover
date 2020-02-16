@@ -35,7 +35,7 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
     maximal_matching = set()
 
     # Set up matplotlib
-    layout = nx.spring_layout(graph)
+    layout = nx.kamada_kawai_layout(graph)
     plot.show()
 
     for i, (u, v) in enumerate(list(graph.edges)):
