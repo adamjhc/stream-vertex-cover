@@ -38,7 +38,7 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
     maximal_matching = set()
 
     # Set up matplotlib
-    layout = nx.kamada_kawai_layout(graph)
+        layout = nx.kamada_kawai_layout(graph)
     plot.show()
 
     for i, (u, v) in enumerate(list(graph.edges)):
@@ -81,7 +81,6 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
             loc="lower right",
         )
 
-        # Red colour for nodes in the matching
         node_colours = [
             node_type_colours[0]
             if _in(node, maximal_matching)
@@ -89,15 +88,14 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
             for node in kernel.nodes
         ]
 
-        # Smaller node for nodes not in the matching
-        node_sizes = [
-            250 if _in(node, maximal_matching) else 50 for node in kernel.nodes
-        ]
-
-        # Red colour for edges in matching
         edge_colours = [
             node_type_colours[0] if edge in maximal_matching else node_type_colours[1]
             for edge in kernel.edges
+        ]
+
+        # Smaller node for nodes not in the matching
+        node_sizes = [
+            250 if _in(node, maximal_matching) else 50 for node in kernel.nodes
         ]
 
         # Thicker edge for edges between edges in matching
@@ -118,8 +116,33 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
         ax2: Axes = plot.subplot(1, 2, 2)
         ax2.set_title("Entire graph")
 
+        node_type_names = ["Current", "In Kernel", "Not in Kernel"]
+        node_type_colours = ["y", "m", "k"]
+
+        ax2.legend(
+            handles=[
+                Line2D([0], [0], color=node_type_colours[i], label=node_type)
+                for i, node_type in enumerate(node_type_names)
+            ],
+            loc="lower right",
+        )
+
+        node_colours = [
+            node_type_colours[0]
+            if node in (u, v)
+            else node_type_colours[1]
+            if node in kernel.nodes
+            else node_type_colours[2]
+            for node in graph.nodes
+        ]
+
         nx.draw(
-            graph, ax=ax2, pos=layout, with_labels=arguments["--label"], node_size=50
+            graph,
+            ax=ax2,
+            pos=layout,
+            with_labels=arguments["--label"],
+            node_color=node_colours,
+            node_size=50,
         )
 
         # Wait for update
