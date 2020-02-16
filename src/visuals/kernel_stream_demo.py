@@ -11,7 +11,6 @@ Options:
     --delay=DELAY       Specify delay between iterations [default: 0.5]
     --label             Show labels on nodes
 """
-import sys
 from typing import Any, Dict
 
 import matplotlib.pyplot as plot
