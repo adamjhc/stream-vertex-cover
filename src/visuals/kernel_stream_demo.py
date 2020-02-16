@@ -38,7 +38,11 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
     maximal_matching = set()
 
     # Set up matplotlib
+    layout = None
+    if graph.number_of_edges() < 1000:
         layout = nx.kamada_kawai_layout(graph)
+    else:
+        layout = nx.spring_layout(graph)
     plot.show()
 
     for i, (u, v) in enumerate(list(graph.edges)):
