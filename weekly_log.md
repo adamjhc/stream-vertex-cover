@@ -137,6 +137,12 @@ Spent a lot of time collating datasets and information on them. Have a pretty go
 
 ## Semester 2 - Week 05 - 10/02
 
+Finished up this phase of my graph collation. Started on getting the local stream versions implemented. Spent a lot of time choosing a library for handling command line arguments. Clarified with Rajesh the details on the implementation of the stream kernel algorithm: once an edge is in the matching anything connected to that edge is considered a neighbour even if that edge links to another edge in the matching. We also talked about the demonstrations and how I should present the project.
+
+With the working implementation of the stream kernel and demonstrations on my mind I started working on a demonstration script and gif creator so I'll have something to show in the presentation.
+
+Made notes on the demonstration talk below:
+
 ### Demonstration
 
 #### Info
