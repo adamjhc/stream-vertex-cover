@@ -18,6 +18,7 @@ import matplotlib.pyplot as plot
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.lines import Line2D
+from matplotlib.legend_handler import HandlerLine2D
 import networkx as nx
 from docopt import docopt
 
@@ -84,6 +85,7 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
                 )
                 for i, node_type in enumerate(node_type_names)
             ],
+            handler_map={Line2D: HandlerLine2D(numpoints=2)},
             loc="lower right",
         )
 
@@ -132,6 +134,7 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
                 )
                 for i, node_type in enumerate(node_type_names)
             ],
+            handler_map={Line2D: HandlerLine2D(numpoints=2)},
             loc="lower right",
         )
 
