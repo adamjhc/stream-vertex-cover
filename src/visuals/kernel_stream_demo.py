@@ -15,6 +15,9 @@ import sys
 from typing import Any, Dict
 
 import matplotlib.pyplot as plot
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from matplotlib.lines import Line2D
 import networkx as nx
 from docopt import docopt
 
@@ -63,21 +66,38 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
 
         # matplotlib updates
         plot.clf()
-        plot.title(f"Iteration {i}")
+
+        # Left subplot - showing kernel
+        node_type_names = ["Matched", "Neighbour"]
+        node_type_colours = ["r", "k"]
+
+        ax1: Axes = plot.subplot(1, 2, 1)
+        ax1.set_title(f"Kernel - Iteration {i}")
+        ax1.legend(
+            handles=[
+                Line2D([0], [0], color=node_type_colours[i], label=node_type)
+                for i, node_type in enumerate(node_type_names)
+            ],
+            loc="lower right",
+        )
 
         # Red colour for nodes in the matching
         node_colours = [
-            "r" if _in(node, maximal_matching) else "k" for node in kernel.nodes
+            node_type_colours[0]
+            if _in(node, maximal_matching)
+            else node_type_colours[1]
+            for node in kernel.nodes
         ]
 
         # Smaller node for nodes not in the matching
         node_sizes = [
-            300 if _in(node, maximal_matching) else 50 for node in kernel.nodes
+            250 if _in(node, maximal_matching) else 50 for node in kernel.nodes
         ]
 
         # Red colour for edges in matching
         edge_colours = [
-            "r" if edge in maximal_matching else "k" for edge in kernel.edges
+            node_type_colours[0] if edge in maximal_matching else node_type_colours[1]
+            for edge in kernel.edges
         ]
 
         # Thicker edge for edges between edges in matching
@@ -85,6 +105,7 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
 
         nx.draw(
             kernel,
+            ax=ax1,
             pos=layout,
             with_labels=arguments["--label"],
             node_color=node_colours,
@@ -92,6 +113,16 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
             edge_color=edge_colours,
             width=edge_widths,
         )
+
+        # Right subplot - showing entire graph
+        ax2: Axes = plot.subplot(1, 2, 2)
+        ax2.set_title("Entire graph")
+
+        nx.draw(
+            graph, ax=ax2, pos=layout, with_labels=arguments["--label"], node_size=50
+        )
+
+        # Wait for update
         plot.pause(float(arguments["--delay"]))
 
     print("Finished")
