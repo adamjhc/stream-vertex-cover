@@ -15,12 +15,12 @@ import sys
 from typing import Any, Dict
 
 import matplotlib.pyplot as plot
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
-from matplotlib.lines import Line2D
-from matplotlib.legend_handler import HandlerLine2D
 import networkx as nx
 from docopt import docopt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from matplotlib.legend_handler import HandlerLine2D
+from matplotlib.lines import Line2D
 
 
 def kernel_stream_demo(arguments: Dict[str, Any]):
