@@ -79,10 +79,8 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
         ax1.set_title(f"Kernel - Iteration {i}")
         ax1.legend(
             handles=[
-                Line2D(
-                    [0], [0], color=node_type_colours[i], label=node_type, marker="o"
-                )
-                for i, node_type in enumerate(node_type_names)
+                Line2D([0], [0], label=node_type, color=node_colour, marker="o")
+                for node_type, node_colour in zip(node_type_names, node_type_colours)
             ],
             handler_map={Line2D: HandlerLine2D(numpoints=2)},
             loc="lower right",
@@ -128,10 +126,8 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
 
         ax2.legend(
             handles=[
-                Line2D(
-                    [0], [0], color=node_type_colours[i], label=node_type, marker="o"
-                )
-                for i, node_type in enumerate(node_type_names)
+                Line2D([0], [0], label=node_type, color=node_colour, marker="o")
+                for node_type, node_colour in zip(node_type_names, node_type_colours)
             ],
             handler_map={Line2D: HandlerLine2D(numpoints=2)},
             loc="lower right",
