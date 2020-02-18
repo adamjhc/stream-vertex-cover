@@ -8,7 +8,7 @@ class GraphInfo:
         self.density = nx.density(graph)
         self.transitivity = nx.transitivity(graph)
         self.clustering_coefficient = nx.average_clustering(graph)
-        self.triangles = sum(nx.triangles(graph).values()) / 3
+        self.triangles = int(sum(nx.triangles(graph).values()) / 3)
         self.fraction_closed_triangles = self.triangles / self._count_paths(graph, 2)
 
     def to_csv(
