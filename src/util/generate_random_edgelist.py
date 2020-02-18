@@ -50,7 +50,7 @@ def generate_random_edgelist(n: int, p: float):
     # Print out csv
     graph_info = GraphInfo(random_graph)
     dataset = "Erdős-Rényi"
-    desc = f"G({n}, {round(p, 2)}) Erdős-Rényi graph"
+    desc = f"G({n}-{round(p, 2)}) Erdős-Rényi graph"
     filename = f"erdos_renyi_{n}_{round(p, 2)}_edgelist.txt"
     category = "Synthetic"
     source = "NetworkX"
