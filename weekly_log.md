@@ -152,7 +152,7 @@ Made notes on the demonstration talk below:
   - 10-15 presentation/demo
   - 5 mins for questions
 - Not directly assessed
-  - making an impression of your project will help them form at opinion
+  - making an impression of your project will help them form an opinion
 
 #### Presentation
 
