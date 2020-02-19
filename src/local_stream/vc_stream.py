@@ -44,7 +44,6 @@ def main(args: Dict[str, Any]):
 
 def kernel_min(filename: str):
     stream = open(filename)
-    # start could be initialised
     start = 0
     # upper bound is the number of nodes
     end = int(stream.readline().split()[0])
