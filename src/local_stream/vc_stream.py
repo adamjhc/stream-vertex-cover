@@ -31,7 +31,7 @@ def main(args: Dict[str, Any]):
     if args["kernel-min"]:
         kernel_min(filename)
     else:
-        init_logging(args["--log"])
+        _init_logging(args["--log"])
 
         k = int(args["<k>"])
         if args["branching"] is not None:
@@ -52,7 +52,7 @@ def kernel_min(filename: str):
     min_k = end
     while start <= end:
         mid = (start + end) // 2
-        if kernelize(filename, mid) is not None:
+        if _kernelize(filename, mid) is not None:
             min_k = mid
             end = mid - 1
         else:
@@ -61,15 +61,26 @@ def kernel_min(filename: str):
     print(min_k)
 
 
-def kernel_br():
+def kernel_br(filename: str, k: int):
     pass
 
 
-def kernel():
+def kernel(filename: str, k: int):
     pass
 
 
-def kernelize(filename: str, k: int) -> Kernel:
+def branching(filename: str, k: int):
+    pass
+    # with open(filename) as stream:
+    #     # First line of stream will give us the number of edges
+    #     no_of_edges = int(stream.readline())
+
+    #     # Every following line is an edge
+    #     for line in stream:
+    #         edge = line.split()
+
+
+def _kernelize(filename: str, k: int) -> Kernel:
     with open(filename) as stream:
         # First line of stream will give us the number of nodes and edges which
         # we don't need in this case
@@ -87,18 +98,7 @@ def kernelize(filename: str, k: int) -> Kernel:
         return kernel
 
 
-def branching(filename: str, k: int):
-    pass
-    # with open(filename) as stream:
-    #     # First line of stream will give us the number of edges
-    #     no_of_edges = int(stream.readline())
-
-    #     # Every following line is an edge
-    #     for line in stream:
-    #         edge = line.split()
-
-
-def init_logging(log_level):
+def _init_logging(log_level):
     logging.basicConfig(
         level=logging._checkLevel(log_level),
         filename="log.csv",
