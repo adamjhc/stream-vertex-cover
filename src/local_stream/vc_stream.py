@@ -1,7 +1,7 @@
 """
 Usage: 
     vc_stream.py branching FILE <k> [--log=LEVEL]
-    vc_stream.py kernel FILE <k> [--log=LEVEL]
+    vc_stream.py kernel-exists FILE <k> [--log=LEVEL]
     vc_stream.py kernel-br FILE <k> [--log=LEVEL]
     vc_stream.py kernel-min FILE
 
@@ -39,8 +39,8 @@ def main(args: Dict[str, Any]):
         k = int(args["<k>"])
         if args["branching"]:
             result = branching(filename, k)
-        elif args["kernel"]:
-            result = kernel(filename, k)
+        elif args["kernel-exists"]:
+            result = kernel_exists(filename, k)
         elif args["kernel-br"]:
             result = kernel_br(filename, k)
 
@@ -95,7 +95,7 @@ def kernel_br(filename: str, k: int):
     return result
 
 
-def kernel(filename: str, k: int) -> bool:
+def kernel_exists(filename: str, k: int) -> bool:
     """Finds True/False depending on whether a kernel exists for the given k
 
     Arguments
