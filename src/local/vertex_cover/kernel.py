@@ -100,7 +100,8 @@ def vertex_cover_kernelization_stream(graph: Graph, k: int) -> set:
 
         if not is_neighbour:
             no_in_matching += 1
-            maximal_matching.update(u, v)
+            maximal_matching.add(u)
+            maximal_matching.add(v)
             kernel.add_edge(u, v)
 
             if no_in_matching > k:
