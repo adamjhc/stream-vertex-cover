@@ -66,7 +66,7 @@ def kernel_br(filename: str, k: int):
 
 
 def kernel(filename: str, k: int):
-    pass
+    print(_kernelize(filename, k) is not None)
 
 
 def branching(filename: str, k: int):
