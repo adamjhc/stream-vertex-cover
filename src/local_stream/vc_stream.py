@@ -24,6 +24,7 @@ from typing import Any, Dict
 
 from docopt import docopt
 
+from branching import Branching
 from kernel import Kernel
 
 
@@ -49,6 +50,8 @@ def main(args: Dict[str, Any]):
 
 def kernel_min(filename: str) -> int:
     """Finds the minimum size of a kernel for a given stream of edges
+
+    Uses a binary search 
 
     Arguments
     ---------
@@ -108,15 +111,29 @@ def kernel_exists(filename: str, k: int) -> bool:
     return _kernelize(filename, k) is not None
 
 
-def branching(filename: str, k: int):
-    pass
-    # with open(filename) as stream:
-    #     # First line of stream will give us the number of edges
-    #     no_of_edges = int(stream.readline())
+def branching(filename: str, k: int) -> set:
+    """Finds a vertex cover if one exists of at most size k
 
-    #     # Every following line is an edge
-    #     for line in stream:
-    #         edge = line.split()
+    Uses the branching method
+
+    Arguments
+    ---------
+        filename : str
+            The file path to stream from
+        k : int
+            Maximum size of vertex cover
+
+    Returns
+    -------
+        set
+            Vertex cover if one exists else None
+    """
+    with open(filename) as stream:
+        # First line of stream will give us the number of nodes and edges
+        no_of_edges = int(stream.readline().split()[1])
+
+        branching = Branching(k, no_of_edges)
+        return branching.calculate_vc(stream)
 
 
 def _kernelize(filename: str, k: int) -> Kernel:
