@@ -43,6 +43,13 @@ def main(args: Dict[str, Any]):
 
 
 def kernel_min(filename: str):
+    """Prints the minimum size of a kernel for a given stream of edges
+
+    Arguments
+    ---------
+        filename : str
+            The file path to stream from
+    """
     stream = open(filename)
     start = 0
     # upper bound is the number of nodes
@@ -66,6 +73,15 @@ def kernel_br(filename: str, k: int):
 
 
 def kernel(filename: str, k: int):
+    """Prints True/False depending on whether a kernel exists for the given k
+
+    Arguments
+    ---------
+        filename : str
+            The file path to stream from
+        k : int
+            Value up to which to find whether a kernel exists
+    """
     print(_kernelize(filename, k) is not None)
 
 
