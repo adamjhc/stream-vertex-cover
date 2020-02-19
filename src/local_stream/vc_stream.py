@@ -34,7 +34,7 @@ def main(args: Dict[str, Any]):
         _init_logging(args["--log"])
 
         k = int(args["<k>"])
-        if args["branching"] is not None:
+        if args["branching"]:
             branching(filename, k)
         elif args["kernel"]:
             kernel(filename, k)
