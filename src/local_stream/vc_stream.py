@@ -29,7 +29,7 @@ from kernel import Kernel
 def main(args: Dict[str, Any]):
     filename = args["FILE"]
     if args["kernel-min"]:
-        kernel_binary_search(filename)
+        kernel_min(filename)
     else:
         init_logging(args["--log"])
 
@@ -39,10 +39,10 @@ def main(args: Dict[str, Any]):
         elif args["kernel"]:
             kernel(filename, k)
         elif args["kernel-br"]:
-            kernel(filename, k)
+            kernel_br(filename, k)
 
 
-def kernel_binary_search(filename: str):
+def kernel_min(filename: str):
     stream = open(filename)
     # start could be initialised
     start = 0
@@ -53,15 +53,24 @@ def kernel_binary_search(filename: str):
     min_k = end
     while start <= end:
         mid = (start + end) // 2
-        if kernel(filename, mid):
+        if kernelize(filename, mid) is not None:
             min_k = mid
-            print(min_k)
             end = mid - 1
         else:
             start = mid + 1
 
+    print(min_k)
 
-def kernel(filename: str, k: int, export: bool = False) -> bool:
+
+def kernel_br():
+    pass
+
+
+def kernel():
+    pass
+
+
+def kernelize(filename: str, k: int) -> Kernel:
     with open(filename) as stream:
         # First line of stream will give us the number of nodes and edges which
         # we don't need in this case
@@ -74,12 +83,9 @@ def kernel(filename: str, k: int, export: bool = False) -> bool:
             edges = line.split()
 
             if not kernel.next(edges[0], edges[1]):
-                return False
+                return None
 
-        if export:
-            kernel.export("kernel.txt")
-
-        return True
+        return kernel
 
 
 def branching(filename: str, k: int):
