@@ -27,23 +27,27 @@ from kernel import Kernel
 
 
 def main(args: Dict[str, Any]):
+    result = None
+
     filename = args["FILE"]
     if args["kernel-min"]:
-        kernel_min(filename)
+        result = kernel_min(filename)
     else:
         _init_logging(args["--log"])
 
         k = int(args["<k>"])
         if args["branching"]:
-            branching(filename, k)
+            result = branching(filename, k)
         elif args["kernel"]:
-            kernel(filename, k)
+            result = kernel(filename, k)
         elif args["kernel-br"]:
-            kernel_br(filename, k)
+            result = kernel_br(filename, k)
+
+    print(result)
 
 
-def kernel_min(filename: str):
-    """Prints the minimum size of a kernel for a given stream of edges
+def kernel_min(filename: str) -> int:
+    """Finds the minimum size of a kernel for a given stream of edges
 
     Arguments
     ---------
@@ -65,15 +69,15 @@ def kernel_min(filename: str):
         else:
             start = mid + 1
 
-    print(min_k)
+    return min_k
 
 
 def kernel_br(filename: str, k: int):
     pass
 
 
-def kernel(filename: str, k: int):
-    """Prints True/False depending on whether a kernel exists for the given k
+def kernel(filename: str, k: int) -> bool:
+    """Finds True/False depending on whether a kernel exists for the given k
 
     Arguments
     ---------
@@ -82,7 +86,7 @@ def kernel(filename: str, k: int):
         k : int
             Value up to which to find whether a kernel exists
     """
-    print(_kernelize(filename, k) is not None)
+    return _kernelize(filename, k) is not None
 
 
 def branching(filename: str, k: int):
