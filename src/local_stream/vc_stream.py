@@ -18,6 +18,7 @@ Options:
     --log=LEVEL     Specify the log level [default: INFO]
 """
 import logging
+import os
 from datetime import datetime
 from typing import Any, Dict
 
@@ -73,7 +74,25 @@ def kernel_min(filename: str) -> int:
 
 
 def kernel_br(filename: str, k: int):
-    pass
+    """Finds a vertex cover if one exists of at most size k
+
+    First kernelises the graph and then runs it through the branching method
+
+    Arguments
+    ---------
+        filename : str
+            The file path to stream from
+        k : int
+            Maximum size of vertex cover
+    """
+    kernel = _kernelize(filename, k)
+    kernel_file = "kernel.txt"
+    kernel.export(kernel_file)
+
+    result = branching(kernel_file, k)
+    os.remove(kernel_file)
+
+    return result
 
 
 def kernel(filename: str, k: int) -> bool:
