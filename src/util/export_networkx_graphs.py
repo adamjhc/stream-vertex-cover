@@ -4,7 +4,7 @@ This is a script to export NetworkX graphs into a streamable format
 Format
 ------
 
-<Number of edges>
+<Number of nodes> <Number of edges>
 u v
 u v
 u v
@@ -24,10 +24,8 @@ def export_networkx_graphs():
     }
 
     for name, graph in graphs.items():
-        edges = list(graph.edges)
-
         with open(name + ".txt", "x") as output:
-            output.write(f"{len(edges)}\n")
+            output.write(f"{graph.number_of_nodes()} {graph.number_of_edges()}\n")
             for line in nx.generate_edgelist(graph, data=False):
                 output.write(f"{line}\n")
 
