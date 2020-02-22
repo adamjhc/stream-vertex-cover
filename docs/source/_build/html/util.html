@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>util package &#8212; Parameterized Streaming Algorithms for Vertex Cover  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="visuals package" href="visuals.html" />
+    <link rel="prev" title="stream package" href="stream.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="util-package">
+<h1>util package<a class="headerlink" href="#util-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-util.convert_edgelist_to_stream">
+<span id="util-convert-edgelist-to-stream-module"></span><h2>util.convert_edgelist_to_stream module<a class="headerlink" href="#module-util.convert_edgelist_to_stream" title="Permalink to this headline">¶</a></h2>
+<p>Usage: convert_edgelist_to_stream.py &lt;input&gt; &lt;output&gt;</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>input   Path to edgelist file
+output  Path to output file</p>
+</dd>
+</dl>
+<dl class="function">
+<dt id="util.convert_edgelist_to_stream.convert_edgelist_to_stream">
+<code class="sig-prename descclassname">util.convert_edgelist_to_stream.</code><code class="sig-name descname">convert_edgelist_to_stream</code><span class="sig-paren">(</span><em class="sig-param">edgelist_path: str</em>, <em class="sig-param">output_path: str</em><span class="sig-paren">)</span><a class="headerlink" href="#util.convert_edgelist_to_stream.convert_edgelist_to_stream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-util.export_networkx_graphs">
+<span id="util-export-networkx-graphs-module"></span><h2>util.export_networkx_graphs module<a class="headerlink" href="#module-util.export_networkx_graphs" title="Permalink to this headline">¶</a></h2>
+<p>This is a script to export NetworkX graphs into a streamable format</p>
+<div class="section" id="format">
+<h3>Format<a class="headerlink" href="#format" title="Permalink to this headline">¶</a></h3>
+<p>&lt;Number of nodes&gt; &lt;Number of edges&gt;
+u v
+u v
+u v</p>
+<dl class="function">
+<dt id="util.export_networkx_graphs.export_networkx_graphs">
+<code class="sig-prename descclassname">util.export_networkx_graphs.</code><code class="sig-name descname">export_networkx_graphs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util.export_networkx_graphs.export_networkx_graphs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="util-generate-random-edgelist-module">
+<h2>util.generate_random_edgelist module<a class="headerlink" href="#util-generate-random-edgelist-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-util.graph_info">
+<span id="util-graph-info-module"></span><h2>util.graph_info module<a class="headerlink" href="#module-util.graph_info" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="util.graph_info.GraphInfo">
+<em class="property">class </em><code class="sig-prename descclassname">util.graph_info.</code><code class="sig-name descname">GraphInfo</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em><span class="sig-paren">)</span><a class="headerlink" href="#util.graph_info.GraphInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="util.graph_info.GraphInfo.to_csv">
+<code class="sig-name descname">to_csv</code><span class="sig-paren">(</span><em class="sig-param">dataset: str</em>, <em class="sig-param">desc: str</em>, <em class="sig-param">filename: str</em>, <em class="sig-param">category: str</em>, <em class="sig-param">source: str</em>, <em class="sig-param">link: str</em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#util.graph_info.GraphInfo.to_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-util">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-util" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Parameterized Streaming Algorithms for Vertex Cover</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Source Code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="local.html">local package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local_stream.html">local_stream package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stream.html">stream package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">util package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visuals.html">visuals package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Source Code</a><ul>
+      <li>Previous: <a href="stream.html" title="previous chapter">stream package</a></li>
+      <li>Next: <a href="visuals.html" title="next chapter">visuals package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Cox.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/util.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

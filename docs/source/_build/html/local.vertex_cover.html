@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>local.vertex_cover package &#8212; Parameterized Streaming Algorithms for Vertex Cover  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="local_stream package" href="local_stream.html" />
+    <link rel="prev" title="local.test package" href="local.test.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="local-vertex-cover-package">
+<h1>local.vertex_cover package<a class="headerlink" href="#local-vertex-cover-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-local.vertex_cover.branching">
+<span id="local-vertex-cover-branching-module"></span><h2>local.vertex_cover.branching module<a class="headerlink" href="#module-local.vertex_cover.branching" title="Permalink to this headline">¶</a></h2>
+<p>2k-Pass BST usingO(k·logn)bits
+1-Pass BST usingO(k^2·logn)bits</p>
+<dl class="function">
+<dt id="local.vertex_cover.branching.vertex_cover_branching">
+<code class="sig-prename descclassname">local.vertex_cover.branching.</code><code class="sig-name descname">vertex_cover_branching</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">k: int</em>, <em class="sig-param">vc: set = {}</em><span class="sig-paren">)</span> &#x2192; set<a class="headerlink" href="#local.vertex_cover.branching.vertex_cover_branching" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds a vertex cover of at most size k using branching</p>
+<p>Uses a recursive depth-first preorder method</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph</span></dt><dd><p>The graph to find a vertex cover of</p>
+</dd>
+<dt>k<span class="classifier">int</span></dt><dd><p>Size k</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>set</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="local.vertex_cover.branching.vertex_cover_branching_bfs">
+<code class="sig-prename descclassname">local.vertex_cover.branching.</code><code class="sig-name descname">vertex_cover_branching_bfs</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">k: int</em><span class="sig-paren">)</span> &#x2192; set<a class="headerlink" href="#local.vertex_cover.branching.vertex_cover_branching_bfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds a vertex cover of at most size k using branching</p>
+<p>Uses an iterative breadth-first method</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph</span></dt><dd><p>The graph to find a vertex cover of</p>
+</dd>
+<dt>k<span class="classifier">int</span></dt><dd><p>Size k</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>set</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="local.vertex_cover.branching.vertex_cover_branching_dfs_iterative">
+<code class="sig-prename descclassname">local.vertex_cover.branching.</code><code class="sig-name descname">vertex_cover_branching_dfs_iterative</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">k: int</em><span class="sig-paren">)</span> &#x2192; set<a class="headerlink" href="#local.vertex_cover.branching.vertex_cover_branching_dfs_iterative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds a vertex cover of at most size k using branching</p>
+<p>Uses an iterative depth-first method</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph</span></dt><dd><p>The graph to find a vertex cover of</p>
+</dd>
+<dt>k<span class="classifier">int</span></dt><dd><p>Size k</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>set</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="local.vertex_cover.branching.vertex_cover_branching_stream">
+<code class="sig-prename descclassname">local.vertex_cover.branching.</code><code class="sig-name descname">vertex_cover_branching_stream</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">k: int</em><span class="sig-paren">)</span> &#x2192; set<a class="headerlink" href="#local.vertex_cover.branching.vertex_cover_branching_stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds a vertex cover of at most size k using branching</p>
+<p>Algorithm from Chitnis and Cormode 2019 - Towards a Theory of Parameterized
+Streaming Algorithms</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph</span></dt><dd><p>The graph to find a vertex cover of</p>
+</dd>
+<dt>k<span class="classifier">int</span></dt><dd><p>Size k</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>set</p>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-local.vertex_cover.brute_force">
+<span id="local-vertex-cover-brute-force-module"></span><h2>local.vertex_cover.brute_force module<a class="headerlink" href="#module-local.vertex_cover.brute_force" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="local.vertex_cover.brute_force.vertex_cover_brute_force">
+<code class="sig-prename descclassname">local.vertex_cover.brute_force.</code><code class="sig-name descname">vertex_cover_brute_force</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">k: int = None</em>, <em class="sig-param">vertex_cover: set = None</em><span class="sig-paren">)</span> &#x2192; set<a class="headerlink" href="#local.vertex_cover.brute_force.vertex_cover_brute_force" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brute forces the subsets of the given graph to find a vertex cover</p>
+<p>Returns the first found vertex cover</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph </span></dt><dd><p>The graph to find a vertex cover of</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>set</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="local.vertex_cover.brute_force.vertex_cover_brute_force_all">
+<code class="sig-prename descclassname">local.vertex_cover.brute_force.</code><code class="sig-name descname">vertex_cover_brute_force_all</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">k: int = None</em><span class="sig-paren">)</span> &#x2192; set<a class="headerlink" href="#local.vertex_cover.brute_force.vertex_cover_brute_force_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brute forces the subsets of the given graph to find a vertex cover</p>
+<p>Returns all vertex covers found as a generator</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph</span></dt><dd><p>The graph to find a vertex cover of</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>set</p>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-local.vertex_cover.kernel">
+<span id="local-vertex-cover-kernel-module"></span><h2>local.vertex_cover.kernel module<a class="headerlink" href="#module-local.vertex_cover.kernel" title="Permalink to this headline">¶</a></h2>
+<p>Kernelization Algorithm for Vertex Cover
+(from <a class="reference external" href="https://en.wikipedia.org/wiki/Kernelization#Example:_vertex_cover">https://en.wikipedia.org/wiki/Kernelization#Example:_vertex_cover</a>)</p>
+<ol class="arabic simple">
+<li><p>If k &gt; 0 and v is a vertex of degree &gt; k, remove v from the graph and 
+decrease k by 1. Every vertex of size k must contain v since otherwise too 
+many of its neighbours would have to be picked to cover the incident edges. 
+Thus, an optimal vertex cover for the original graph may be formed from a 
+cover of the reduced problem by adding v back to the cover</p></li>
+<li><p>If v is an isolated vertex, remove it. An isolated vertex cannot cover any 
+edges, so in this case v cannot be part of any minimal cover</p></li>
+<li><p>If more than k^2 edges remain in the graph, and neither of the previous two
+rules can be applied, then the graph cannot contain a vertex cover of size 
+k. For, after eliminating all vertices of degree &gt; k, each remaining vertex
+can only cover at most k edges and a set of k vertices could only cover at 
+most k^2 edges. In this case, the instance may be replaced by an instance 
+with two vertices, one edge, and k=0, which also has no solution.</p></li>
+</ol>
+<p>An algorithm that applies these rules repeatedly until no more reductions can 
+be made necessarily terminates with a kernel that has at most k^2 edges and 
+(because each edge has at most two endpoints and there are no isolated 
+vertices) at most 2k^{2} vertices. This kernelization may be implemented in 
+linear time. Once the kernel has been constructed, the vertex cover problem may
+be solved by a brute force search algorithm that tests whether each subset of 
+the kernel is a cover of the kernel. Thus, the vertex cover problem can be 
+solved in time O(2^{{2k^{2}}}+n+m) for a graph with n vertices and m edges, 
+allowing it to be solved efficiently when k is small even if n and m are both 
+large.</p>
+<dl class="function">
+<dt id="local.vertex_cover.kernel.vertex_cover_kernelization">
+<code class="sig-prename descclassname">local.vertex_cover.kernel.</code><code class="sig-name descname">vertex_cover_kernelization</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">k: int</em><span class="sig-paren">)</span> &#x2192; set<a class="headerlink" href="#local.vertex_cover.kernel.vertex_cover_kernelization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds a vertex cover of size k using kernelization</p>
+<p>Returning a set of at most k vertices that includes the endpoint of every 
+edge in the graph or None if no such set exists</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph</span></dt><dd><p>The graph to find a vertex cover of</p>
+</dd>
+<dt>k<span class="classifier">int</span></dt><dd><p>Size k</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>set</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="local.vertex_cover.kernel.vertex_cover_kernelization_stream">
+<code class="sig-prename descclassname">local.vertex_cover.kernel.</code><code class="sig-name descname">vertex_cover_kernelization_stream</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">k: int</em><span class="sig-paren">)</span> &#x2192; set<a class="headerlink" href="#local.vertex_cover.kernel.vertex_cover_kernelization_stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds a vertex cover of at most size k using kernelization and branching</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph</span></dt><dd><p>The graph to find a vertex cover of</p>
+</dd>
+<dt>k<span class="classifier">int</span></dt><dd><p>Size k</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>set</p>
+</div></blockquote>
+<p>The kernelization algorithm works by maintaining a maximal matching M. For 
+every matched vertex v, we also store up to k edges incident on v in a set 
+E_m if at the ith update we observe that len(M) &gt; k we report that the size of
+any vertex cover is more than k and quit. At the end of the stream we run 
+the branching algorithm</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-local.vertex_cover.util">
+<span id="local-vertex-cover-util-module"></span><h2>local.vertex_cover.util module<a class="headerlink" href="#module-local.vertex_cover.util" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="local.vertex_cover.util.is_vertex_cover">
+<code class="sig-prename descclassname">local.vertex_cover.util.</code><code class="sig-name descname">is_vertex_cover</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">vertex_cover: set</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#local.vertex_cover.util.is_vertex_cover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether the given set of vertices is a vertex cover of the 
+given graph</p>
+<p>Loops through the graphs edges checking whether at least one end of the 
+edge is included in the vertex cover</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph</span></dt><dd><p>The graph of which to check the vertex cover</p>
+</dd>
+<dt>vertex_cover<span class="classifier">set</span></dt><dd><p>Set of vertices</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>bool</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="local.vertex_cover.util.is_vertex_cover_alt">
+<code class="sig-prename descclassname">local.vertex_cover.util.</code><code class="sig-name descname">is_vertex_cover_alt</code><span class="sig-paren">(</span><em class="sig-param">graph: networkx.classes.graph.Graph</em>, <em class="sig-param">vertex_cover: set</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#local.vertex_cover.util.is_vertex_cover_alt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether the given set of vertices is a vertex cover of the 
+given graph</p>
+<p>Removes each vertex one by one from the graph and checks whether any edges 
+are left at the end</p>
+<blockquote>
+<div><dl class="simple">
+<dt>graph<span class="classifier">Graph</span></dt><dd><p>The graph of which to check the vertex cover</p>
+</dd>
+<dt>vertex_cover :set</dt><dd><p>Set of vertices</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>bool</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="local.vertex_cover.util.powerset">
+<code class="sig-prename descclassname">local.vertex_cover.util.</code><code class="sig-name descname">powerset</code><span class="sig-paren">(</span><em class="sig-param">seq: list</em>, <em class="sig-param">k: int = None</em><span class="sig-paren">)</span><a class="headerlink" href="#local.vertex_cover.util.powerset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all subsets up to a size of k of a given set</p>
+<p>Returns all subsets if no k is given</p>
+<blockquote>
+<div><dl class="simple">
+<dt>seq<span class="classifier">list</span></dt><dd><p>List to generate subsets of</p>
+</dd>
+<dt>k<span class="classifier">int</span></dt><dd><p>Maximum size of subset</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><dl class="simple">
+<dt>list</dt><dd><p>List of subsets</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-local.vertex_cover">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-local.vertex_cover" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Parameterized Streaming Algorithms for Vertex Cover</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Packages</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="local.html">local package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="local_stream.html">local_stream package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stream.html">stream package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html">util package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visuals.html">visuals package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Packages</a><ul>
+  <li><a href="local.html">local package</a><ul>
+      <li>Previous: <a href="local.test.html" title="previous chapter">local.test package</a></li>
+      <li>Next: <a href="local_stream.html" title="next chapter">local_stream package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Adam Cox.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/local.vertex_cover.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
