@@ -405,8 +405,8 @@ dmypy.json
 
 # End of https://www.gitignore.io/api/latex,python,visualstudiocode
 
-
-requirements.txt
+# Ignore virtualenv
+/env
 
 src/test_sets/*
 !src/test_sets/README.md
