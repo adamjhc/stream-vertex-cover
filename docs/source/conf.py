@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath("../../src"))
 
 # -- Project information -----------------------------------------------------
 
-project = "Parameterized Streaming Algorithms for Vertex Cover"
+project = "Stream Vertex Cover"
 copyright = "2020, Adam Cox"
 author = "Adam Cox"
 
