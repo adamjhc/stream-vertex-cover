@@ -7,5 +7,5 @@ Documentation
    local
    local_stream
    stream
-   util
+   utils
    visuals
