@@ -13,8 +13,6 @@ Arguments:
 
 Options:
     -h --help       Show this screen
-    -b              Use the branching algorithm
-    -k              Use the kernel algorithm
     --log=LEVEL     Specify the log level [default: INFO]
 """
 import logging
