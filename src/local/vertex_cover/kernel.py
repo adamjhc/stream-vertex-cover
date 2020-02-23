@@ -77,7 +77,7 @@ def vertex_cover_kernelization_stream(graph: Graph, k: int) -> set:
     -----
     The kernelization algorithm works by maintaining a maximal matching M. For 
     every matched vertex v, we also store up to k edges incident on v in a set 
-    E_m if at the ith update we observe that |M| > k we report that the size of
+    E_m if at the ith update we observe that len(M) > k we report that the size of
     any vertex cover is more than k and quit. At the end of the stream we run 
     the branching algorithm
     """
