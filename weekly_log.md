@@ -169,6 +169,12 @@ Made notes on the demonstration talk below:
 
 ## Semester 2 - Week 06 - 17/02
 
+Made big strides this week, completing implementations of the kernel and branching methods in local_stream and designing a utility for them to be used with. This includes the base kernel and branching algorithms, as well as a command to run a binary search using the kernel algorithm to find the size of the minimum vertex cover and a command to run the kernel on a stream and then follow with the branching algorithm. Made a script to generate many Erdos-Renyi graphs and a script to convert an edgelist to a stream format. Although, this "stream" format I think might a normal edgelist since neither the kernel or branching algorithm actually needs the number of nodes or edges. Yes, the branching algorithm in words does use the value `m` as the number of edges but I think this can be replaced with a `next` function which would be aware of when the stream is at it's end.
+
+Showed Rajesh the demo animation I had made. He gave pointers of adding more information and detail of what was being shown: k value of kernel, edges being thrown away, percentage size of kernel compared to whole graph. These should be added along with more constructed graphs using multiple star graphs posing as "famous people" and adding single connections between them to simulate a simple model of a social graph. He also said it would be a good idea to have a simpler PowerPoint-style "animation" of the kernel algorithm at work to be able to see it step-by-step before moving to the animation so it's easier to know what's going on. We also talked about how this project is about contributing to an effort of his work. With that should come proper documentation and tools so that if someone wanted to continue with this work they would be able to with ease. This means setting up documentation properly and having help pages.
+
+Spent the weekend setting up Sphinx documentation and started on the stream implementation (just trying to get the zookeeper and kafka docker images working first)
+
 ## Semester 2 - Week 07 - 24/02
 
 ## Semester 2 - Week 08 - 02/03
