@@ -2,13 +2,13 @@ import faust
 
 app = faust.App("consumer", broker="kafka://localhost:9092", value_serializer="raw",)
 
-greetings_topic = app.topic("greetings")
+topic_edges = app.topic("edges")
 
 
-@app.agent(greetings_topic)
-async def greet(greetings):
-    async for greeting in greetings:
-        print(greeting)
+@app.agent(topic_edges)
+async def process_edges(edges):
+    async for edge in edges:
+        print(edge)
 
 
 @app.page("/")
