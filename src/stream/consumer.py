@@ -1,6 +1,6 @@
 import faust
 
-app = faust.App("hello-world", broker="kafka://localhost:9092", value_serializer="raw",)
+app = faust.App("consumer", broker="kafka://localhost:9092", value_serializer="raw",)
 
 greetings_topic = app.topic("greetings")
 
@@ -13,7 +13,14 @@ async def greet(greetings):
 
 @app.page("/")
 async def get_index(self, request):
-    return self.html("<h1>Faust homepage</h1>")
+    with open("./web/index.html", "r") as page:
+        return self.html(page.read())
+
+
+@app.page("/status")
+async def get_status(self, request):
+    with open("./web/status.html", "r") as page:
+        return self.html(page.read())
 
 
 if __name__ == "__main__":
