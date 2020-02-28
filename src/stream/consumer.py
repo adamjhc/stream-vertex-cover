@@ -15,7 +15,7 @@ topic_edges = app.topic("edges")
 
 @app.task()
 async def on_started():
-    print(f"Visit http://localhost:{web_port}")
+    print(f"Visit {app.web.url}")
 
 
 @app.agent(topic_edges)
