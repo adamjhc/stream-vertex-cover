@@ -1,8 +1,21 @@
 import faust
+from yarl import URL
 
-app = faust.App("consumer", broker="kafka://localhost:9092", value_serializer="raw",)
+web_port = 6066
+
+app = faust.App(
+    "consumer",
+    broker="kafka://localhost:9092",
+    value_serializer="raw",
+    web_port=web_port,
+)
 
 topic_edges = app.topic("edges")
+
+
+@app.task()
+async def on_started():
+    print(f"Visit http://localhost:{web_port}")
 
 
 @app.agent(topic_edges)
