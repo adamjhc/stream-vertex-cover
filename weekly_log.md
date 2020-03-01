@@ -173,9 +173,54 @@ Made big strides this week, completing implementations of the kernel and branchi
 
 Showed Rajesh the demo animation I had made. He gave pointers of adding more information and detail of what was being shown: k value of kernel, edges being thrown away, percentage size of kernel compared to whole graph. These should be added along with more constructed graphs using multiple star graphs posing as "famous people" and adding single connections between them to simulate a simple model of a social graph. He also said it would be a good idea to have a simpler PowerPoint-style "animation" of the kernel algorithm at work to be able to see it step-by-step before moving to the animation so it's easier to know what's going on. We also talked about how this project is about contributing to an effort of his work. With that should come proper documentation and tools so that if someone wanted to continue with this work they would be able to with ease. This means setting up documentation properly and having help pages.
 
-Spent the weekend setting up Sphinx documentation and started on the stream implementation (just trying to get the zookeeper and kafka docker images working first)
+Spent the weekend setting up Sphinx documentation and started on the stream implementation (just trying to get the Zookeeper and Kafka docker images working first)
 
 ## Semester 2 - Week 07 - 24/02
+
+Got Kafka working within docker containers and created a producer script to send edges from a file to a Kafka topic. I've kind of given up on the idea of configuring Kafka Connect to work with a database/other data source since this is mostly a proof of concept. Getting it all working running through Kafka one way or another is still enough to get me displayable results of memory usage. Started playing around with Faust's web views to see if a user friendly dashboard can be made and seems like something can be done writing some JS to make a POST request which Faust can handle.
+
+```sequence
+App->Requests (Topic): ../edgelist.txt
+Requests (Topic)->Producer: ../edgelist.txt
+Note over Producer:Opens paths
+Producer->Edges (Topic): u,v
+Edges (Topic)->App: u,v
+Producer->Edges (Topic): u,v
+Edges (Topic)->App: u,v
+Producer->Edges (Topic): ...
+Edges (Topic)->App: ...
+Producer->Edges (Topic): end
+Edges (Topic)->App: end
+Note over App: Finish up
+```
+
+Something like this is what I've got in my head. Will have to figure out how to signify the start and end of edges:
+
+- something like u=-1,v=-1 might be easy hack
+- flag in edge model to signify end
+- whole new topic for each edge list but still doesn't say when it stops
+
+Other things to consider:
+
+- Can an agent handle two topics?
+- How to request another pass (e.g in the case of the branching algorithm)
+- Multiple agents for different algorithms?
+
+In the weekly meeting with Rajesh, we mainly went over how the demonstration works but that has now been extended till after exams. He also gave me some ideas of what to show a user in terms of details of the running algorithm
+
+> Potential things to store at each timestamp:
+>
+> - numbers of edges seen so far (number of the current timestamp)
+>
+> - how many edges stored in the kernel
+>
+> - value of k
+>
+> - current size of VC
+>
+> - (delay parameter)
+
+He may have been mainly thinking about the visualiser but it's a good start.
 
 ## Semester 2 - Week 08 - 02/03
 
