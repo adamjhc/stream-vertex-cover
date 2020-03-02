@@ -2,9 +2,10 @@
 2k-Pass BST usingO(k·logn)bits
 1-Pass BST usingO(k^2·logn)bits
 """
-from typing import Optional, List, Iterator
-from networkx import Graph
 from collections import deque
+from typing import Iterator, List, Optional
+
+from networkx import Graph
 
 
 def vertex_cover_branching(

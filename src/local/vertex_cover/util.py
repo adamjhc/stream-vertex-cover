@@ -1,7 +1,8 @@
-from typing import Sequence, Iterator
-from networkx import Graph
 from itertools import combinations
+from typing import Iterator, Sequence
 from warnings import warn
+
+from networkx import Graph
 
 
 def powerset(seq: Sequence, k: int = None) -> Iterator[list]:

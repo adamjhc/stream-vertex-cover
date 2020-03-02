@@ -1,6 +1,8 @@
-from typing import Optional, Iterator, cast
+from typing import Iterator, Optional, cast
+
 from networkx import Graph
-from .util import powerset, is_vertex_cover
+
+from .util import is_vertex_cover, powerset
 
 
 def vertex_cover_brute_force(

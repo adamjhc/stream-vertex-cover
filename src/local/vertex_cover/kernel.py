@@ -27,10 +27,11 @@ solved in time O(2^{{2k^{2}}}+n+m) for a graph with n vertices and m edges,
 allowing it to be solved efficiently when k is small even if n and m are both
 large.
 """
-from typing import Optional
+from typing import Optional, Tuple
+
 from networkx import Graph
+
 from .branching import vertex_cover_branching, vertex_cover_branching_stream
-from typing import Tuple
 
 
 def vertex_cover_kernelization(graph: Graph, k: int) -> Optional[set]:
