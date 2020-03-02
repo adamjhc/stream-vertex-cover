@@ -11,7 +11,7 @@ Options:
     --delay=DELAY       Specify delay between iterations [default: 0.5]
     --label             Show labels on nodes
 """
-from typing import Any, Dict
+from typing import Any, Dict, Set, Tuple
 
 import matplotlib.pyplot as plot
 import networkx as nx
@@ -20,6 +20,8 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
+
+from util import _in
 
 
 def kernel_stream_demo(arguments: Dict[str, Any]):
@@ -35,7 +37,7 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
     k = int(arguments["<k>"])
     kernel = nx.Graph()
     no_in_matching = 0
-    maximal_matching = set()
+    maximal_matching: Set[Tuple[Any, Any]] = set()
 
     # Set up matplotlib
     layout = None
@@ -166,14 +168,6 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
 
     print("Finished")
     plot.show()
-
-
-def _in(item, pairs):
-    for pair in pairs:
-        if item in pair:
-            return True
-
-    return False
 
 
 if __name__ == "__main__":

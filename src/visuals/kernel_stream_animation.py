@@ -15,13 +15,17 @@ Options:
     --fig-height=Y          Height of figure in inches [default: 4.8]
     --label                 Show labels on nodes
 """
-from typing import Any, Dict
+from typing import Any, Dict, Set, Tuple
 
 import matplotlib.pyplot as plot
 import networkx as nx
 from docopt import docopt
 from matplotlib import animation
+from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from networkx import Graph
+
+from util import _in
 
 
 def kernel_stream_animation(arguments: Dict[str, Any]):
@@ -37,8 +41,7 @@ def kernel_stream_animation(arguments: Dict[str, Any]):
     edges = list(graph.edges)
     k = int(arguments["<k>"])
     kernel = nx.Graph()
-    no_in_matching = 0
-    maximal_matching = set()
+    maximal_matching: Set[Tuple[Any, Any]] = set()
 
     # Set up matplotlib
     layout = nx.spring_layout(graph)
@@ -59,7 +62,16 @@ def kernel_stream_animation(arguments: Dict[str, Any]):
     anim.save(arguments["<output_name>"], writer="imagemagick")
 
 
-def update(i, ax, layout, kernel, maximal_matching, k, edges, with_labels):
+def update(
+    i: int,
+    ax: Axes,
+    layout: dict,
+    kernel: Graph,
+    maximal_matching: Set[Tuple[Any, Any]],
+    k: int,
+    edges: list,
+    with_labels: bool,
+):
     ax.clear()
 
     u, v = edges[i]
@@ -110,14 +122,6 @@ def update(i, ax, layout, kernel, maximal_matching, k, edges, with_labels):
         edge_color=edge_colours,
         width=edge_widths,
     )
-
-
-def _in(item, pairs):
-    for pair in pairs:
-        if item in pair:
-            return True
-
-    return False
 
 
 if __name__ == "__main__":
