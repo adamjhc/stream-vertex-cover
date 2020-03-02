@@ -23,7 +23,7 @@ def vertex_cover_branching(
             Size k
         vertex_cover : set
             Current Vertex Cover - [Default: `set()`]
-        
+
     Returns
     -------
         Optional[set]
