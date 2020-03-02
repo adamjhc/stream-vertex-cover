@@ -1,5 +1,5 @@
 """
-Usage: 
+Usage:
     vc_stream.py branching FILE <k> [--log=LEVEL]
     vc_stream.py kernel-exists FILE <k> [--log=LEVEL]
     vc_stream.py kernel-br FILE <k> [--log=LEVEL]
@@ -27,7 +27,7 @@ from kernel import Kernel
 
 
 def main(args: Dict[str, Any]):
-    result = None
+    result: Any = None
 
     filename = args["FILE"]
     if args["kernel-min"]:
@@ -49,7 +49,7 @@ def main(args: Dict[str, Any]):
 def kernel_min(filename: str) -> int:
     """Finds the minimum size of a kernel for a given stream of edges
 
-    Uses a binary search 
+    Uses a binary search
 
     Arguments
     ---------
@@ -74,7 +74,7 @@ def kernel_min(filename: str) -> int:
     return min_k
 
 
-def kernel_br(filename: str, k: int):
+def kernel_br(filename: str, k: int) -> set:
     """Finds a vertex cover if one exists of at most size k
 
     First kernelises the graph and then runs it through the branching method
