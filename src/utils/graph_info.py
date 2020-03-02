@@ -39,7 +39,7 @@ class GraphInfo:
         )
 
     def _count_paths(self, graph: nx.Graph, length: int):
-        all_paths = []
+        all_paths: list = []
         for node in graph:
             all_paths.extend(self._find_paths(graph, node, length))
 

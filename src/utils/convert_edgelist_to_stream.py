@@ -4,10 +4,8 @@ Arguments:
     input   Path to edgelist file
     output  Path to output file
 """
-from typing import Any, Dict
-
-from docopt import docopt
 import networkx as nx
+from docopt import docopt
 
 
 def convert_edgelist_to_stream(edgelist_path: str, output_path: str):

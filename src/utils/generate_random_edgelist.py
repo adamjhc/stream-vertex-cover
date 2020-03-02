@@ -5,8 +5,8 @@ Arguments:
     p               Probability for edge creation
     n_end           Upper bound (inclusive) of a range of n
     p_end           Upper bound (inclusive) of a range of p
-    
-    
+
+
 Options:
     --n_step=NSTEP  Spacing between n values [default: 1]
     --p_step=PSTEP  Spacing between p values [default: 0.05]

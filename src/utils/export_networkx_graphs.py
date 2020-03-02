@@ -11,11 +11,10 @@ u v
 """
 import networkx as nx
 from networkx import Graph
-from typing import Dict
 
 
 def export_networkx_graphs():
-    graphs: Dict[str, Graph] = {
+    graphs = {
         "tutte": nx.tutte_graph(),
         "petersen": nx.petersen_graph(),
         "floretine_families": nx.florentine_families_graph(),
