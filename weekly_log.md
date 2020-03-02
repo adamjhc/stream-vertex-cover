@@ -211,13 +211,9 @@ In the weekly meeting with Rajesh, we mainly went over how the demonstration wor
 > Potential things to store at each timestamp:
 >
 > - numbers of edges seen so far (number of the current timestamp)
->
 > - how many edges stored in the kernel
->
 > - value of k
->
 > - current size of VC
->
 > - (delay parameter)
 
 He may have been mainly thinking about the visualiser but it's a good start.
