@@ -27,7 +27,7 @@ def vertex_cover_branching(
     Returns
     -------
         Optional[set]
-            Vertex cover is one exists else `None`
+            Vertex cover if one exists else `None`
     """
     if graph.number_of_edges() == 0:
         return vertex_cover
@@ -71,7 +71,7 @@ def vertex_cover_branching_stream(graph: Graph, k: int) -> Optional[set]:
     Returns
     -------
         Optional[set]
-            Vertex cover is one exists else `None`
+            Vertex cover if one exists else `None`
     """
     edges = list(graph.edges)
     no_of_edges = len(edges)
@@ -114,7 +114,7 @@ def vertex_cover_branching_dfs_iterative(graph: Graph, k: int) -> Optional[set]:
     Returns
     -------
         Optional[set]
-            Vertex cover is one exists else `None`
+            Vertex cover if one exists else `None`
     """
     stack: List = []
     stack.append((graph, set()))
@@ -161,7 +161,7 @@ def vertex_cover_branching_bfs(graph: Graph, k: int) -> Optional[set]:
     Returns
     -------
         Optional[set]
-            Vertex cover is one exists else `None`
+            Vertex cover if one exists else `None`
     """
     queue: deque = deque()
     queue.append((graph, set()))
