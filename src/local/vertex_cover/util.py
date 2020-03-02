@@ -62,32 +62,3 @@ def is_vertex_cover(graph: Graph, vertex_cover: set) -> bool:
             return False
 
     return True
-
-
-def is_vertex_cover_alt(graph: Graph, vertex_cover: set) -> bool:
-    """
-    Determines whether the given set of vertices is a vertex cover of the
-    given graph
-
-    Removes each vertex one by one from the graph and checks whether any edges
-    are left at the end
-
-    Parameters
-    ----------
-        graph : Graph
-            The graph of which to check the vertex cover
-        vertex_cover :set
-            Set of vertices
-
-    Returns
-    -------
-        bool
-    """
-    warn(
-        "is_vertex_cover_alt is slow, use is_vertex_cover instead",
-        DeprecationWarning,
-        2,
-    )
-    g = graph.copy()
-    g.remove_nodes_from(vertex_cover)
-    return g.number_of_edges() == 0
