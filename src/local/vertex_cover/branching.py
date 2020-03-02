@@ -2,14 +2,14 @@
 2k-Pass BST usingO(k·logn)bits
 1-Pass BST usingO(k^2·logn)bits
 """
-from typing import Set, Optional, List, Iterator
+from typing import Optional, List, Iterator
 from networkx import Graph
 from collections import deque
 
 
 def vertex_cover_branching(
-    graph: Graph, k: int, vertex_cover: Set = set()
-) -> Optional[Set]:
+    graph: Graph, k: int, vertex_cover: set = set()
+) -> Optional[set]:
     """
     Finds a vertex cover of at most size k using branching
 
@@ -21,12 +21,12 @@ def vertex_cover_branching(
             The graph to find a vertex cover of
         k : int
             Size k
-        vertex_cover : Set
+        vertex_cover : set
             Current Vertex Cover - [Default: `set()`]
         
     Returns
     -------
-        Optional[Set]
+        Optional[set]
             Vertex cover is one exists else `None`
     """
     if graph.number_of_edges() == 0:
@@ -54,7 +54,7 @@ def vertex_cover_branching(
     return vc_right
 
 
-def vertex_cover_branching_stream(graph: Graph, k: int) -> Optional[Set]:
+def vertex_cover_branching_stream(graph: Graph, k: int) -> Optional[set]:
     """
     Finds a vertex cover of at most size k using branching
 
@@ -70,7 +70,7 @@ def vertex_cover_branching_stream(graph: Graph, k: int) -> Optional[Set]:
 
     Returns
     -------
-        Optional[Set]
+        Optional[set]
             Vertex cover is one exists else `None`
     """
     edges = list(graph.edges)
@@ -78,7 +78,7 @@ def vertex_cover_branching_stream(graph: Graph, k: int) -> Optional[Set]:
 
     # each loop acts as another pass
     for bin_string in _get_binary_strings(k):
-        vertex_cover: Set = set()
+        vertex_cover: set = set()
         bin_string_pos = 1
         edge_pos = 1
         while bin_string_pos != k + 1:
@@ -98,7 +98,7 @@ def vertex_cover_branching_stream(graph: Graph, k: int) -> Optional[Set]:
     return None
 
 
-def vertex_cover_branching_dfs_iterative(graph: Graph, k: int) -> Optional[Set]:
+def vertex_cover_branching_dfs_iterative(graph: Graph, k: int) -> Optional[set]:
     """
     Finds a vertex cover of at most size k using branching
 
@@ -113,7 +113,7 @@ def vertex_cover_branching_dfs_iterative(graph: Graph, k: int) -> Optional[Set]:
 
     Returns
     -------
-        Optional[Set]
+        Optional[set]
             Vertex cover is one exists else `None`
     """
     stack: List = []
@@ -145,7 +145,7 @@ def vertex_cover_branching_dfs_iterative(graph: Graph, k: int) -> Optional[Set]:
     return None
 
 
-def vertex_cover_branching_bfs(graph: Graph, k: int) -> Optional[Set]:
+def vertex_cover_branching_bfs(graph: Graph, k: int) -> Optional[set]:
     """
     Finds a vertex cover of at most size k using branching
 
@@ -160,7 +160,7 @@ def vertex_cover_branching_bfs(graph: Graph, k: int) -> Optional[Set]:
 
     Returns
     -------
-        Optional[Set]
+        Optional[set]
             Vertex cover is one exists else `None`
     """
     queue: deque = deque()
