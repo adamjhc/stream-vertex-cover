@@ -1,10 +1,11 @@
+from typing import Optional, Iterator, cast
 from networkx import Graph
 from .util import powerset, is_vertex_cover
 
 
 def vertex_cover_brute_force(
     graph: Graph, k: int = None, vertex_cover: set = None
-) -> set:
+) -> Optional[set]:
     """
     Brute forces the subsets of the given graph to find a vertex cover
 
@@ -12,17 +13,22 @@ def vertex_cover_brute_force(
 
     Parameters
     ----------
-        graph : Graph 
+        graph : Graph
             The graph to find a vertex cover of
+        k : int
+            Maximum size k [Default: None]
+        vertex_cover : set
+            Partial vertex cover if one exists [Default: None]
 
     Returns
     -------
-        set
+        Optional[set]
+            Vertex cover if one exists else `None`
     """
     if vertex_cover:
         nodes = set(graph.nodes)
         nodes.difference_update(vertex_cover)
-        for subset in map(set, powerset(nodes, k)):
+        for subset in map(set, powerset(list(nodes), k)):
             subset.update(vertex_cover)
             if is_vertex_cover(graph, subset):
                 return subset
@@ -34,7 +40,7 @@ def vertex_cover_brute_force(
     return None
 
 
-def vertex_cover_brute_force_all(graph: Graph, k: int = None) -> set:
+def vertex_cover_brute_force_all(graph: Graph, k: int = None) -> Iterator[set]:
     """
     Brute forces the subsets of the given graph to find a vertex cover
 
@@ -44,10 +50,13 @@ def vertex_cover_brute_force_all(graph: Graph, k: int = None) -> set:
     ----------
         graph : Graph
             The graph to find a vertex cover of
+        k : int
+            Maximum size k [Default: None]
 
     Yields
     ------
         set
+            Vertex cover
     """
     for subset in map(set, powerset(list(graph.nodes), k)):
         if is_vertex_cover(graph, subset):
