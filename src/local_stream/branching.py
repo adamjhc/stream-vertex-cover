@@ -1,5 +1,5 @@
 from io import TextIOWrapper
-from typing import Optional, Tuple, Iterator
+from typing import Iterator, Optional, Tuple
 
 
 class Branching:
