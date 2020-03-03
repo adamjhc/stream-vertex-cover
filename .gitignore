@@ -416,3 +416,5 @@ src/test_sets/*
 !src/test_sets/stream
 
 src/local_stream/*.csv
+
+.doit*
