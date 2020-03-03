@@ -18,7 +18,7 @@ Options:
 import logging
 import os
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from docopt import docopt
 
@@ -74,7 +74,7 @@ def kernel_min(filename: str) -> int:
     return min_k
 
 
-def kernel_br(filename: str, k: int) -> set:
+def kernel_br(filename: str, k: int) -> Optional[set]:
     """Finds a vertex cover if one exists of at most size k
 
     First kernelises the graph and then runs it through the branching method
@@ -87,6 +87,9 @@ def kernel_br(filename: str, k: int) -> set:
             Maximum size of vertex cover
     """
     kernel = _kernelize(filename, k)
+    if not kernel:
+        return None
+
     kernel_file = "kernel.txt"
     kernel.export(kernel_file)
 
@@ -109,7 +112,7 @@ def kernel_exists(filename: str, k: int) -> bool:
     return _kernelize(filename, k) is not None
 
 
-def branching(filename: str, k: int) -> set:
+def branching(filename: str, k: int) -> Optional[set]:
     """Finds a vertex cover if one exists of at most size k
 
     Uses the branching method
@@ -134,7 +137,7 @@ def branching(filename: str, k: int) -> set:
         return branching.calculate_vc(stream)
 
 
-def _kernelize(filename: str, k: int) -> Kernel:
+def _kernelize(filename: str, k: int) -> Optional[Kernel]:
     with open(filename) as stream:
         # First line of stream will give us the number of nodes and edges which
         # we don't need in this case

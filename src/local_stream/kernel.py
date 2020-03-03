@@ -36,7 +36,7 @@ class Kernel:
         """
         pass
 
-    def _get_if_in(self, item, dictn: dict) -> Optional[Match]:
+    def _get_if_in(self, item, dictn: dict) -> Optional[Any]:
         """
         """
         for pair, match in dictn.items():
@@ -52,3 +52,4 @@ class Match:
         """
         self.neighbours_u = []
         self.neighbours_v = []
+

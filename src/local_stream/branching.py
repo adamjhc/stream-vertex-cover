@@ -1,5 +1,4 @@
-from io import TextIOWrapper
-from typing import Iterator, Optional, Tuple
+from typing import Iterator, Optional, TextIO, Tuple
 
 
 class Branching:
@@ -11,7 +10,7 @@ class Branching:
         self.edge_pos = 0
         self.edge_current = None
 
-    def calculate_vc(self, stream: TextIOWrapper) -> Optional[set]:
+    def calculate_vc(self, stream: TextIO) -> Optional[set]:
         for bin_string in self._get_binary_strings():
             # Return stream to start
             stream.seek(0)
@@ -54,7 +53,7 @@ class Branching:
         for i in range(2 ** self.k):
             yield bin(i)[2:].rjust(self.k, "0")
 
-    def _get_edge(self, stream: TextIOWrapper) -> Tuple:
+    def _get_edge(self, stream: TextIO) -> Tuple:
         """
 
         """
