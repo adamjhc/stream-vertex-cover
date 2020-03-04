@@ -1,7 +1,7 @@
 def task_mypy():
     """Run mypy static type checking for entire project"""
     return {
-        "actions": ["mypy --ignore-missing-imports %(targets)s "],
+        "actions": ["mypy %(targets)s "],
         "targets": [
             "src/local",
             "src/local_stream",
