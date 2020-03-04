@@ -18,35 +18,33 @@ Options:
 import logging
 import os
 from datetime import datetime
+from math import ceil, log2
 from typing import Any, Dict, Optional
 
 from docopt import docopt
+from tqdm import tqdm
 
 from branching import Branching
 from kernel import Kernel
 
 
 def main(args: Dict[str, Any]):
-    result: Any = None
-
     filename = args["FILE"]
     if args["kernel-min"]:
-        result = kernel_min(filename)
+        kernel_min(filename)
     else:
         _init_logging(args["--log"])
 
         k = int(args["<k>"])
         if args["branching"]:
-            result = branching(filename, k)
+            branching(filename, k)
         elif args["kernel-exists"]:
-            result = kernel_exists(filename, k)
+            kernel_exists(filename, k)
         elif args["kernel-br"]:
-            result = kernel_br(filename, k)
-
-    print(result)
+            kernel_br(filename, k)
 
 
-def kernel_min(filename: str) -> int:
+def kernel_min(filename: str):
     """Finds the minimum size of a kernel for a given stream of edges
 
     Uses a binary search
@@ -62,19 +60,22 @@ def kernel_min(filename: str) -> int:
     end = int(stream.readline().split()[0])
     stream.close()
 
-    min_k = end
-    while start <= end:
-        mid = (start + end) // 2
-        if _kernelize(filename, mid) is not None:
-            min_k = mid
-            end = mid - 1
-        else:
-            start = mid + 1
+    with tqdm(total=ceil(log2(end)), desc="Binary Search for min-k") as pbar:
+        min_k = end
+        while start <= end:
+            mid = (start + end) // 2
+            if _kernelize(filename, mid, False) is not None:
+                min_k = mid
+                end = mid - 1
+            else:
+                start = mid + 1
 
-    return min_k
+            pbar.update(1)
+
+    print(min_k)
 
 
-def kernel_br(filename: str, k: int) -> Optional[set]:
+def kernel_br(filename: str, k: int):
     """Finds a vertex cover if one exists of at most size k
 
     First kernelises the graph and then runs it through the branching method
@@ -93,13 +94,11 @@ def kernel_br(filename: str, k: int) -> Optional[set]:
     kernel_file = "kernel.txt"
     kernel.export(kernel_file)
 
-    result = branching(kernel_file, k)
+    branching(kernel_file, k)
     os.remove(kernel_file)
 
-    return result
 
-
-def kernel_exists(filename: str, k: int) -> bool:
+def kernel_exists(filename: str, k: int):
     """Finds True/False depending on whether a kernel exists for the given k
 
     Arguments
@@ -109,10 +108,10 @@ def kernel_exists(filename: str, k: int) -> bool:
         k : int
             Value up to which to find whether a kernel exists
     """
-    return _kernelize(filename, k) is not None
+    print(_kernelize(filename, k) is not None)
 
 
-def branching(filename: str, k: int) -> Optional[set]:
+def branching(filename: str, k: int):
     """Finds a vertex cover if one exists of at most size k
 
     Uses the branching method
@@ -134,23 +133,24 @@ def branching(filename: str, k: int) -> Optional[set]:
         no_of_edges = int(stream.readline().split()[1])
 
         branching = Branching(k, no_of_edges)
-        return branching.calculate_vc(stream)
+
+        print(branching.calculate_vc(stream))
 
 
-def _kernelize(filename: str, k: int) -> Optional[Kernel]:
+def _kernelize(filename: str, k: int, leave_pbar: bool = True) -> Optional[Kernel]:
     with open(filename) as stream:
-        # First line of stream will give us the number of nodes and edges which
-        # we don't need in this case
-        stream.readline()
+        edges = int(stream.readline().split()[1])
 
         kernel = Kernel(k)
 
-        # Every following line is an edge
-        for line in stream:
-            edges = line.split()
+        with tqdm(total=edges, leave=leave_pbar, desc="Edges") as pbar:
+            for line in stream:
+                u, v = line.split()[:2]
 
-            if not kernel.next(edges[0], edges[1]):
-                return None
+                if not kernel.next(u, v):
+                    return None
+
+                pbar.update(1)
 
         return kernel
 
