@@ -31,7 +31,7 @@ from typing import Optional, Tuple
 
 from networkx import Graph
 
-from .branching import vertex_cover_branching, vertex_cover_branching_stream
+from branching import vertex_cover_branching, vertex_cover_branching_stream
 
 
 def vertex_cover_kernelization(graph: Graph, k: int) -> Optional[set]:
