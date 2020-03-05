@@ -25,7 +25,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from networkx import Graph
 
-from util import _in
+from visuals_util import _in
 
 
 def kernel_stream_animation(arguments: Dict[str, Any]):

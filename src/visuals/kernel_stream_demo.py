@@ -21,7 +21,7 @@ from matplotlib.figure import Figure
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
 
-from util import _in
+from visuals_util import _in
 
 
 def kernel_stream_demo(arguments: Dict[str, Any]):

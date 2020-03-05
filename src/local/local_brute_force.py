@@ -2,7 +2,7 @@ from typing import Iterator, Optional, cast
 
 from networkx import Graph
 
-from .util import is_vertex_cover, powerset
+from local_util import is_vertex_cover, powerset
 
 
 def vertex_cover_brute_force(

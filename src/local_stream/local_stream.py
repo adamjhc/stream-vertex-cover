@@ -1,9 +1,9 @@
 """
 Usage:
-    vc_stream.py branching FILE <k>
-    vc_stream.py kernel-exists FILE <k>
-    vc_stream.py kernel-br FILE <k>
-    vc_stream.py kernel-min FILE
+    local_stream.py branching FILE <k>
+    local_stream.py kernel-exists FILE <k>
+    local_stream.py kernel-br FILE <k>
+    local_stream.py kernel-min FILE
 
 Stream a file through a specified algorithm to calculate the vertex cover
 
@@ -18,7 +18,6 @@ Arguments:
 Options:
     -h --help       Show this screen
 """
-import logging
 import os
 from datetime import datetime
 from math import ceil, log2
@@ -27,8 +26,8 @@ from typing import Any, Dict, Optional
 from docopt import docopt
 from tqdm import tqdm
 
-from branching import Branching
-from kernel import Kernel
+from local_stream_branching import Branching
+from local_stream_kernel import Kernel
 
 
 def main(args: Dict[str, Any]):
