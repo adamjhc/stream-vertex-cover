@@ -12,7 +12,7 @@ Arguments:
     kernel-exists   See if a kernel exists for a given size k
     kernel-br       Kernelize a given file and then run branching to get a vc
     kernel-min      Use binary search to find the minimum kernel size
-    FILE            The input file to stream edges from
+    FILE            Path to properly formatted edgelist to stream edges from
     k               The k value
 
 Options:
@@ -135,7 +135,6 @@ def branching(filename: str, k: int):
             Maximum size of vertex cover
     """
     with open(filename) as stream:
-        # First line of stream will give us the number of nodes and edges
         no_of_edges = int(stream.readline().split()[1])
 
         branching = Branching(k, no_of_edges)
