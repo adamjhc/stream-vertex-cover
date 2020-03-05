@@ -24,6 +24,7 @@ from math import ceil, log2
 from typing import Any, Dict, Optional
 
 from docopt import docopt
+from terminaltables import SingleTable
 from tqdm import tqdm
 
 from local_stream_branching import Branching
@@ -54,11 +55,12 @@ def kernel_min(filename: str):
         filename : str
             The file path to stream from
     """
-    stream = open(filename)
+    with open(filename) as stream:
+        nodes, edges = stream.readline().split()[:2]
+
     start = 0
     # upper bound is the number of nodes
-    end = int(stream.readline().split()[0])
-    stream.close()
+    end = int(nodes)
 
     with tqdm(
         total=ceil(log2(end)), desc="Binary Search for min-k", leave=False
@@ -74,7 +76,14 @@ def kernel_min(filename: str):
 
             pbar.update(1)
 
-    print(min_k)
+    result_table = SingleTable(
+        [
+            ("Graph", "Nodes", "Edges", "Minimum Vertex Cover Size"),
+            (filename, nodes, edges, min_k),
+        ],
+        title="Result",
+    )
+    print(result_table.table)
 
 
 def kernel_br(filename: str, k: int):
