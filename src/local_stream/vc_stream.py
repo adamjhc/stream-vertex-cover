@@ -1,19 +1,22 @@
 """
 Usage:
-    vc_stream.py branching FILE <k> [--log=LEVEL]
-    vc_stream.py kernel-exists FILE <k> [--log=LEVEL]
-    vc_stream.py kernel-br FILE <k> [--log=LEVEL]
+    vc_stream.py branching FILE <k>
+    vc_stream.py kernel-exists FILE <k>
+    vc_stream.py kernel-br FILE <k>
     vc_stream.py kernel-min FILE
 
 Stream a file through a specified algorithm to calculate the vertex cover
 
 Arguments:
+    branching       Use a branching method to calculate a vertex cover
+    kernel-exists   See if a kernel exists for a given size k
+    kernel-br       Kernelize a given file and then run branching to get a vc
+    kernel-min      Use binary search to find the minimum kernel size
     FILE            The input file to stream edges from
     k               The k value
 
 Options:
     -h --help       Show this screen
-    --log=LEVEL     Specify the log level [default: INFO]
 """
 import logging
 import os
@@ -33,8 +36,6 @@ def main(args: Dict[str, Any]):
     if args["kernel-min"]:
         kernel_min(filename)
     else:
-        _init_logging(args["--log"])
-
         k = int(args["<k>"])
         if args["branching"]:
             branching(filename, k)
@@ -153,16 +154,6 @@ def _kernelize(filename: str, k: int, leave_pbar: bool = True) -> Optional[Kerne
                 pbar.update(1)
 
         return kernel
-
-
-def _init_logging(log_level):
-    logging.basicConfig(
-        level=logging._checkLevel(log_level),
-        filename="log.csv",
-        # filename=datetime.now().strftime("vc_stream_%Y-%m-%d_%H-%M-%S.csv"),
-        format="%(asctime)s,%(levelname)s,%(message)s",
-        datefmt="%m/%d/%Y %H:%M:%S",
-    )
 
 
 if __name__ == "__main__":
