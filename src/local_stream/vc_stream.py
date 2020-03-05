@@ -139,6 +139,22 @@ def branching(filename: str, k: int):
 
 
 def _kernelize(filename: str, k: int, leave_pbar: bool = True) -> Optional[Kernel]:
+    """Generates a kernel for a given filepath and k value
+
+    Arguments
+    ---------
+        filename : str
+            The file path to stream from
+        k : int
+            Maximum size of vertex cover
+        leave_pbar : bool
+            Whether to leave the edge progress bar printed after finishing
+
+    Returns
+    -------
+        Kernel
+            Kernel if one exists for the given value of k
+    """
     with open(filename) as stream:
         edges = int(stream.readline().split()[1])
 
