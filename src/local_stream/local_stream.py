@@ -60,11 +60,13 @@ def kernel_min(filename: str):
     end = int(stream.readline().split()[0])
     stream.close()
 
-    with tqdm(total=ceil(log2(end)), desc="Binary Search for min-k") as pbar:
+    with tqdm(
+        total=ceil(log2(end)), desc="Binary Search for min-k", leave=False
+    ) as pbar:
         min_k = end
         while start <= end:
             mid = (start + end) // 2
-            if _kernelize(filename, mid, False) is not None:
+            if _kernelize(filename, mid) is not None:
                 min_k = mid
                 end = mid - 1
             else:
@@ -132,7 +134,7 @@ def branching(filename: str, k: int):
         print(branching.calculate_vc(stream))
 
 
-def _kernelize(filename: str, k: int, leave_pbar: bool = True) -> Optional[Kernel]:
+def _kernelize(filename: str, k: int) -> Optional[Kernel]:
     """Generates a kernel for a given filepath and k value
 
     Arguments
@@ -141,8 +143,6 @@ def _kernelize(filename: str, k: int, leave_pbar: bool = True) -> Optional[Kerne
             The file path to stream from
         k : int
             Maximum size of vertex cover
-        leave_pbar : bool
-            Whether to leave the edge progress bar printed after finishing
 
     Returns
     -------
@@ -154,7 +154,7 @@ def _kernelize(filename: str, k: int, leave_pbar: bool = True) -> Optional[Kerne
 
         kernel = Kernel(k)
 
-        with tqdm(total=edges, leave=leave_pbar, desc="Edges") as pbar:
+        with tqdm(total=edges, leave=False, desc="Edges") as pbar:
             for line in stream:
                 u, v = line.split()[:2]
 
