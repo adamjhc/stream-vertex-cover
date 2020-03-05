@@ -122,11 +122,6 @@ def branching(filename: str, k: int):
             The file path to stream from
         k : int
             Maximum size of vertex cover
-
-    Returns
-    -------
-        set
-            Vertex cover if one exists else None
     """
     with open(filename) as stream:
         # First line of stream will give us the number of nodes and edges
@@ -151,7 +146,7 @@ def _kernelize(filename: str, k: int, leave_pbar: bool = True) -> Optional[Kerne
 
     Returns
     -------
-        Kernel
+        Optional[Kernel]
             Kernel if one exists for the given value of k
     """
     with open(filename) as stream:
