@@ -4,10 +4,7 @@ from yarl import URL
 web_port = 6066
 
 app = faust.App(
-    "consumer",
-    broker="kafka://localhost:9092",
-    value_serializer="raw",
-    web_port=web_port,
+    "app", broker="kafka://localhost:9092", value_serializer="raw", web_port=web_port,
 )
 
 topic_edges = app.topic("edges")
