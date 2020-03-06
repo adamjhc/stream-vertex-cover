@@ -13,9 +13,8 @@ topic_edges = app.topic("edges", key_type=str, value_type=Edge)
 
 @app.agent(topic_requests)
 async def stream(requests: StreamT[GraphInfo]):
-    async for request in requests:
+    async for request in requests.echo(topic_info):
         print(f"{request.path} {request.k}")
-        await topic_info.send(value=request)
 
         with open(request.path, "r") as edgelist:
             for i, edge in enumerate(edgelist):
