@@ -27,9 +27,9 @@ async def process_edges(edges: StreamT[Edge]):
 
     async for graph in graphs:
         matching: dict = {}
-
         kernel_exists = True
-        async for edge in edges:
+
+        async for i, edge in edges.enumerate(start=0):
             if edge.is_end:
                 break
 
@@ -55,7 +55,10 @@ async def process_edges(edges: StreamT[Edge]):
                     kernel_exists = False
 
         result_table = SingleTable(
-            [("Graph", "k", "Kernel exists?"), (graph.path, graph.k, kernel_exists)],
+            [
+                ("Graph", "k", "Edges", "Kernel exists?"),
+                (graph.path, graph.k, i, kernel_exists),
+            ],
             title="Result",
         )
         logging.warning(f"Completed kernel\n{result_table.table}")
