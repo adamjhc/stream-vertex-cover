@@ -10,6 +10,10 @@ topic_requests = app.topic("requests", key_type=str, value_type=GraphInfo)
 topic_info = app.topic("info", key_type=str, value_type=GraphInfo)
 topic_edges = app.topic("edges", key_type=str, value_type=Edge)
 
+@app.task()
+async def on_started():
+    print("Ready")
+
 
 @app.agent(topic_requests)
 async def stream(requests: StreamT[GraphInfo]):
