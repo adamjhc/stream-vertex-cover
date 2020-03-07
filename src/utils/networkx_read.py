@@ -26,3 +26,11 @@ def read_dimacs(path: str) -> Graph:
                 continue
 
     return graph
+
+
+def read_labelled_edgelist(path: str) -> Graph:
+    with open(path, "r") as file:
+        # ignore first line
+        file.readline()
+
+        return nx.parse_edgelist(file)
