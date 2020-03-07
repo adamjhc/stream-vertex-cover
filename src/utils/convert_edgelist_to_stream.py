@@ -4,23 +4,38 @@ Arguments:
     input   Path to edgelist file
     output  Path to output file
 """
-import networkx as nx
 from docopt import docopt
+from tqdm import tqdm
 
 
 def convert_edgelist_to_stream(edgelist_path: str, output_path: str):
-    # Check whether given edgelist is weighted
-    read_func = nx.read_edgelist
-    with open(edgelist_path, "r") as edgelist:
-        line = edgelist.readline()
-        if len(line.split()) > 2:
-            read_func = nx.read_weighted_edgelist
+    """Converts an edgelist file to a labelled edgelist
 
-    graph = read_func(edgelist_path)
-    with open(output_path, "x") as output:
-        output.write(f"{graph.number_of_nodes()} {graph.number_of_edges()}\n")
-        for line in nx.generate_edgelist(graph, data=False):
-            output.write(f"{line}\n")
+    Arguments
+    ---------
+        edgelist_path : str
+            File path to edgelist
+        output_path : str
+            File path to output
+    """
+    nodes = set()
+    edges = 0
+    with open(edgelist_path, "r") as edgelist:
+        for line in tqdm(
+            edgelist, total=0, leave=False, desc="Reading edgelist", unit=" edges"
+        ):
+            u, v = line.split()[:2]
+            nodes.add(u)
+            nodes.add(v)
+            edges += 1
+
+        edgelist.seek(0)
+        with open(output_path, "x") as output:
+            output.write(f"{len(nodes)} {edges}\n")
+            for line in tqdm(
+                edgelist, total=edges, leave=False, desc="Writing stream", unit=" edges"
+            ):
+                output.write(line)
 
 
 if __name__ == "__main__":
