@@ -413,7 +413,7 @@ src/test_sets/*
 !src/test_sets/README.md
 !src/test_sets/test_sets.csv
 !src/test_sets/edge_lists
-!src/test_sets/stream
+!src/test_sets/labelled_edge_lists
 
 src/local_stream/*.csv
 

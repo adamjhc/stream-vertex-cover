@@ -1,5 +1,5 @@
 """
-This is a script to export NetworkX graphs into a streamable format
+This is a script to export NetworkX graphs into a labelled edge list
 
 Format
 ------

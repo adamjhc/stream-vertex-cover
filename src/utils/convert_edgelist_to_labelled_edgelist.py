@@ -1,4 +1,4 @@
-"""Usage: convert_edgelist_to_stream.py <input> <output>
+"""Usage: convert_edgelist_to_labelled_edgelist.py <input> <output>
 
 Arguments:
     input   Path to edgelist file
@@ -8,7 +8,7 @@ from docopt import docopt
 from tqdm import tqdm
 
 
-def convert_edgelist_to_stream(edgelist_path: str, output_path: str):
+def convert_edgelist_to_labelled_edgelist(edgelist_path: str, output_path: str):
     """Converts an edgelist file to a labelled edgelist
 
     Arguments
@@ -22,7 +22,7 @@ def convert_edgelist_to_stream(edgelist_path: str, output_path: str):
     edges = 0
     with open(edgelist_path, "r") as edgelist:
         for line in tqdm(
-            edgelist, total=0, leave=False, desc="Reading edgelist", unit=" edges"
+            edgelist, total=0, leave=False, desc="Reading edge list", unit=" edges"
         ):
             u, v = line.split()[:2]
             nodes.add(u)
@@ -33,11 +33,15 @@ def convert_edgelist_to_stream(edgelist_path: str, output_path: str):
         with open(output_path, "x") as output:
             output.write(f"{len(nodes)} {edges}\n")
             for line in tqdm(
-                edgelist, total=edges, leave=False, desc="Writing stream", unit=" edges"
+                edgelist,
+                total=edges,
+                leave=False,
+                desc="Writing labelled edge list",
+                unit=" edges",
             ):
                 output.write(line)
 
 
 if __name__ == "__main__":
     args = docopt(__doc__)
-    convert_edgelist_to_stream(args["<input>"], args["<output>"])
+    convert_edgelist_to_labelled_edgelist(args["<input>"], args["<output>"])
