@@ -220,6 +220,21 @@ He may have been mainly thinking about the visualiser but it's a good start.
 
 ## Semester 2 - Week 08 - 02/03
 
+> In theory, there is no difference between theory and practice. But, in practice, there is. - Benjamin Brewster, 1882
+
+Did this week:
+
+- Statically type checked the entire project
+- Created read DIMACS format function
+- Created read labelled edgelist function
+- Tried to use a package called `doit` to create actions but eventually went back to `make` since that was far simpler to use. I felt a little bad about using make as a task runner but it works so...
+- Added tqdm progress bars to things like local_stream and utils
+- Got a version of kernel-exists working in Faust. Works with an external 'request' being made and then some handling between the producer and the kernerlizer is done.
+- Refactored visuals methods a little
+- Rewrote convert edgelist to labelled edgelist script so that it doesn't use NetworkX, makes it massively more memory efficient since it doesn't have to load the entire graph. It actually works with big graphs now.
+
+Spoke with Rajesh about report writing and how contributing something back to the community is a big part of this project.
+
 ## Semester 2 - Week 09 - 09/03
 
 ## Semester 2 - Week 10 - 16/03
