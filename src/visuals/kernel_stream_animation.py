@@ -25,41 +25,37 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from networkx import Graph
 
-from visuals_util import _in
+from visuals_util import _in, get_graph_layout, get_read_func_from_edgelist
 
 
-def kernel_stream_animation(arguments: Dict[str, Any]):
-    # Check whether given edgelist is weighted
-    read_func = nx.read_edgelist
-    with open(arguments["<edge_list_file>"], "r") as edgelist:
-        line = edgelist.readline()
-        if len(line.split()) > 2:
-            read_func = nx.read_weighted_edgelist
+def kernel_stream_animation(args: Dict[str, Any]):
+    path = args["<edge_list_file>"]
+    read_func = get_read_func_from_edgelist(path)
 
     # Set up graphs
-    graph = read_func(arguments["<edge_list_file>"])
+    graph = read_func(path)
     edges = list(graph.edges)
-    k = int(arguments["<k>"])
+    k = int(args["<k>"])
     kernel = nx.Graph()
     maximal_matching: Set[Tuple[Any, Any]] = set()
 
     # Set up matplotlib
-    layout = nx.spring_layout(graph)
+    layout = get_graph_layout(graph)
 
     # Build plot
     fig, ax = plot.subplots(
-        figsize=(float(arguments["--fig-width"]), float(arguments["--fig-height"]))
+        figsize=(float(args["--fig-width"]), float(args["--fig-height"]))
     )
 
     anim = animation.FuncAnimation(
         fig,
         update,
         frames=len(edges),
-        interval=int(arguments["--interval"]),
-        fargs=(ax, layout, kernel, maximal_matching, k, edges, arguments["--label"]),
-        repeat_delay=int(arguments["--repeat-delay"]),
+        interval=int(args["--interval"]),
+        fargs=(ax, layout, kernel, maximal_matching, k, edges, args["--label"]),
+        repeat_delay=int(args["--repeat-delay"]),
     )
-    anim.save(arguments["<output_name>"], writer="imagemagick")
+    anim.save(args["<output_name>"], writer="imagemagick")
 
 
 def update(
@@ -125,5 +121,5 @@ def update(
 
 
 if __name__ == "__main__":
-    arguments = docopt(__doc__)
-    kernel_stream_animation(arguments)
+    args = docopt(__doc__)
+    kernel_stream_animation(args)

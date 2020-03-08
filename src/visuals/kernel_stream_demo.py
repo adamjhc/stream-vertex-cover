@@ -21,33 +21,28 @@ from matplotlib.figure import Figure
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
 
-from visuals_util import _in
+from visuals_util import _in, get_graph_layout, get_read_func_from_edgelist
 
 
-def kernel_stream_demo(arguments: Dict[str, Any]):
-    # Check whether given edgelist is weighted
-    read_func = nx.read_edgelist
-    with open(arguments["<edge_list_file>"], "r") as edgelist:
-        line = edgelist.readline()
-        if len(line.split()) > 2:
-            read_func = nx.read_weighted_edgelist
+def kernel_stream_demo(args: Dict[str, Any]):
+    path = args["<edge_list_file>"]
+    read_func = get_read_func_from_edgelist(path)
 
     # Set up graphs
-    graph = read_func(arguments["<edge_list_file>"])
-    k = int(arguments["<k>"])
+    graph = read_func(path)
+    edges = list(graph.edges)
+    k = int(args["<k>"])
     kernel = nx.Graph()
     no_in_matching = 0
     maximal_matching: Set[Tuple[Any, Any]] = set()
 
     # Set up matplotlib
-    layout = None
-    if graph.number_of_edges() < 1000:
-        layout = nx.kamada_kawai_layout(graph)
-    else:
-        layout = nx.spring_layout(graph)
+    layout = get_graph_layout(graph)
+
+    # Build plot
     plot.show()
 
-    for i, (u, v) in enumerate(list(graph.edges)):
+    for i, (u, v) in enumerate(edges):
 
         print("{:10} {}".format(u, v))
 
@@ -112,7 +107,7 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
             kernel,
             ax=ax1,
             pos=layout,
-            with_labels=arguments["--label"],
+            with_labels=args["--label"],
             node_color=node_colours,
             node_size=node_sizes,
             edge_color=edge_colours,
@@ -157,19 +152,19 @@ def kernel_stream_demo(arguments: Dict[str, Any]):
             graph,
             ax=ax2,
             pos=layout,
-            with_labels=arguments["--label"],
+            with_labels=args["--label"],
             node_color=node_colours,
             node_size=50,
             edge_color=edge_colours,
         )
 
         # Wait for update
-        plot.pause(float(arguments["--delay"]))
+        plot.pause(float(args["--delay"]))
 
     print("Finished")
     plot.show()
 
 
 if __name__ == "__main__":
-    arguments = docopt(__doc__)
-    kernel_stream_demo(arguments)
+    args = docopt(__doc__)
+    kernel_stream_demo(args)
