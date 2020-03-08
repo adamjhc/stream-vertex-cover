@@ -5,6 +5,20 @@ from networkx import Graph
 
 
 def _in(item: Any, pairs: Collection[Tuple[Any, Any]]) -> bool:
+    """Checks whether an item exists anywehre in a collection of pairs
+
+    Arguments
+    ---------
+        item : Any
+            Item to look for
+        pairs : Collection[Tuple[Any, Any]]
+            Collections of pairs to look in
+
+    Returns
+    -------
+        bool
+            True/False whether item was found
+    """
     for pair in pairs:
         if item in pair:
             return True
