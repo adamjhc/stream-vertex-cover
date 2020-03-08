@@ -5,14 +5,15 @@ Usage:
     local_stream.py kernel-br FILE <k>
     local_stream.py kernel-min FILE
 
-Stream a file through a specified algorithm to calculate the vertex cover
+Stream a labelled edge list through a specified algorithm to calculate
+information relating to vertex cover.
 
 Arguments:
     branching       Use a branching method to calculate a vertex cover
     kernel-exists   See if a kernel exists for a given size k
     kernel-br       Kernelize a given file and then run branching to get a vc
     kernel-min      Use binary search to find the minimum kernel size
-    FILE            Path to properly formatted edgelist to stream edges from
+    FILE            Path to labelled edge list to stream edges from
     k               The k value
 
 Options:
