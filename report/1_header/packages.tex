@@ -52,7 +52,7 @@
 
 %page setup
 %this where we adjust the binding offset, if relevant
-\usepackage[a4paper,margin=1.0in]{geometry}
+\usepackage[a4paper,margin=2.5cm]{geometry}
 \usepackage{lastpage} % for page 1 of n footers
 
 %cross referencing
@@ -79,7 +79,7 @@
 \newcommand{\wip}{\todo[color=orange]{WIP}}
 \newcommand{\done}{\todo[color=green]{Done}}
 
-%reference list 
+%reference list
 \usepackage[backend=biber,style=ieee]{biblatex} %bibliography with IEEE style.
 \addbibresource{3_footer/ref.bib} %Imports bibliography file
 \usepackage{url} %for URL fonts
@@ -99,4 +99,4 @@
 \graphicspath{ {./img/} }
 
 %line spacing
-% \linespread{1.25}
+\setstretch{1.25}
