@@ -3,8 +3,13 @@
 \input{1_header/packages}
 
 \begin{document}
+
 \input{1_header/title}
 \restoregeometry
+
+\section*{Abstract}
+\input{2_body/0_abstract}
+\pagebreak
 
 % \section*{Acknowledgments}
 % \input{1_header/acknowledgments}
@@ -23,36 +28,32 @@
 
 \justify
 
-\section*{Abstract}
-\input{1_header/abstract}
-\pagebreak
-
 \section{\wip Motivation and Aims}
-\input{1_header/introduction}
+\input{2_body/1_introduction}
 
 \section{\notstarted Literature Review}
-\input{2_body/literature}
+\input{2_body/2_literature}
 
 \section{\wip Methods}
-\input{2_body/methods}
+\input{2_body/3_methods}
 
 \section{\notstarted Results}
-\input{2_body/results}
+\input{2_body/4_results}
 
 \section{\notstarted Evaluation}
-\input{2_body/evaluation}
+\input{2_body/5_evaluation}
 
 \section{\notstarted Conclusions}
-\input{2_body/conclusions}
+\input{2_body/6_conclusions}
 
 \section{References}
 \label{sec:ref}
 \printbibliography[heading=none]
 
 \section{Appendices}
-\input{3_footer/appendices}
+\input{1_header/appendices}
 
-\clearpage
+% \clearpage
 \printglossary[type=\acronymtype]
 \printglossary
 
