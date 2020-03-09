@@ -1,7 +1,9 @@
-\section{Motivation and Aims}
+\section{Introduction}
 
-\gls{latex}
-\acrshort{fpt}
+\say{Remember your readers, especially your 2nd marker might have no knowledge of the topic of your project. The introduction is your chance to tell them what your project is about. What is the topic of your project? What are the problems? Why is it important? In the introduction you are trying, at a high-level to give the reader an idea of these issues. Convince them that your project is something interesting that's worth working on.}
+
+% \gls{latex}
+% \acrshort{fpt}
 
 \begin{enumerate}
     \item What is the general problem?
@@ -46,6 +48,20 @@
 \todo[inline]{Talk more about the work Rajesh has done}
 
 My supervisor Rajesh Chitnis had previously been researching the problem of parameterized vertex cover. I found that none of the algorithms he talked about had ever been put into practice, only ever written theoretically.
+
+\hrulefill
+
+Parameterized Streaming Algorithms for the Graph Theory problem of Vertex Cover. That is the problem. Let me break that down into its individual parts.
+
+Graph Theory: the study of mathematical structures which are used to show pairwise relations between objects.
+
+Vertex Cover: a set of vertices such that each edge of a graph is incident to at least one vertex of the set. The problem of finding a minimum vertex cover (the smallest possible) is a classical optimization problem and is a typical example of an NP-hard problem. The decision version (where we only want a yes/no answer), known as the Vertex Cover Problem, is one of Karp's 21 NP-complete problems. This makes is a very classical problem. Formally, given a graph \(G = (V, E)\) and a vertex cover \(V'\):
+
+\[V' \subset V \text{ such that } \forall (u, v) \in E \Rightarrow u \in V' \vee v \in V' \]
+
+Parameterized complexity: A branch of computational complexity theory that focusses on classifying computational problems according to their inherent difficulty with respect to multiple parameters of the input or output. The complexity of the problem is then measured as a function of those parameters. The vertex cover problem is fixed-parameter tractable, meaning that, while it may be NP-complete in terms of the input size only, it is polynomial in the output of a vertex cover size \emph{k}.
+
+Streaming Algorithms: We now live in a world where data is the most valuable resource. Given such, it's no surprise that we're drowning in it. Datasets have become larger than what we can store on hard drives. The solution is to not store the dataset. Simply stream it as one item at a time. Streaming algorithms have been developed to handle this, being able to gather information while having access to a limited amount of memory.
 
 \subsection{The Problem}
 \subsection{Why Bother?}
