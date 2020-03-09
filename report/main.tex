@@ -1,15 +1,13 @@
 \documentclass[10.5pt]{article}
 
+%--- HEADER ---%
 \input{1_header/packages}
 
 \begin{document}
 
 \input{1_header/title}
-\restoregeometry
 
-\section*{Abstract}
 \input{2_body/0_abstract}
-\pagebreak
 
 % \section*{Acknowledgments}
 % \input{1_header/acknowledgments}
@@ -26,31 +24,20 @@
 % \listoftables
 % \pagebreak
 
+%--- BODY ---%
 \justify
-
-\section{\wip Motivation and Aims}
 \input{2_body/1_introduction}
-
-\section{\notstarted Literature Review}
 \input{2_body/2_literature}
-
-\section{\wip Methods}
 \input{2_body/3_methods}
-
-\section{\notstarted Results}
 \input{2_body/4_results}
-
-\section{\notstarted Evaluation}
 \input{2_body/5_evaluation}
-
-\section{\notstarted Conclusions}
 \input{2_body/6_conclusions}
 
+%--- FOOTER ---%
 \section{References}
 \label{sec:ref}
 \printbibliography[heading=none]
 
-\section{Appendices}
 \input{3_footer/appendices}
 
 % \clearpage
