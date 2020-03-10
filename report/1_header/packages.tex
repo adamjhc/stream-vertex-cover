@@ -1,5 +1,5 @@
 \usepackage[utf8]{inputenc}
-%slippery gypsy packages that need to come first, since others call them after
+% slippery gypsy packages that need to come first, since others call them after
 \usepackage[x11names,dvipsnames,svgnames,table]{xcolor}
 
 % general incantations
@@ -17,11 +17,11 @@
 \usepackage{fancyhdr}
 \usepackage{fix-cm}
 \usepackage[T1]{fontenc}
-\usepackage{textcomp,gensymb} %for \degree C symbol
+\usepackage{textcomp,gensymb} % for \degree C symbol
 \usepackage{lipsum}
 \usepackage{listings}
 \usepackage[everyline=true,framemethod=tikz]{mdframed}
-\usepackage{microtype} %for better justification
+\usepackage{microtype} % for better justification
 \usepackage{mparhack}
 \usepackage{multicol}
 \usepackage{multirow}
@@ -33,7 +33,7 @@
 \usepackage[document]{ragged2e}
 \usepackage{rotating}
 \usepackage{setspace}
-\usepackage{soul} %highlighting, strike through etc.
+\usepackage{soul} % highlighting, strike through etc.
 \usepackage{subcaption}
 \usepackage[most]{tcolorbox}
 \usepackage{threeparttable}
@@ -41,33 +41,33 @@
 \usepackage[normalem]{ulem}
 \usepackage{verbatim}
 
-%Automated appendices
-\usepackage[titletoc,title,header]{appendix} %advanced functionality
+% Automated appendices
+\usepackage[titletoc,title,header]{appendix} % advanced functionality
 
-%language settings
+% language settings
 % \usepackage[utf8]{inputenc}
 % \usepackage[australian]{babel}
 % \usepackage{csquotes}
 
-%page setup
-%this where we adjust the binding offset, if relevant
+% page setup
+% this where we adjust the binding offset, if relevant
 \usepackage[a4paper,margin=2.5cm]{geometry}
 \usepackage{lastpage} % for page 1 of n footers
 
-%cross referencing
+% cross referencing
 \usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
 
-%maths stuff
+% maths stuff
 \usepackage{amsmath}
 \usepackage{mathtools}
 
 \setcounter{secnumdepth}{5}
 
-%lists
+% lists
 \usepackage{enumitem}
 
-%working collaboratively
+% working collaboratively
 \setlength {\marginparwidth }{2cm} %bug fix
 \usepackage[colorinlistoftodos, color=yellow]{todonotes}
 \newcommand{\todoinline}[1]{\todo[inline]{#1}}
@@ -78,13 +78,13 @@
 \newcommand{\wip}{\todo[color=orange]{WIP}}
 \newcommand{\done}{\todo[color=green]{Done}}
 
-%reference list
-\usepackage[backend=biber,style=authoryear,sorting=none]{biblatex} %bibliography with IEEE style.
-\addbibresource{3_footer/ref.bib} %Imports bibliography file
-\usepackage{url} %for URL fonts
+% reference list
+\usepackage[backend=biber,style=authoryear,sorting=none]{biblatex}
+\addbibresource{3_footer/ref.bib}
+\usepackage{url}
 % \urlstyle{same}
 
-%glossary for acronyms
+% glossary for acronyms
 % to compile:
 % pdflatex main.tex
 % makeglossaries main
@@ -93,7 +93,7 @@
 \makeglossaries
 \input{1_header/glossary}
 
-%images
+% images
 \usepackage{graphicx}
 \graphicspath{ {./img/} }
 
