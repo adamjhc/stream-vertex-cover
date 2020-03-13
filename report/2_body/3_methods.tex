@@ -23,19 +23,40 @@
     \DontPrintSemicolon
     \SetKwFunction{FInit}{Init}
     \SetKwFunction{FNext}{Next}
+    \SetKwFunction{FNeighbours}{Neighbours}
+    \SetKwFunction{FLen}{Len}
+    \SetKw{KwIs}{is}
+    \SetKw{KwIn}{in}
+    \SetKw{KwNot}{not}
+    \SetKw{KwAnd}{and}
 
     \KwInput{Edges $u$, $v$ from a stream}
     \KwInput{Value $k$ for maximum size of vertex cover}
     \KwOutput{Boolean whether kernel exists}
     \KwData{$k$, matchings}
     \Func{\FInit{k: \textnormal{int}}}{
-        $k \leftarrow k$\;
-        $matchings \gets Dictionary()$\;
+        k : int $\leftarrow$ k\;
+        matchings : dict $\gets$ Dictionary\;
     }
     \Func{\FNext{u, v}}{
-        $isNeighbour \gets False$\;
+        isNeighbour : bool $\gets$ False\;
+        \If{u $\KwIs$ $\KwIn$ \textnormal{matchings} $\KwAnd$ $\FLen{\FNeighbours{u}}$ $\leq$ \textnormal{k}}{
+            matchings$[u]$.append((u,v))\;
+            isNeighbour $\gets$ True\;
+        }
+        \If{v $\KwIs$ $\KwIn$ \textnormal{matchings} $\KwAnd$ $\FLen{\FNeighbours{v}}$ $\leq$ \textnormal{k}}{
+            matchings$[v]$.append($(u,v)$)\;
+            isNeighbour $\gets$ True\;
+        }
+        \If{$\KwNot$ isNeighbour}{
+            matchings.append((u,v))\;
+            \If{$\FLen{matchings}$ $>$ \textnormal{k}}{
+                \Return False\;
+            }
+        }
+        \Return True\;
     }
-\caption{Kernelization}
+    \caption{Kernelization}
 \end{algorithm}
 
 \subsection{What I Plan To Do}
