@@ -35,22 +35,22 @@
     \KwOutput{Boolean whether kernel exists}
     \KwData{$k$, matchings}
     \Func{\FInit{k: \textnormal{int}}}{
-        k : int $\leftarrow$ k\;
-        matchings : dict $\gets$ Dictionary\;
+        $k$ : int $\leftarrow$ $k$\;
+        $matchings$ : dict $\gets$ Dictionary\;
     }
     \Func{\FNext{u, v}}{
-        isNeighbour : bool $\gets$ False\;
-        \If{u $\KwIs$ $\KwIn$ \textnormal{matchings} $\KwAnd$ $\FLen{\FNeighbours{u}}$ $\leq$ \textnormal{k}}{
+        $isNeighbour$ : bool $\gets$ False\;
+        \If{u $\KwIs$ $\KwIn$ matchings $\KwAnd$ $\FLen{\FNeighbours{u}}$ $\leq$ k}{
             matchings$[u]$.append((u,v))\;
             isNeighbour $\gets$ True\;
         }
-        \If{v $\KwIs$ $\KwIn$ \textnormal{matchings} $\KwAnd$ $\FLen{\FNeighbours{v}}$ $\leq$ \textnormal{k}}{
-            matchings$[v]$.append($(u,v)$)\;
-            isNeighbour $\gets$ True\;
+        \If{v $\KwIs$ $\KwIn$ matchings $\KwAnd$ $\FLen{\FNeighbours{v}}$ $\leq$ k}{
+            $matchings[v]$.append($(u,v)$)\;
+            $isNeighbour$ $\gets$ True\;
         }
-        \If{$\KwNot$ isNeighbour}{
-            matchings.append((u,v))\;
-            \If{$\FLen{matchings}$ $>$ \textnormal{k}}{
+        \If{$\KwNot$ $isNeighbour$}{
+            $matchings$.append((u,v))\;
+            \If{$\FLen{matchings}$ $>$ k}{
                 \Return False\;
             }
         }
