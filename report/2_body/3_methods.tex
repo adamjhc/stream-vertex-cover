@@ -19,7 +19,61 @@
           \end{itemize}
 \end{enumerate}
 
+\subsubsection{Branching - Non-Stream}
+
 \begin{algorithm}[H]
+    \caption{Branching - Non-Stream}
+    \DontPrintSemicolon
+\end{algorithm}
+
+\subsubsection{Branching - Stream}
+
+\begin{algorithm}[H]
+    \caption{Branching - Stream}
+    \DontPrintSemicolon
+    \SetKwFunction{FCalculateVC}{calculateVC}
+\end{algorithm}
+
+\subsubsection{Kernelization - Non-Stream}
+
+\begin{algorithm}[H]
+    \caption{Kernelization - Non-Stream}
+    \DontPrintSemicolon
+    \SetKwFunction{FKernelize}{kernelize}
+    \SetKwFunction{FCopy}{copy}
+
+    \KwInput{Graph $graph$ to calculate vertex cover on}
+    \KwInput{Value $k$ for maximum size of vertex cover}
+    \KwOutput{Kernel of graph and vertex cover}
+    \Func{\FKernelize{graph\textnormal{: Graph, }k\textnormal{ : int}}}{
+        $kernel \gets$ \FCopy{graph}\;
+        $vertexCover$ : set\;
+        $reductionsCanBeMade \gets$ True\;
+        \While{reductionsCanBeMade}{
+            $reductionMade \gets$ False\;
+            \For{$node$ \KwIn $kernel$.nodes}{
+                \uIf{k > $0$ \KwAnd node.degree > k}{
+                    $reductionMade \gets$ False\;
+                    $kernel$.removeNode($node$)\;
+                    $vertexCover$.add($node$)\;
+                    $k \gets k - 1$\;
+                }
+                \ElseIf{node.degree = 0}{
+                    $kernel$.removeNode($node$)\;
+                }
+            }
+            \If{\KwNot reductionMade}{
+                $reductionsCanBeMade \gets$ False\;
+            }
+        }
+        \Return kernel, vertexCover\;
+    }
+\end{algorithm}
+
+\subsubsection{Kernelization - Stream}
+
+\begin{algorithm}[H]
+    \caption{Kernelization - Stream}
     \DontPrintSemicolon
     \SetKwFunction{FInit}{init}
     \SetKwFunction{FNext}{next}
@@ -29,10 +83,10 @@
     \KwInput{Edges $u$, $v$ from a stream}
     \KwInput{Value $k$ for maximum size of vertex cover}
     \KwOutput{Boolean whether kernel exists}
-    \KwData{$k$, matchings}
-    \Func{\FInit{k: \textnormal{int}}}{
+    \KwData{$k$, $matchings$}
+    \Func{\FInit{k\textnormal{: int}}}{
         $k$ : int $\leftarrow$ $k$\;
-        $matchings$ : dict $\gets$ Dictionary\;
+        $matchings$ : dict\;
     }
     \Func{\FNext{u, v}}{
         $isNeighbour$ : bool $\gets$ False\;
@@ -52,7 +106,6 @@
         }
         \Return True\;
     }
-    \caption{Kernelization}
 \end{algorithm}
 
 \subsection{What I Plan To Do}
