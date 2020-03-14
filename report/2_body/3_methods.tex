@@ -24,6 +24,44 @@
 \begin{algorithm}[H]
     \caption{Branching - Non-Stream}
     \DontPrintSemicolon
+    \SetKwFunction{FBranching}{branching}
+    \SetKwFunction{FEdges}{numberOfEdges}
+    \SetKwFunction{FCopy}{copy}
+    \SetKwFunction{FFirstEdge}{firstEdge}
+    \SetKwFunction{FRemoveNode}{removeNode}
+    \SetKwFunction{FAdd}{add}
+
+    \KwInput{Graph $graph$ to calculate vertex cover on}
+    \KwInput{Value $k$ for maximum size of vertex cover}
+    \KwOutput{Vertex cover of maximum size $k$ if one exists}
+    \Func{\FBranching{graph\textnormal{: Graph, }k\textnormal{: int, }vertexCover\textnormal{: set}}}{
+        \If{\FEdges{graph} $= 0$}{
+            \Return vertexCover
+        }
+        \If{k $= 0$}{
+            \Return Null
+        }
+        $u, v \gets$ \FFirstEdge{graph}\;
+        \tcp{Run recursively on left side}
+        $leftGraph \gets$ \FCopy{graph}\;
+        \FRemoveNode{leftGraph, u}\;
+        $leftVertexCover \gets$ \FCopy{vertexCover}\;
+        \FAdd{leftVertexCover, u}\;
+        $leftVertexCover \gets$ \FBranching{leftGraph, k - 1, leftVertexCover}\;
+
+        \If{leftVertexCover \KwIs \KwNot Null}{
+            \Return leftVertexCover
+        }
+
+        \tcp{Run recursively on right side}
+        $rightGraph \gets$ \FCopy{graph}\;
+        \FRemoveNode{rightGraph, u}\;
+        $rightVertexCover \gets$ \FCopy{vertexCover}\;
+        \FAdd{rightVertexCover, u}\;
+        $rightVertexCover \gets$ \FBranching{rightGraph, k - 1, rightVertexCover}\;
+        \Return rightVertexCover
+    }
+
 \end{algorithm}
 
 \subsubsection{Branching - Stream}
