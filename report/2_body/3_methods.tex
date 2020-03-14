@@ -41,6 +41,7 @@
     \DontPrintSemicolon
     \SetKwFunction{FKernelize}{kernelize}
     \SetKwFunction{FCopy}{copy}
+    \SetKwFunction{FDegree}{degree}
 
     \KwInput{Graph $graph$ to calculate vertex cover on}
     \KwInput{Value $k$ for maximum size of vertex cover}
@@ -52,13 +53,13 @@
         \While{reductionsCanBeMade}{
             $reductionMade \gets$ False\;
             \For{$node$ \KwIn $kernel$.nodes}{
-                \uIf{k > $0$ \KwAnd node.degree > k}{
+                \uIf{k > $0$ \KwAnd \FDegree{node} > k}{
                     $reductionMade \gets$ False\;
                     $kernel$.removeNode($node$)\;
                     $vertexCover$.add($node$)\;
                     $k \gets k - 1$\;
                 }
-                \ElseIf{node.degree = 0}{
+                \ElseIf{\FDegree{node} = 0}{
                     $kernel$.removeNode($node$)\;
                 }
             }
