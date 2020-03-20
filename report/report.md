@@ -42,11 +42,15 @@ Vertex cover is a classical problem which has found many use cases. Here's a typ
 
 #### In Streaming
 
+![](./img/2^k-pass-bst.jpg)
+
 ### Kernelization
 
 #### Historically
 
 #### In Streaming
+
+![](./img/1-pass.jpg)
 
 ### Adapting previous works into streaming
 
@@ -77,6 +81,10 @@ Source:
 This is the traditional case. The graph is small enough to use in-memory and you have local access to it so you are able to use which ever tools you wish to calculate the vertex cover.
 
 ##### NetworkX
+
+
+
+![](.\img\memory-error.jpg)
 
 #### Local Stream
 
@@ -129,6 +137,18 @@ Pseudocode
 ```
 
 ### Datasets
+
+Eventually you get to a point when the datasets become too large to even read.
+
+![](./img/dataset-too-big.jpg)
+
+Visual Studio Code, a more modern text editor, is able to open the file however not without performance issues even when wrapping and folding have been turned off.
+
+![](./img/dataset-too-big3.jpg)
+
+There is even a limit for Visual Studio Code though. 
+
+![](./img/dataset-too-big2.jpg)
 
 ### Testing and Comparison
 
