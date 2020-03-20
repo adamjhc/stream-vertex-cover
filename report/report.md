@@ -100,9 +100,30 @@ This is the main case. In a typical situation, knowledge of the graph's attribut
 
 Most "streaming" applications work on **unbounded** streams. These are data streams which are essentially infinite. Examples include: sensor readings and application logging. In these cases, the objective is not to obtain a final result but to aggregate the data before storing it for future use. This would be classed as **stream processing**.
 
-Our problem of Vertex Cover would be classed as **batch processing**. We may be working on a data stream but, once either algorithm has completed, we won't be running it multiple times.
+Our problem of Vertex Cover would be classed as **batch processing**. We may be working on a data stream but once either algorithm has completed we won't need to run it again. 
 
+Most streaming platforms (especially those in the Apache line up) work on unbounded stream processing. So finding a streaming platform appropriate for batch processing was a little more tricky. There are a number of "graph" processing frameworks.
 
+> To build a streaming data pipeline, we'll need a few tools.
+>
+> First, you’ll require an in-memory framework (such as Spark), which handles batch, real-time analytics, and data processing workloads. You’ll also need a streaming platform (Kafka is a popular choice, but there are others on the market) to build the streaming data pipeline. In addition, you’ll also need a NoSQL database (many people use HBase, but you have a variety of choices available). 
+>
+> Step three is to fetch the data from the streaming platform. Next, we'll process the data. The fifth step is to manage the pipeline to ensure everything is working as it’s supposed to. 
+
+Streaming platforms are the base on which a data stream is sent and received. Examples include:
+
+- HTTP request
+- HTTP streams
+- Apache Kafka
+- Apache Spark Streaming
+- Google Cloud Pub/Sub
+
+Once we have the platform we need an in-memory framework to handle the processing of each item in the stream. This is where the algorithms will actually run. There are a whole number of frameworks for this, all of which have their own niche use cases. Examples include:
+
+- Apache Spark
+- Apache Spark GraphX
+- Apache Flink
+- Apache Beam
 
 ##### Kafka and Faust
 
@@ -151,6 +172,8 @@ There is even a limit for Visual Studio Code though.
 ![](./img/dataset-too-big2.jpg)
 
 ### Testing and Comparison
+
+
 
 ## Results
 
