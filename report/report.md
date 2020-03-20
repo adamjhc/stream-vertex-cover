@@ -8,9 +8,9 @@
 
 > Remember your readers, especially your 2nd marker might have no knowledge of the topic of your project. The introduction is your chance to tell them what your project is about. What is the topic of your project? What are the problems? Why is it important? In the introduction you are trying, at a high-level to give the reader an idea of these issues. Convince them that your project is something interesting that's worth working on.
 
-Parameterized Vertex Cover in Streaming. That is the problem. 
+Parameterized Vertex Cover in Streaming. That is the problem.
 
-When you think of streaming, Netflix may be the first thought that comes to mind. But Film and TV isn't the only thing that streaming can be used for. Streaming is now quite widely used in the enterprise space for real-time data. Where data is being reported from sensors in a system for use in monitoring. Streaming is also used in many systems for logging purposes. Actions that users make in a system need to be tracked for analytics so whenever they make an action an event log is created and sent to a stream of all the other users' actions. These can be then aggregated very quickly and efficiently to gain actual insight from. 
+When you think of streaming, Netflix may be the first thought that comes to mind. But Film and TV isn't the only thing that streaming can be used for. Streaming is now quite widely used in the enterprise space for real-time data. Where data is being reported from sensors in a system for use in monitoring. Streaming is also used in many systems for logging purposes. Actions that users make in a system need to be tracked for analytics so whenever they make an action an event log is created and sent to a stream of all the other users' actions. These can be then aggregated very quickly and efficiently to gain actual insight from.
 
 ~~
 
@@ -36,7 +36,15 @@ Vertex cover is a classical problem which has found many use cases. Here's a typ
 
 ### Branching
 
+#### Historically
+
+#### In Streaming
+
 ### Kernelization
+
+#### Historically
+
+#### In Streaming
 
 ### Adapting previous works into streaming
 
@@ -44,11 +52,11 @@ Vertex cover is a classical problem which has found many use cases. Here's a typ
 
 ## Methods
 
-Python is good. Wide adoption in data science so has many tools in big data. Also, more importantly, used for many streaming applications in the Apache line-up. 
+Python is good. Wide adoption in data science so has many tools in big data. Also, more importantly, used for many streaming applications in the Apache line-up.
 
 Build first locally to test correctability. Implement a faux-stream using file streaming (reading line-by-line) then implement a proof-of-concept networked system to show how the system might be used in a real world example.
 
-I identified three separate use cases where a vertex cover (or any graph) algorithm could be applied depending on the size and source of the graph given. These two attributes, size and source, each bubble down to two sub-cases. 
+I identified three separate use cases where a vertex cover (or any graph) algorithm could be applied depending on the size and source of the graph given. These two attributes, size and source, each bubble down to two sub-cases.
 
 Size:
 
@@ -57,8 +65,8 @@ Size:
 
 Source:
 
-- Local - You have direct access to the graph, for example, in the form of a file. 
-- Stream - You do not have direct access, the data is streamed to you in pieces.
+- Local - You have direct access to the graph, for example, in the form of a file.
+- Stream - You do not have direct access, the data is streamed to you in pieces. This may be either due to the size of the data (it being too large to feasibly store) or due to the nature of the data. This nature being that it doesn't yet exist as stored data and so must be processed in some way from pre-existing data.
 
 ### Cases
 
@@ -66,15 +74,31 @@ Source:
 
 This is the traditional case. The graph is small enough to use in-memory and you have local access to it so you are able to use which ever tools you wish to calculate the vertex cover.
 
+##### NetworkX
+
 #### Local Stream
 
-In this case the graph is no longer large enough to store in-memory but you are able to have direct access to it. The graph may be large but it is feasible to store the graph on disk since disk sizes are often many magnitudes larger than that of memory. Traditional algorithms are no longer applicable here, this is the first example where the invention of streaming algorithms is a necessity. 
+In this case the graph is no longer large enough to store in-memory but you are able to have direct access to it. The graph may be large but it is feasible to store the graph on disk since disk sizes are often many magnitudes larger than that of memory. Traditional algorithms are no longer applicable here, this is the first example where the invention of streaming algorithms is a necessity.
 
 ##### The Python `io` module
 
 #### Stream
 
-In this final case, the graph is too large to store in-memory and we don't have direct access. 
+This is the main case. In a typical situation, knowledge of the graph's attributes will be limited so it should be treated as a unbounded stream (a stream that has no end). The opposite of this would be treating it as a bounded stream, where we know there is an end to the stream.
+
+##### Batch vs Stream processing
+
+Most "streaming" applications work on **unbounded** streams. These are data streams which are essentially infinite. Examples include: sensor readings and application logging. In these cases, the objective is not to obtain a final result but to aggregate the data before storing it for future use. This would be classed as **stream processing**.
+
+Our problem of Vertex Cover would be classed as **batch processing**. We may be working on a data stream but, once either algorithm has completed, we won't be running it multiple times.
+
+
+
+##### Kafka and Faust
+
+##### In-memory-sized stream graphs
+
+If you know beforehand the size of the graph and it's of an in-memory size then you don't need to go through the hassle of treating it as a stream. One pass through the graph will allow you to store the graph locally and therefore be able to use it as a local graph instead.
 
 ### The algorithms
 
@@ -108,19 +132,43 @@ Pseudocode
 
 ## Results
 
-- What have you done?
+> - What have you done?
+> - What went into it?
+> - Why have you done things the way you have done them?
 
-- What went into it?
+### Runtime Analysis
 
-- Why have you done things the way you have done them?
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+
+`Insert graph here`
+
+### Memory profiling
+
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+
+`Insert graph here`
 
 ## Evaluation
 
-- Did your idea work?
+> - Did your idea work?
+> - How did you test it?
+> - What would you do differently?
 
-- How did you test it?
+If I had more time I would look into
 
-- What would you do differently?
+- expanding the proof-of-concept into a full platform/website
+- expanding it to more algorithms
+- how the algorithms can be parallelized for greater performance
+  - more operations in one pass vs less operations in more passes
+- does including the lower bound of the vertex cover number into the binary search kernel give performance improvements
 
 ## Conclusion
 
