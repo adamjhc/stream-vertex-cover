@@ -84,7 +84,7 @@ This is the traditional case. The graph is small enough to use in-memory and you
 
 
 
-![](.\img\memory-error.jpg)
+![](./img/memory-error.jpg)
 
 #### Local Stream
 
