@@ -133,7 +133,7 @@ Once we have the platform we need an in-memory framework to handle the processin
 
 If you know beforehand the size of the graph and it's of an in-memory size then you don't need to go through the hassle of treating it as a stream. One pass through the graph will allow you to store the graph locally and therefore be able to use it as a local graph instead.
 
-### The algorithms
+### The Algorithms
 
 #### Branching - Non-Stream
 
@@ -159,6 +159,30 @@ Pseudocode
 Pseudocode
 ```
 
+### Use Cases
+
+There are a number of ways the above algorithms could be constructed to be made for user friendly and easy to apply to problems. 
+
+#### `find_vertex_cover` (branching)
+
+This is simply using the branching algorithm. For the situation where you already know your k value. You may already know this value because you know your memory limits or you have previously calculated it.
+
+#### `does_vertex_cover_exist` (kernel-exists)
+
+This is simply using the kernelization algorithm. For finding whether there is such a vertex cover for a given budget.
+
+#### `find_vertex_cover_efficient` (kernel-br)
+
+This combines the algorithms using the kernelized graph and passing that into the branching algorithm.
+
+#### `find_min_vertex_cover_size` (kernel-min)
+
+This uses the kernelization algorithm in a binary search to find the minimum size a vertex cover could be.
+
+#### `find_min_vertex_cover` (kernel-min-br)
+
+This then combines the previous two for a complete solution to find a minimum vertex cover for a given stream. 
+
 ### Datasets
 
 Eventually you get to a point when the datasets become too large to even read.
@@ -181,29 +205,48 @@ Testing will be carried out across all three domains. Each will be tested agains
 
 Measuring runtime will be handled by Python's  `time.perf_counter_ns ` which is a clock designed for performance testing; it being monotonic and ~~SOMETHING ELSE~~. Memory will be measure through a python memory profiler called `memory-profiler`.  Each domain, algorithm, and dataset will be run through both a number of times to achieve a result ~~hopefully~~ devoid of inconsistencies.
 
-## Results
+## Results and Discussion
 
 > - What have you done?
 > - What went into it?
 > - Why have you done things the way you have done them?
 
-### Runtime Analysis
+### Domain Comparison
 
-|      |      |      |
-| ---- | ---- | ---- |
-|      |      |      |
-|      |      |      |
-|      |      |      |
+#### Runtime Analysis
+
+| Problem                       | Local | Local-Stream | Stream |
+| ----------------------------- | ----- | ------------ | ------ |
+| `find_vertex_cover`           |       |              |        |
+| `does_vertex_cover_exist`     |       |              |        |
+| `find_vertex_cover_efficient` |       |              |        |
+| `find_min_vertex_cover_size`  |       |              |        |
+| `find_min_vertex_cover`       |       |              |        |
 
 `Insert graph here`
 
-### Memory profiling
+#### Memory profiling
 
-|      |      |      |
-| ---- | ---- | ---- |
-|      |      |      |
-|      |      |      |
-|      |      |      |
+| Problem                       | Local | Local-Stream | Stream |
+| ----------------------------- | ----- | ------------ | ------ |
+| `find_vertex_cover`           |       |              |        |
+| `does_vertex_cover_exist`     |       |              |        |
+| `find_vertex_cover_efficient` |       |              |        |
+| `find_min_vertex_cover_size`  |       |              |        |
+| `find_min_vertex_cover`       |       |              |        |
+
+`Insert graph here`
+
+### Algorithm Comparison
+
+Since we have two viable solutions for finding the vertex cover for a given graph stream and value $k$, `find_vertex_cover` and `find_vertex_cover_efficient` it would be a good idea to compare them.
+
+#### Runtime Analysis
+
+| Graph | Nodes | Edges | Density | `branching` | `kernel-branching` |
+| ----- | ----- | ----- | ------- | ----------- | ------------------ |
+|       |       |       |         |             |                    |
+|       |       |       |         |             |                    |
 
 `Insert graph here`
 
