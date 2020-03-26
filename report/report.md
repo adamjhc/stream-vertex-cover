@@ -112,11 +112,12 @@ Most streaming platforms (especially those in the Apache line up) work on unboun
 
 Streaming platforms are the base on which a data stream is sent and received. Examples include:
 
-- HTTP request
-- HTTP streams
 - Apache Kafka
+- Amazon Kinesis
 - Apache Spark Streaming
 - Google Cloud Pub/Sub
+- Google Cloud DataFlow
+- RabbitMQ
 
 Once we have the platform we need an in-memory framework to handle the processing of each item in the stream. This is where the algorithms will actually run. There are a whole number of frameworks for this, all of which have their own niche use cases. Examples include:
 
@@ -124,6 +125,7 @@ Once we have the platform we need an in-memory framework to handle the processin
 - Apache Spark GraphX
 - Apache Flink
 - Apache Beam
+- Apache Samza
 
 ##### Kafka and Faust
 
