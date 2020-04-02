@@ -124,25 +124,66 @@
 \section{The Algorithms}
 
 \begin{frame}{Historically}
-    Branching and kernelization
+    \begin{block}{}
+        \begin{columns}
+            \begin{column}{0.45\textwidth}
+                \textbf{Branching}
+
+                \begin{itemize}
+                    \item Easy logarithmic complexity
+                    \item Simple implementation
+                \end{itemize}
+            \end{column}
+            \begin{column}{0.45\textwidth}
+                \textbf{Kernelization}
+
+                \begin{itemize}
+                    \item Simple rules
+                    \item Powerful if done right
+                \end{itemize}
+            \end{column}
+        \end{columns}
+    \end{block}
 \end{frame}
 
 \begin{frame}{State of the Art}
-    Rajesh Chitnis et al
+    Rajesh Chitnis et al 2014/2017 put forward streaming algorithms based on the previous two ideas.
 \end{frame}
 
 \section{My work}
 
 \begin{frame}{Implementation}
+    While these algorithms complexities have been shown theoretically, there's one thing we should all know by now:
 
+    \hfill
+
+    \begin{quote}
+        "In theory, there is no difference between theory and practice. In practice, there is."
+    \end{quote}
+\end{frame}
+
+\begin{frame}{Implementation}
+    So I built these streaming algorithms into a number of domains:
+
+    \begin{itemize}
+        \item Local
+        \item Local-Stream
+        \item Stream
+    \end{itemize}
+
+    This way we're able to compare the streaming algorithms to the historic algorithms
 \end{frame}
 
 \begin{frame}{Testing}
+    Runtime analysis and memory profiling
 
+    \includegraphics[width=\textwidth]{memory-profiler}
 \end{frame}
 
 \begin{frame}{Visualisation}
+    I've also created some visualisations of the algorithms in action to aid in the understanding.
 
+    \includegraphics[width=0.5\textwidth]{1-pass}
 \end{frame}
 
 \begin{frame}[standout]
