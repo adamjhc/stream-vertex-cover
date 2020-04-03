@@ -82,7 +82,7 @@ Source:
 - Local - You have direct access to the graph, for example, in the form of a file.
 - Stream - You do not have direct access, the data is streamed to you in pieces. This may be either due to the size of the data (it being too large to feasibly store) or due to the nature of the data. This nature being that it doesn't yet exist as stored data and so must be processed in some way from pre-existing data.
 
-### Cases
+### Domains
 
 #### Local
 
