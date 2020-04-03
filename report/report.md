@@ -205,6 +205,12 @@ There is even a limit for Visual Studio Code though.
 
 ![](./img/dataset-too-big2.jpg)
 
+### Visualisation
+
+In order to aid in the understanding of algorithms, it is often helpful to create visualisations. So I will do this. 
+
+![](..\src\visuals\kernel_les-miserables_77.gif)
+
 ### Testing and Comparison
 
 We don't live in a world anymore where we have to hack our way around machines to push the limits of their memory just so we can play some games. We haven't for a while. This goes the same for algorithms. Most of the time, we will happily sacrifice memory efficiency for any extra pittance of time efficiency. Memory is is dispensable, our time is not. This may still be true for streaming algorithms, but only to an extent. We are very much interested in both time and space complexity here. And so, we need to test as such.
