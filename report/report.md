@@ -14,6 +14,14 @@ Parameterized Vertex Cover in Streaming. That is the problem.
 
 When you think of streaming, Netflix may be the first thought that comes to mind. But Film and TV isn't the only thing that streaming can be used for. Streaming is now quite widely used in the enterprise space for real-time data. Where data is being reported from sensors in a system for use in monitoring. Streaming is also used in many systems for logging purposes. Actions that users make in a system need to be tracked for analytics so whenever they make an action an event log is created and sent to a stream of all the other users' actions. These can be then aggregated very quickly and efficiently to gain actual insight from.
 
+Non-parameterized/classical TIME : 1960s
+
+parameterized TIME : 1990s
+
+Non-parameterized SPACE :2000s
+
+parameterized SPACE :2015
+
 ~~
 
 My supervisor Rajesh Chitnis had previously been researching the problem of parameterized vertex cover. I found that none of the algorithms he talked about had ever been put into practice, only ever written theoretically.
