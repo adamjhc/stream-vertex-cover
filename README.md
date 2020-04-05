@@ -17,19 +17,22 @@ All code is statically type checked using [MyPy](http://mypy-lang.org/). View th
 ### Requirements
 
 - Python 3.8
-- GNU Make
-- Docker (for using Kafka and Zookeeper)
+- GNU Make (for running demos, alternatively run commands from Makefile manually)
+- Docker and Docker Compose (for using Kafka and Zookeeper)
 
 ### Instructions
 
-1. Clone this repo
-2. Run `pip install -r requirements.txt`
-3. Enjoy!
+In a terminal:
+
+1. Run `git clone https://github.com/adamjhc/stream-vertex-cover.git`
+2. Run `cd stream-vertex-cover`
+3. (Optional) Create a python virtual environment
+4. Run `pip install -r requirements.txt`
 
 ### Demo
 
-Run `make demo_local_stream`
+If everything has been setup correctly, you should be able to run the demo using
 
-## Backstory
-
-This was my undergraduate final year project while studying at the University of Birmingham. Towards the end of the first term and through the December break I suffered from glandular fever for 6-7 weeks. Then, towards the end of the second term, we were hit with the COVID-19 pandemic. So, while there have been some bumps along the road, I'm glad this project has come to fruition.
+```sh
+make demo_local_stream
+````
