@@ -31,8 +31,4 @@ In a terminal:
 
 ### Demo
 
-If everything has been setup correctly, you should be able to run the demo using
-
-```sh
-make demo_local_stream
-````
+If everything has been setup correctly, you should be able to run the demo using `make demo_local_stream`
