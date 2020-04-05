@@ -12,11 +12,13 @@ In this project you will find
 
 All code is statically type checked using [MyPy](http://mypy-lang.org/). View the [docs](https://stream-vertex-cover.readthedocs.io/)
 
-## Want to try for yourself?
+## Setup
 
 ### Requirements
 
 - Python 3.8
+- GNU Make
+- Docker (for using Kafka and Zookeeper)
 
 ### Instructions
 
@@ -24,6 +26,10 @@ All code is statically type checked using [MyPy](http://mypy-lang.org/). View th
 2. Run `pip install -r requirements.txt`
 3. Enjoy!
 
+### Demo
+
+Run `make demo_local_stream`
+
 ## Backstory
 
-This was my undergraduate final year project while studying at the University of Birmingham. Towards the end of the first term and through the December break I suffered from glandular fever for 6-7 weeks.
+This was my undergraduate final year project while studying at the University of Birmingham. Towards the end of the first term and through the December break I suffered from glandular fever for 6-7 weeks. Then, towards the end of the second term, we were hit with the COVID-19 pandemic. So, while there have been some bumps along the road, I'm glad this project has come to fruition.
