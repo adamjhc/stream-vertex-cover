@@ -2,15 +2,17 @@
 
 This project aims to provide implementations for parameterized streaming algorithms for vertex cover as posed in [Chitnis, Cormode, Hajiaghayi, & Monemizadeh, 2014](https://arxiv.org/abs/1405.0093) as well as to provide a basis for further work into parameterized streaming algorithms.
 
-In this project you will find
+## Features
 
-- Basic implementations for small graphs using [NetworkX](https://networkx.github.io/)
-- Stream implementations using Python `IO`
+- Classical implementations for small graphs using [NetworkX](https://networkx.github.io/)
+- Stream implementations using Python's [io](https://docs.python.org/3/library/io.html)
 - Stream implementations using [Apache Kafka](https://kafka.apache.org/) and [Faust](http://faust.readthedocs.io/)
-- Visualisations of algorithms
+- Tools for visualising the algorithms
 - Runtime analysis and memory profiling
 
-All code is statically type checked using [MyPy](http://mypy-lang.org/). View the [docs](https://stream-vertex-cover.readthedocs.io/)
+## Code
+
+All code has been statically type checked using [MyPy](http://mypy-lang.org/). View the docs [here](https://stream-vertex-cover.readthedocs.io/) or using the link above.
 
 ## Setup
 
@@ -20,15 +22,37 @@ All code is statically type checked using [MyPy](http://mypy-lang.org/). View th
 - GNU Make (for running demos, alternatively run commands from Makefile manually)
 - Docker and Docker Compose (for using Kafka and Zookeeper)
 
-### Instructions
+### Installation
 
-In a terminal:
+1. Clone the repo
 
-1. Run `git clone https://github.com/adamjhc/stream-vertex-cover.git`
-2. Run `cd stream-vertex-cover`
-3. (Optional) Create a python virtual environment
-4. Run `pip install -r requirements.txt`
+```sh
+$ git clone https://github.com/adamjhc/stream-vertex-cover.git
+```
+
+2. (Optional) Create a python virtual environment
+3. Install dependencies
+
+```sh
+$ pip install -r requirements.txt
+```
 
 ### Demo
 
-If everything has been setup correctly, you should be able to run the demo using `make demo_local_stream`
+If everything has been setup correctly, you should be able to run the demo using
+
+```sh
+$ make demo_local_stream
+python ./src/local_stream/local_stream.py kernel-min ./src/test_sets/labelled_edge_lists/rome99.txt
+┌Result──────────────────────────────────────────┬───────┬───────┬───────────────────────────┐
+│ Graph                                          │ Nodes │ Edges │ Minimum Vertex Cover Size │
+├────────────────────────────────────────────────┼───────┼───────┼───────────────────────────┤
+│ ./src/test_sets/labelled_edge_lists/rome99.txt │ 3353  │ 8870  │ 1458                      │
+└────────────────────────────────────────────────┴───────┴───────┴───────────────────────────┘
+```
+
+## About
+
+This was my final year project while studying Computer Science at the University of Birmingham.
+
+This project was supervised by [Rajesh Chitnis](https://rajeshchitnis.github.io/)
