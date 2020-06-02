@@ -39,13 +39,12 @@ def kernel_stream_animation(args: Dict[str, Any]):
     kernel = nx.Graph()
     maximal_matching: Set[Tuple[Any, Any]] = set()
 
-    # Set up matplotlib
-    layout = get_graph_layout(graph)
-
     # Build plot
     fig, ax = plot.subplots(
         figsize=(float(args["--fig-width"]), float(args["--fig-height"]))
     )
+    fig.suptitle("Kernelization Algorithm")
+    layout = get_graph_layout(graph)
 
     anim = animation.FuncAnimation(
         fig,
