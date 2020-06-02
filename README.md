@@ -21,6 +21,7 @@ All code has been statically type checked using [MyPy](http://mypy-lang.org/). V
 - Python 3.8
 - GNU Make (for running demos, alternatively run commands from Makefile manually)
 - Docker and Docker Compose (for using Kafka and Zookeeper)
+- [Imagemagick](https://imagemagick.org/) (for creating GIFs)
 
 ### Installation
 
@@ -53,6 +54,6 @@ python ./src/local_stream/local_stream.py kernel-min ./src/test_sets/labelled_ed
 
 ## About
 
-This was my final year project while studying Computer Science at the University of Birmingham.
+This was my final year project while studying BSc Computer Science at the University of Birmingham.
 
 This project was supervised by [Rajesh Chitnis](https://rajeshchitnis.github.io/)
