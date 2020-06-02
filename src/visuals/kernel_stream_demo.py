@@ -72,9 +72,9 @@ def kernel_stream_demo(args: Dict[str, Any]):
         node_type_names = ["Matched", "Neighbour"]
         node_type_colours = ["r", "k"]
 
-        ax1: Axes = plot.subplot(1, 2, 1)
-        ax1.set_title(f"Kernel - Iteration {i}")
-        ax1.legend(
+        ax_left: Axes = plot.subplot(1, 2, 1)
+        ax_left.set_title(f"Kernel - Iteration {i}")
+        ax_left.legend(
             handles=[
                 Line2D([0], [0], label=node_type, color=node_colour, marker="o")
                 for node_type, node_colour in zip(node_type_names, node_type_colours)
@@ -105,7 +105,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
 
         nx.draw(
             kernel,
-            ax=ax1,
+            ax=ax_left,
             pos=layout,
             with_labels=args["--label"],
             node_color=node_colours,
@@ -115,13 +115,13 @@ def kernel_stream_demo(args: Dict[str, Any]):
         )
 
         # Right subplot - showing entire graph
-        ax2: Axes = plot.subplot(1, 2, 2)
-        ax2.set_title("Entire graph")
+        ax_right: Axes = plot.subplot(1, 2, 2)
+        ax_right.set_title("Entire graph")
 
         node_type_names = ["Current", "In Kernel", "Not in Kernel"]
         node_type_colours = ["y", "m", "k"]
 
-        ax2.legend(
+        ax_right.legend(
             handles=[
                 Line2D([0], [0], label=node_type, color=node_colour, marker="o")
                 for node_type, node_colour in zip(node_type_names, node_type_colours)
@@ -150,7 +150,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
 
         nx.draw(
             graph,
-            ax=ax2,
+            ax=ax_right,
             pos=layout,
             with_labels=args["--label"],
             node_color=node_colours,
