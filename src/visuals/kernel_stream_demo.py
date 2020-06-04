@@ -14,6 +14,7 @@ Options:
 from typing import Any, Dict, Set, Tuple
 
 import matplotlib.pyplot as plot
+import matplotlib as mpl
 import networkx as nx
 from docopt import docopt
 from matplotlib.axes import Axes
@@ -38,6 +39,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
     maximal_matching: Set[Tuple[Any, Any]] = set()
 
     # Set up matplotlib
+    mpl.rcParams["toolbar"] = "None"
     plot.show()
     figure: Figure = plot.figure("Kernelization Algorithm", figsize=(16, 9))
     figure.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.9)
