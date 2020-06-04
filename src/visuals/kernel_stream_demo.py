@@ -47,14 +47,14 @@ def kernel_stream_demo(args: Dict[str, Any]):
     with_labels = args["--label"]
 
     ## Left subplot - kernel
-    kernel_axes: Axes = figure.add_subplot(1, 2, 1)
+    kernel_axes: Axes = figure.add_subplot(1, 2, 2)
     kernel_node_type_names = ["Matched", "Neighbour"]
     kernel_node_type_colours = ["r", "k"]
     kernel_node_type_sizes = [250, 50]
     kernel_edge_type_widths = [2, 0.5]
 
     ## Right subplot - whole graph
-    graph_axes: Axes = figure.add_subplot(1, 2, 2)
+    graph_axes: Axes = figure.add_subplot(1, 2, 1)
     graph_node_type_names = ["Current", "In Kernel", "Not in Kernel"]
     graph_node_type_colours = ["y", "m", "k"]
 
