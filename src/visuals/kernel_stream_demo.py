@@ -39,7 +39,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
 
     # Set up matplotlib
     plot.show()
-    figure: Figure = plot.figure(figsize=(16, 9))
+    figure: Figure = plot.figure("Kernelization Algorithm", figsize=(16, 9))
     figure.suptitle("Kernelization Algorithm")
     layout = get_graph_layout(graph)
     delay = float(args["--delay"])
