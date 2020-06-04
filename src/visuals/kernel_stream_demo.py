@@ -40,22 +40,23 @@ def kernel_stream_demo(args: Dict[str, Any]):
     # Set up matplotlib
     plot.show()
     figure: Figure = plot.figure("Kernelization Algorithm", figsize=(16, 9))
+    figure.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.9)
     figure.suptitle("Kernelization Algorithm")
     layout = get_graph_layout(graph)
     delay = float(args["--delay"])
     with_labels = args["--label"]
 
     ## Left subplot - kernel
-    left_axes: Axes = figure.add_subplot(1, 2, 1)
-    left_node_type_names = ["Matched", "Neighbour"]
-    left_node_type_colours = ["r", "k"]
-    left_node_type_sizes = [250, 50]
-    left_edge_type_widths = [2, 0.5]
+    kernel_axes: Axes = figure.add_subplot(1, 2, 1)
+    kernel_node_type_names = ["Matched", "Neighbour"]
+    kernel_node_type_colours = ["r", "k"]
+    kernel_node_type_sizes = [250, 50]
+    kernel_edge_type_widths = [2, 0.5]
 
     ## Right subplot - whole graph
-    right_axes: Axes = figure.add_subplot(1, 2, 2)
-    right_node_type_names = ["Current", "In Kernel", "Not in Kernel"]
-    right_node_type_colours = ["y", "m", "k"]
+    graph_axes: Axes = figure.add_subplot(1, 2, 2)
+    graph_node_type_names = ["Current", "In Kernel", "Not in Kernel"]
+    graph_node_type_colours = ["y", "m", "k"]
 
     for i, (u, v) in enumerate(edges):
         # Kernelization algorithm
@@ -86,89 +87,98 @@ def kernel_stream_demo(args: Dict[str, Any]):
                 kernel_exists = False
                 break
 
+        kernel_no_of_nodes = kernel.number_of_nodes()
+        kernel_no_of_edges = kernel.number_of_edges()
+        graph_no_of_nodes = graph.number_of_nodes()
+        graph_no_of_edges = graph.number_of_edges()
+
         # matplotlib updates
-        left_axes.clear()
-        right_axes.clear()
+        kernel_axes.clear()
+        graph_axes.clear()
 
         ## Left subplot - kernel
-        left_axes.set_title(f"Kernel - Iteration {i}")
-        left_axes.legend(
+        kernel_axes.set_title(
+            f"Kernel (Nodes: {kernel_no_of_nodes}, Edges: {kernel_no_of_edges}, Size of Graph: {kernel_no_of_edges/graph_no_of_edges * 100:.2f}%)"
+        )
+        kernel_axes.legend(
             handles=[
                 Line2D([0], [0], label=node_type, color=node_colour, marker="o")
                 for node_type, node_colour in zip(
-                    left_node_type_names, left_node_type_colours
+                    kernel_node_type_names, kernel_node_type_colours
                 )
             ],
             handler_map={Line2D: HandlerLine2D(numpoints=2)},
             loc="lower right",
         )
 
-        left_node_colours = []
-        left_node_sizes = []
+        kernel_node_colours = []
+        kernel_node_sizes = []
         for node in kernel.nodes:
             node_type = 0 if _in(node, maximal_matching) else 1
 
-            left_node_colours.append(left_node_type_colours[node_type])
-            left_node_sizes.append(left_node_type_sizes[node_type])
+            kernel_node_colours.append(kernel_node_type_colours[node_type])
+            kernel_node_sizes.append(kernel_node_type_sizes[node_type])
 
-        left_edge_colours = []
-        left_edge_widths = []
+        kernel_edge_colours = []
+        kernel_edge_widths = []
         for edge in kernel.edges:
             edge_type = 0 if edge in maximal_matching else 1
 
-            left_edge_colours.append(left_node_type_colours[edge_type])
-            left_edge_widths.append(left_edge_type_widths[edge_type])
+            kernel_edge_colours.append(kernel_node_type_colours[edge_type])
+            kernel_edge_widths.append(kernel_edge_type_widths[edge_type])
 
         nx.draw(
             kernel,
-            ax=left_axes,
+            ax=kernel_axes,
             pos=layout,
             with_labels=with_labels,
-            node_color=left_node_colours,
-            node_size=left_node_sizes,
-            edge_color=left_edge_colours,
-            width=left_edge_widths,
+            node_color=kernel_node_colours,
+            node_size=kernel_node_sizes,
+            edge_color=kernel_edge_colours,
+            width=kernel_edge_widths,
         )
 
         ## Right subplot - showing entire graph
-        right_axes.set_title("Entire graph")
-        right_axes.legend(
+        graph_axes.set_title(
+            f"Entire graph (Nodes: {graph_no_of_nodes}, Edges: {graph_no_of_edges})"
+        )
+        graph_axes.legend(
             handles=[
                 Line2D([0], [0], label=node_type, color=node_colour, marker="o")
                 for node_type, node_colour in zip(
-                    right_node_type_names, right_node_type_colours
+                    graph_node_type_names, graph_node_type_colours
                 )
             ],
             handler_map={Line2D: HandlerLine2D(numpoints=2)},
             loc="lower right",
         )
 
-        right_node_colours = [
-            right_node_type_colours[0]
+        graph_node_colours = [
+            graph_node_type_colours[0]
             if node in (u, v)
-            else right_node_type_colours[1]
+            else graph_node_type_colours[1]
             if node in kernel.nodes
-            else right_node_type_colours[2]
+            else graph_node_type_colours[2]
             for node in graph.nodes
         ]
 
-        right_edge_colours = [
-            right_node_type_colours[0]
+        graph_edge_colours = [
+            graph_node_type_colours[0]
             if edge == (u, v)
-            else right_node_type_colours[1]
+            else graph_node_type_colours[1]
             if edge in kernel.edges
-            else right_node_type_colours[2]
+            else graph_node_type_colours[2]
             for edge in graph.edges
         ]
 
         nx.draw(
             graph,
-            ax=right_axes,
+            ax=graph_axes,
             pos=layout,
             with_labels=with_labels,
-            node_color=right_node_colours,
+            node_color=graph_node_colours,
             node_size=50,
-            edge_color=right_edge_colours,
+            edge_color=graph_edge_colours,
         )
 
         try:
@@ -188,6 +198,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
             verticalalignment="center",
             transform=figure.transFigure,
         )
+
     plot.show()
 
 
