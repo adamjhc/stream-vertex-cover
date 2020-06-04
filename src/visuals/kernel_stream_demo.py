@@ -96,7 +96,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
         kernel_axes.clear()
         graph_axes.clear()
 
-        ## Left subplot - kernel
+        ## Kernel subplot
         kernel_axes.set_title(
             f"Kernel (Nodes: {kernel_no_of_nodes}, Edges: {kernel_no_of_edges}, Size of Graph: {kernel_no_of_edges/graph_no_of_edges * 100:.2f}%)"
         )
@@ -138,7 +138,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
             width=kernel_edge_widths,
         )
 
-        ## Right subplot - showing entire graph
+        ## Graph subplot
         graph_axes.set_title(
             f"Entire graph (Nodes: {graph_no_of_nodes}, Edges: {graph_no_of_edges})"
         )
