@@ -29,6 +29,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
     read_func = get_read_func_from_edgelist(path)
 
     # Set up graphs
+    kernel_exists = True
     graph = read_func(path)
     edges = list(graph.edges)
     k = int(args["<k>"])
@@ -37,15 +38,26 @@ def kernel_stream_demo(args: Dict[str, Any]):
     maximal_matching: Set[Tuple[Any, Any]] = set()
 
     # Set up matplotlib
-    layout = get_graph_layout(graph)
-
-    # Build plot
     plot.show()
+    figure: Figure = plot.figure(figsize=(16, 9))
+    figure.suptitle("Kernelization Algorithm")
+    layout = get_graph_layout(graph)
+    delay = float(args["--delay"])
+    with_labels = args["--label"]
+
+    ## Left subplot - kernel
+    left_axes: Axes = figure.add_subplot(1, 2, 1)
+    left_node_type_names = ["Matched", "Neighbour"]
+    left_node_type_colours = ["r", "k"]
+    left_node_type_sizes = [250, 50]
+    left_edge_type_widths = [2, 0.5]
+
+    ## Right subplot - whole graph
+    right_axes: Axes = figure.add_subplot(1, 2, 2)
+    right_node_type_names = ["Current", "In Kernel", "Not in Kernel"]
+    right_node_type_colours = ["y", "m", "k"]
 
     for i, (u, v) in enumerate(edges):
-
-        print("{:10} {}".format(u, v))
-
         # Kernelization algorithm
         is_neighbour = False
         if _in(u, maximal_matching) and kernel.degree[u] < k:
@@ -62,106 +74,120 @@ def kernel_stream_demo(args: Dict[str, Any]):
             kernel.add_edge(u, v)
 
             if no_in_matching > k:
-                print("There is no such kernel of size", k)
+                figure.text(
+                    0.5,
+                    0.05,
+                    f"There is no such kernel of size {k}",
+                    fontsize=24,
+                    horizontalalignment="center",
+                    verticalalignment="center",
+                    transform=figure.transFigure,
+                )
+                kernel_exists = False
                 break
 
         # matplotlib updates
-        plot.clf()
+        left_axes.clear()
+        right_axes.clear()
 
-        # Left subplot - showing kernel
-        node_type_names = ["Matched", "Neighbour"]
-        node_type_colours = ["r", "k"]
-
-        ax_left: Axes = plot.subplot(1, 2, 1)
-        ax_left.set_title(f"Kernel - Iteration {i}")
-        ax_left.legend(
+        ## Left subplot - kernel
+        left_axes.set_title(f"Kernel - Iteration {i}")
+        left_axes.legend(
             handles=[
                 Line2D([0], [0], label=node_type, color=node_colour, marker="o")
-                for node_type, node_colour in zip(node_type_names, node_type_colours)
+                for node_type, node_colour in zip(
+                    left_node_type_names, left_node_type_colours
+                )
             ],
             handler_map={Line2D: HandlerLine2D(numpoints=2)},
             loc="lower right",
         )
 
-        node_colours = [
-            node_type_colours[0]
-            if _in(node, maximal_matching)
-            else node_type_colours[1]
-            for node in kernel.nodes
-        ]
+        left_node_colours = []
+        left_node_sizes = []
+        for node in kernel.nodes:
+            node_type = 0 if _in(node, maximal_matching) else 1
 
-        edge_colours = [
-            node_type_colours[0] if edge in maximal_matching else node_type_colours[1]
-            for edge in kernel.edges
-        ]
+            left_node_colours.append(left_node_type_colours[node_type])
+            left_node_sizes.append(left_node_type_sizes[node_type])
 
-        # Smaller node for nodes not in the matching
-        node_sizes = [
-            250 if _in(node, maximal_matching) else 50 for node in kernel.nodes
-        ]
+        left_edge_colours = []
+        left_edge_widths = []
+        for edge in kernel.edges:
+            edge_type = 0 if edge in maximal_matching else 1
 
-        # Thicker edge for edges between edges in matching
-        edge_widths = [2 if edge in maximal_matching else 0.5 for edge in kernel.edges]
+            left_edge_colours.append(left_node_type_colours[edge_type])
+            left_edge_widths.append(left_edge_type_widths[edge_type])
 
         nx.draw(
             kernel,
-            ax=ax_left,
+            ax=left_axes,
             pos=layout,
-            with_labels=args["--label"],
-            node_color=node_colours,
-            node_size=node_sizes,
-            edge_color=edge_colours,
-            width=edge_widths,
+            with_labels=with_labels,
+            node_color=left_node_colours,
+            node_size=left_node_sizes,
+            edge_color=left_edge_colours,
+            width=left_edge_widths,
         )
 
-        # Right subplot - showing entire graph
-        ax_right: Axes = plot.subplot(1, 2, 2)
-        ax_right.set_title("Entire graph")
-
-        node_type_names = ["Current", "In Kernel", "Not in Kernel"]
-        node_type_colours = ["y", "m", "k"]
-
-        ax_right.legend(
+        ## Right subplot - showing entire graph
+        right_axes.set_title("Entire graph")
+        right_axes.legend(
             handles=[
                 Line2D([0], [0], label=node_type, color=node_colour, marker="o")
-                for node_type, node_colour in zip(node_type_names, node_type_colours)
+                for node_type, node_colour in zip(
+                    right_node_type_names, right_node_type_colours
+                )
             ],
             handler_map={Line2D: HandlerLine2D(numpoints=2)},
             loc="lower right",
         )
 
-        node_colours = [
-            node_type_colours[0]
+        right_node_colours = [
+            right_node_type_colours[0]
             if node in (u, v)
-            else node_type_colours[1]
+            else right_node_type_colours[1]
             if node in kernel.nodes
-            else node_type_colours[2]
+            else right_node_type_colours[2]
             for node in graph.nodes
         ]
 
-        edge_colours = [
-            node_type_colours[0]
+        right_edge_colours = [
+            right_node_type_colours[0]
             if edge == (u, v)
-            else node_type_colours[1]
+            else right_node_type_colours[1]
             if edge in kernel.edges
-            else node_type_colours[2]
+            else right_node_type_colours[2]
             for edge in graph.edges
         ]
 
         nx.draw(
             graph,
-            ax=ax_right,
+            ax=right_axes,
             pos=layout,
-            with_labels=args["--label"],
-            node_color=node_colours,
+            with_labels=with_labels,
+            node_color=right_node_colours,
             node_size=50,
-            edge_color=edge_colours,
+            edge_color=right_edge_colours,
         )
 
-        # Wait for update
-        plot.pause(float(args["--delay"]))
+        try:
+            # Wait for update
+            plot.pause(delay)
+        except:
+            # Exception caused when exiting
+            break
 
-    print("Finished")
+    if kernel_exists:
+        figure.text(
+            0.5,
+            0.05,
+            f"A kernel exists of size {k}",
+            fontsize=24,
+            horizontalalignment="center",
+            verticalalignment="center",
+            transform=figure.transFigure,
+        )
     plot.show()
 
 
