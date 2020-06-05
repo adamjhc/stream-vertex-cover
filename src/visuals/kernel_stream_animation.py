@@ -11,8 +11,8 @@ Options:
     -h --help               Show this screen
     --interval=INTERVAL     Delay between frames in milliseconds [default: 200]
     --repeat-delay=DELAY    Delay before repeating in milliseconds [default: 500]
-    --fig-width=X           Width of figure in inches [default: 6.4]
-    --fig-height=Y          Height of figure in inches [default: 4.8]
+    --width=WIDTH           Width of GIF in pixels [default: 640]
+    --height=HEIGHT         Height of GIF in pixels [default: 480]
     --label                 Show labels on nodes
 """
 from typing import Any, Dict, Set, Tuple
@@ -40,8 +40,13 @@ def kernel_stream_animation(args: Dict[str, Any]):
     maximal_matching: Set[Tuple[Any, Any]] = set()
 
     # Build plot
+    pixel_density = 100
     fig, ax = plot.subplots(
-        figsize=(float(args["--fig-width"]), float(args["--fig-height"]))
+        figsize=(
+            float(args["--fig-width"]) / pixel_density,
+            float(args["--fig-height"]) / pixel_density,
+        ),
+        dpi=pixel_density,
     )
     fig.suptitle("Kernelization Algorithm")
     layout = get_graph_layout(graph)
