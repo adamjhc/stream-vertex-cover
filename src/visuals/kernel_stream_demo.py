@@ -44,15 +44,12 @@ def kernel_stream_demo(args: Dict[str, Any]):
     figure: Figure = plot.figure("Kernelization Algorithm", figsize=(16, 9))
     figure.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.9)
     figure.suptitle("Kernelization Algorithm")
+    graph_axes: Axes = figure.add_subplot(1, 2, 1)
+    kernel_axes: Axes = figure.add_subplot(1, 2, 2)
+
     layout = get_graph_layout(graph)
     delay = float(args["--delay"]) / 1000
     with_labels = args["--label"]
-
-    ## Graph subplot
-    graph_axes: Axes = figure.add_subplot(1, 2, 1)
-
-    ## Kernel subplot
-    kernel_axes: Axes = figure.add_subplot(1, 2, 2)
 
     for i, (u, v) in enumerate(edges):
         # Kernelization algorithm
