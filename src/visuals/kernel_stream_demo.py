@@ -35,7 +35,6 @@ def kernel_stream_demo(args: Dict[str, Any]):
     edges = list(graph.edges)
     k = int(args["<k>"])
     kernel = nx.Graph()
-    no_in_matching = 0
     maximal_matching: Set[Tuple[Any, Any]] = set()
 
     # Set up matplotlib
@@ -72,11 +71,10 @@ def kernel_stream_demo(args: Dict[str, Any]):
             is_neighbour = True
 
         if not is_neighbour:
-            no_in_matching += 1
             maximal_matching.add((u, v))
             kernel.add_edge(u, v)
 
-            if no_in_matching > k:
+            if len(maximal_matching) > k:
                 figure.text(
                     0.5,
                     0.05,
