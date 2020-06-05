@@ -42,6 +42,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
     mpl.rcParams["toolbar"] = "None"
     plot.show()
     figure: Figure = plot.figure("Kernelization Algorithm", figsize=(16, 9))
+    figure.canvas.manager.window.wm_geometry("+50+50")
     figure.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.9)
     figure.suptitle("Kernelization Algorithm")
     graph_axes: Axes = figure.add_subplot(1, 2, 1)
