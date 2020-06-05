@@ -49,11 +49,11 @@ def kernel_stream_demo(args: Dict[str, Any]):
     delay = float(args["--delay"]) / 1000
     with_labels = args["--label"]
 
-    ## Kernel subplot
-    kernel_axes: Axes = figure.add_subplot(1, 2, 2)
-
     ## Graph subplot
     graph_axes: Axes = figure.add_subplot(1, 2, 1)
+
+    ## Kernel subplot
+    kernel_axes: Axes = figure.add_subplot(1, 2, 2)
 
     for i, (u, v) in enumerate(edges):
         # Kernelization algorithm
@@ -85,11 +85,11 @@ def kernel_stream_demo(args: Dict[str, Any]):
                 kernel_exists = False
                 break
 
-        # Kernel subplot
-        draw_kernel(kernel_axes, kernel, graph, layout, maximal_matching, with_labels)
-
         # Graph subplot
         draw_graph(graph_axes, graph, kernel, layout, u, v, with_labels)
+
+        # Kernel subplot
+        draw_kernel(kernel_axes, kernel, graph, layout, maximal_matching, with_labels)
 
         try:
             # Wait for update
