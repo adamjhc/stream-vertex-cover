@@ -8,7 +8,7 @@ Arguments:
 
 Options:
     -h --help           Show this screen
-    --delay=DELAY       Specify delay between iterations in ms [default: 500]
+    --delay=DELAY       Specify delay between iterations in milliseconds [default: 500]
     --label             Show labels on nodes
 """
 from typing import Any, Dict, Set, Tuple

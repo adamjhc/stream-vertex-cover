@@ -10,7 +10,7 @@ Arguments:
 Options:
     -h --help               Show this screen
     --interval=INTERVAL     Delay between frames in milliseconds [default: 200]
-    --repeat-delay=DELAY    Delay in milliseconds before repeating [default: 0]
+    --repeat-delay=DELAY    Delay before repeating in milliseconds [default: 500]
     --fig-width=X           Width of figure in inches [default: 6.4]
     --fig-height=Y          Height of figure in inches [default: 4.8]
     --label                 Show labels on nodes
