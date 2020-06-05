@@ -32,6 +32,8 @@ def kernel_stream_demo(args: Dict[str, Any]):
     # Set up graphs
     kernel_exists = True
     graph = read_func(path)
+    graph_no_of_nodes = graph.number_of_nodes()
+    graph_no_of_edges = graph.number_of_edges()
     edges = list(graph.edges)
     k = int(args["<k>"])
     kernel = nx.Graph()
@@ -87,16 +89,13 @@ def kernel_stream_demo(args: Dict[str, Any]):
                 kernel_exists = False
                 break
 
-        kernel_no_of_nodes = kernel.number_of_nodes()
-        kernel_no_of_edges = kernel.number_of_edges()
-        graph_no_of_nodes = graph.number_of_nodes()
-        graph_no_of_edges = graph.number_of_edges()
-
         # matplotlib updates
         kernel_axes.clear()
         graph_axes.clear()
 
         ## Kernel subplot
+        kernel_no_of_nodes = kernel.number_of_nodes()
+        kernel_no_of_edges = kernel.number_of_edges()
         kernel_axes.set_title(
             f"Kernel (Nodes: {kernel_no_of_nodes}, Edges: {kernel_no_of_edges}, Size of Graph: {kernel_no_of_edges/graph_no_of_edges * 100:.2f}%)"
         )
