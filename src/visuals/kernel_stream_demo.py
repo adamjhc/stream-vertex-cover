@@ -8,7 +8,7 @@ Arguments:
 
 Options:
     -h --help           Show this screen
-    --delay=DELAY       Specify delay between iterations [default: 0.5]
+    --delay=DELAY       Specify delay between iterations in ms [default: 500]
     --label             Show labels on nodes
 """
 from typing import Any, Dict, Set, Tuple
@@ -45,7 +45,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
     figure.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.9)
     figure.suptitle("Kernelization Algorithm")
     layout = get_graph_layout(graph)
-    delay = float(args["--delay"])
+    delay = float(args["--delay"]) / 1000
     with_labels = args["--label"]
 
     ## Left subplot - kernel
