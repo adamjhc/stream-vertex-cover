@@ -22,7 +22,8 @@ from matplotlib.figure import Figure
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
 
-from visuals_util import _in, get_graph_layout, get_read_func_from_edgelist
+from kernel_utils import draw_graph, draw_kernel
+from visuals_utils import _in, get_graph_layout, get_read_func_from_edgelist
 
 
 def kernel_stream_demo(args: Dict[str, Any]):
@@ -32,7 +33,6 @@ def kernel_stream_demo(args: Dict[str, Any]):
     # Set up graphs
     kernel_exists = True
     graph = read_func(path)
-    graph_no_of_nodes = graph.number_of_nodes()
     graph_no_of_edges = graph.number_of_edges()
     edges = list(graph.edges)
     k = int(args["<k>"])
@@ -51,15 +51,9 @@ def kernel_stream_demo(args: Dict[str, Any]):
 
     ## Kernel subplot
     kernel_axes: Axes = figure.add_subplot(1, 2, 2)
-    kernel_node_type_names = ["Matched", "Neighbour"]
-    kernel_node_type_colours = ["r", "k"]
-    kernel_node_type_sizes = [250, 50]
-    kernel_edge_type_widths = [2, 0.5]
 
     ## Graph subplot
     graph_axes: Axes = figure.add_subplot(1, 2, 1)
-    graph_node_type_names = ["Current", "In Kernel", "Not in Kernel"]
-    graph_node_type_colours = ["y", "m", "k"]
 
     for i, (u, v) in enumerate(edges):
         # Kernelization algorithm
@@ -89,96 +83,11 @@ def kernel_stream_demo(args: Dict[str, Any]):
                 kernel_exists = False
                 break
 
-        # matplotlib updates
-        kernel_axes.clear()
-        graph_axes.clear()
+        # Kernel subplot
+        draw_kernel(kernel_axes, kernel, graph, layout, maximal_matching, with_labels)
 
-        ## Kernel subplot
-        kernel_no_of_nodes = kernel.number_of_nodes()
-        kernel_no_of_edges = kernel.number_of_edges()
-        kernel_axes.set_title(
-            f"Kernel (Nodes: {kernel_no_of_nodes}, Edges: {kernel_no_of_edges}, Size of Graph: {kernel_no_of_edges/graph_no_of_edges * 100:.2f}%)"
-        )
-        kernel_axes.legend(
-            handles=[
-                Line2D([0], [0], label=node_type, color=node_colour, marker="o")
-                for node_type, node_colour in zip(
-                    kernel_node_type_names, kernel_node_type_colours
-                )
-            ],
-            handler_map={Line2D: HandlerLine2D(numpoints=2)},
-            loc="lower right",
-        )
-
-        kernel_node_colours = []
-        kernel_node_sizes = []
-        for node in kernel.nodes:
-            node_type = 0 if _in(node, maximal_matching) else 1
-
-            kernel_node_colours.append(kernel_node_type_colours[node_type])
-            kernel_node_sizes.append(kernel_node_type_sizes[node_type])
-
-        kernel_edge_colours = []
-        kernel_edge_widths = []
-        for edge in kernel.edges:
-            edge_type = 0 if edge in maximal_matching else 1
-
-            kernel_edge_colours.append(kernel_node_type_colours[edge_type])
-            kernel_edge_widths.append(kernel_edge_type_widths[edge_type])
-
-        nx.draw(
-            kernel,
-            ax=kernel_axes,
-            pos=layout,
-            with_labels=with_labels,
-            node_color=kernel_node_colours,
-            node_size=kernel_node_sizes,
-            edge_color=kernel_edge_colours,
-            width=kernel_edge_widths,
-        )
-
-        ## Graph subplot
-        graph_axes.set_title(
-            f"Graph (Nodes: {graph_no_of_nodes}, Edges: {graph_no_of_edges})"
-        )
-        graph_axes.legend(
-            handles=[
-                Line2D([0], [0], label=node_type, color=node_colour, marker="o")
-                for node_type, node_colour in zip(
-                    graph_node_type_names, graph_node_type_colours
-                )
-            ],
-            handler_map={Line2D: HandlerLine2D(numpoints=2)},
-            loc="lower right",
-        )
-
-        graph_node_colours = [
-            graph_node_type_colours[0]
-            if node in (u, v)
-            else graph_node_type_colours[1]
-            if node in kernel.nodes
-            else graph_node_type_colours[2]
-            for node in graph.nodes
-        ]
-
-        graph_edge_colours = [
-            graph_node_type_colours[0]
-            if edge == (u, v)
-            else graph_node_type_colours[1]
-            if edge in kernel.edges
-            else graph_node_type_colours[2]
-            for edge in graph.edges
-        ]
-
-        nx.draw(
-            graph,
-            ax=graph_axes,
-            pos=layout,
-            with_labels=with_labels,
-            node_color=graph_node_colours,
-            node_size=50,
-            edge_color=graph_edge_colours,
-        )
+        # Graph subplot
+        draw_graph(graph_axes, graph, kernel, layout, u, v, with_labels)
 
         try:
             # Wait for update
