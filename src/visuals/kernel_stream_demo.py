@@ -13,8 +13,8 @@ Options:
 """
 from typing import Any, Dict, Set, Tuple
 
-import matplotlib.pyplot as plot
 import matplotlib as mpl
+import matplotlib.pyplot as plot
 import networkx as nx
 from docopt import docopt
 from matplotlib.axes import Axes
@@ -49,14 +49,14 @@ def kernel_stream_demo(args: Dict[str, Any]):
     delay = float(args["--delay"]) / 1000
     with_labels = args["--label"]
 
-    ## Left subplot - kernel
+    ## Kernel subplot
     kernel_axes: Axes = figure.add_subplot(1, 2, 2)
     kernel_node_type_names = ["Matched", "Neighbour"]
     kernel_node_type_colours = ["r", "k"]
     kernel_node_type_sizes = [250, 50]
     kernel_edge_type_widths = [2, 0.5]
 
-    ## Right subplot - whole graph
+    ## Graph subplot
     graph_axes: Axes = figure.add_subplot(1, 2, 1)
     graph_node_type_names = ["Current", "In Kernel", "Not in Kernel"]
     graph_node_type_colours = ["y", "m", "k"]
@@ -139,7 +139,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
 
         ## Graph subplot
         graph_axes.set_title(
-            f"Entire graph (Nodes: {graph_no_of_nodes}, Edges: {graph_no_of_edges})"
+            f"Graph (Nodes: {graph_no_of_nodes}, Edges: {graph_no_of_edges})"
         )
         graph_axes.legend(
             handles=[
