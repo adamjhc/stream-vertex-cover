@@ -33,7 +33,6 @@ def kernel_stream_demo(args: Dict[str, Any]):
     # Set up graphs
     kernel_exists = True
     graph = read_func(path)
-    graph_no_of_edges = graph.number_of_edges()
     edges = list(graph.edges)
     k = int(args["<k>"])
     kernel = nx.Graph()
