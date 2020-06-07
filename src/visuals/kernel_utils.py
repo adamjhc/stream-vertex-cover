@@ -14,7 +14,7 @@ def draw_graph(
 
     graph_axes.clear()
     graph_axes.set_title(
-        f"Graph (Nodes: {graph.number_of_nodes()}, Edges: {graph.number_of_edges()})"
+        f"Graph\nNodes: {graph.number_of_nodes()}, Edges: {graph.number_of_edges()}"
     )
     graph_axes.legend(
         handles=[
@@ -71,7 +71,7 @@ def draw_kernel(
 
     kernel_axes.clear()
     kernel_axes.set_title(
-        f"Kernel (Nodes: {kernel.number_of_nodes()}, Edges: {kernel.number_of_edges()}, Size of Graph: {kernel.number_of_edges()/graph.number_of_edges() * 100:.2f}%)"
+        f"Kernel\nNodes: {kernel.number_of_nodes()}, Edges: {kernel.number_of_edges()}, Size of Graph: {kernel.number_of_edges()/graph.number_of_edges() * 100:.2f}%"
     )
     kernel_axes.legend(
         handles=[
