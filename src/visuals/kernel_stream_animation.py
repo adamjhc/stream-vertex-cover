@@ -11,8 +11,8 @@ Options:
     -h --help               Show this screen
     --interval=INTERVAL     Delay between frames in milliseconds [default: 200]
     --repeat-delay=DELAY    Delay before repeating in milliseconds [default: 500]
-    --width=WIDTH           Width of GIF in pixels [default: 640]
-    --height=HEIGHT         Height of GIF in pixels [default: 480]
+    --width=WIDTH           Width of GIF in pixels [default: 800]
+    --height=HEIGHT         Height of GIF in pixels [default: 450]
     --label                 Show labels on nodes
 """
 from typing import Any, Dict, Set, Tuple
@@ -23,9 +23,12 @@ from docopt import docopt
 from matplotlib import animation
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.legend_handler import HandlerLine2D
+from matplotlib.lines import Line2D
 from networkx import Graph
 
-from visuals_util import _in, get_graph_layout, get_read_func_from_edgelist
+from kernel_utils import draw_failure_text, draw_graph, draw_kernel, draw_success_text
+from visuals_utils import _in, get_graph_layout, get_read_func_from_edgelist
 
 
 def kernel_stream_animation(args: Dict[str, Any]):
@@ -33,6 +36,7 @@ def kernel_stream_animation(args: Dict[str, Any]):
     read_func = get_read_func_from_edgelist(path)
 
     # Set up graphs
+    kernel_exists = True
     graph = read_func(path)
     edges = list(graph.edges)
     k = int(args["<k>"])
@@ -41,22 +45,36 @@ def kernel_stream_animation(args: Dict[str, Any]):
 
     # Build plot
     pixel_density = 100
-    fig, ax = plot.subplots(
+    figure, (graph_axes, kernel_axes) = plot.subplots(
+        1,
+        2,
         figsize=(
-            float(args["--fig-width"]) / pixel_density,
-            float(args["--fig-height"]) / pixel_density,
+            float(args["--width"]) / pixel_density,
+            float(args["--height"]) / pixel_density,
         ),
         dpi=pixel_density,
     )
-    fig.suptitle("Kernelization Algorithm")
+    figure.suptitle("Kernelization Algorithm")
     layout = get_graph_layout(graph)
 
     anim = animation.FuncAnimation(
-        fig,
+        figure,
         update,
         frames=len(edges),
         interval=int(args["--interval"]),
-        fargs=(ax, layout, kernel, maximal_matching, k, edges, args["--label"]),
+        fargs=(
+            figure,
+            graph_axes,
+            kernel_axes,
+            layout,
+            graph,
+            kernel,
+            maximal_matching,
+            k,
+            kernel_exists,
+            edges,
+            args["--label"],
+        ),
         repeat_delay=int(args["--repeat-delay"]),
     )
     anim.save(args["<output_name>"], writer="imagemagick")
@@ -64,16 +82,18 @@ def kernel_stream_animation(args: Dict[str, Any]):
 
 def update(
     i: int,
-    ax: Axes,
+    figure: Figure,
+    graph_axes: Axes,
+    kernel_axes: Axes,
     layout: dict,
+    graph: Graph,
     kernel: Graph,
     maximal_matching: Set[Tuple[Any, Any]],
     k: int,
+    kernel_exists,
     edges: list,
     with_labels: bool,
 ):
-    ax.clear()
-
     u, v = edges[i]
 
     # Kernelization algorithm
@@ -91,37 +111,20 @@ def update(
             maximal_matching.add((u, v))
             kernel.add_edge(u, v)
 
-    # matplotlib updates
-    title = f"Iteration {i}"
-    if len(maximal_matching) > k:
-        title += f" - No kernel for k = {k}"
-    ax.set_title(title)
+            if len(maximal_matching) > k:
+                kernel_exists = False
 
-    # Red colour for nodes in the matching
-    node_colours = [
-        "r" if _in(node, maximal_matching) else "k" for node in kernel.nodes
-    ]
+    if not kernel_exists:
+        draw_failure_text(figure, f"There is no such kernel of size {k}")
 
-    # Smaller node for nodes not in the matching
-    node_sizes = [
-        100 if not _in(node, maximal_matching) else 300 for node in kernel.nodes
-    ]
+    if i == len(edges) and kernel_exists:
+        draw_success_text(figure, f"A kernel exists of size {k}")
 
-    # Red colour for edges between two matched nodes
-    edge_colours = ["r" if (u, v) in maximal_matching else "k" for u, v in kernel.edges]
+    ## Graph subplot
+    draw_graph(graph_axes, graph, kernel, layout, u, v, with_labels)
 
-    # Thicker edge for edges between edges in matching
-    edge_widths = [2 if edge in maximal_matching else 0.5 for edge in kernel.edges]
-
-    nx.draw(
-        kernel,
-        pos=layout,
-        with_labels=with_labels,
-        node_color=node_colours,
-        node_size=node_sizes,
-        edge_color=edge_colours,
-        width=edge_widths,
-    )
+    ## Kernel subplot
+    draw_kernel(kernel_axes, kernel, graph, layout, maximal_matching, with_labels)
 
 
 if __name__ == "__main__":
