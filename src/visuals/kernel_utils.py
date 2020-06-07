@@ -61,6 +61,7 @@ def draw_kernel(
     kernel: Graph,
     graph: Graph,
     layout,
+    k,
     maximal_matching,
     with_labels,
 ):
@@ -71,7 +72,7 @@ def draw_kernel(
 
     kernel_axes.clear()
     kernel_axes.set_title(
-        f"Kernel\nNodes: {kernel.number_of_nodes()}, Edges: {kernel.number_of_edges()}, Size of Graph: {kernel.number_of_edges()/graph.number_of_edges() * 100:.2f}%"
+        f"Kernel (k={k})\nNodes: {kernel.number_of_nodes()}, Edges: {kernel.number_of_edges()}, Size of Graph: {kernel.number_of_edges()/graph.number_of_edges() * 100:.2f}%"
     )
     kernel_axes.legend(
         handles=[

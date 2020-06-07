@@ -142,7 +142,7 @@ def update(
     draw_graph(graph_axes, graph, kernel, layout, u, v, with_labels)
 
     ## Kernel subplot
-    draw_kernel(kernel_axes, kernel, graph, layout, maximal_matching, with_labels)
+    draw_kernel(kernel_axes, kernel, graph, layout, k, maximal_matching, with_labels)
 
 
 if __name__ == "__main__":
