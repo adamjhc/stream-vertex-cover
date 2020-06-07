@@ -22,7 +22,7 @@ from matplotlib.figure import Figure
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
 
-from kernel_utils import draw_graph, draw_kernel
+from kernel_utils import draw_failure_text, draw_graph, draw_kernel, draw_success_text
 from visuals_utils import _in, get_graph_layout, get_read_func_from_edgelist
 
 
@@ -68,17 +68,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
             kernel.add_edge(u, v)
 
             if len(maximal_matching) > k:
-                figure.text(
-                    0.5,
-                    0.05,
-                    f"There is no such kernel of size {k}",
-                    fontsize=24,
-                    color="white",
-                    bbox={"boxstyle": "round", "facecolor": "red", "edgecolor": "red",},
-                    horizontalalignment="center",
-                    verticalalignment="center",
-                    transform=figure.transFigure,
-                )
+                draw_failure_text(figure, f"There is no such kernel of size {k}")
                 kernel_exists = False
                 break
 
@@ -96,17 +86,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
             break
 
     if kernel_exists:
-        figure.text(
-            0.5,
-            0.05,
-            f"A kernel exists of size {k}",
-            fontsize=24,
-            color="white",
-            bbox={"boxstyle": "round", "facecolor": "green", "edgecolor": "green",},
-            horizontalalignment="center",
-            verticalalignment="center",
-            transform=figure.transFigure,
-        )
+        draw_success_text(figure, f"A kernel exists of size {k}")
 
     plot.show()
 

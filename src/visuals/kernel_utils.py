@@ -110,3 +110,25 @@ def draw_kernel(
         edge_color=kernel_edge_colours,
         width=kernel_edge_widths,
     )
+
+
+def draw_success_text(figure, text):
+    draw_text(figure, text, "green")
+
+
+def draw_failure_text(figure, text):
+    draw_text(figure, text, "red")
+
+
+def draw_text(figure, text, colour):
+    figure.text(
+        0.5,
+        0.05,
+        text,
+        fontsize=24,
+        color="white",
+        bbox={"boxstyle": "round", "facecolor": colour, "edgecolor": colour,},
+        horizontalalignment="center",
+        verticalalignment="center",
+        transform=figure.transFigure,
+    )
