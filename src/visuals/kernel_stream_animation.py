@@ -26,6 +26,7 @@ from matplotlib.figure import Figure
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
 from networkx import Graph
+from tqdm import tqdm
 
 from kernel_utils import draw_failure_text, draw_graph, draw_kernel, draw_success_text
 from visuals_utils import _in, get_graph_layout, get_read_func_from_edgelist
@@ -77,7 +78,18 @@ def kernel_stream_animation(args: Dict[str, Any]):
         ),
         repeat_delay=int(args["--repeat-delay"]),
     )
-    anim.save(args["<output_name>"], writer="imagemagick")
+
+    progress_bar = tqdm(
+        total=len(edges), leave=False, desc="Rendering", unit=" frames", initial=1
+    )
+    anim.save(
+        args["<output_name>"],
+        writer="imagemagick",
+        progress_callback=lambda i, n: progress_bar.update(1)
+        if i < n - 1
+        else progress_bar.set_description("Saving"),
+    )
+    progress_bar.close()
 
 
 def update(
