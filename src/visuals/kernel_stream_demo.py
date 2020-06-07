@@ -1,4 +1,4 @@
-"""Usage: kernel_stream_demo.py <edge_list_file> <k> [--delay=DELAY --label]
+"""Usage: kernel_stream_demo.py <edge_list_file> <k> [--delay=DELAY --label --shuffle]
 
 Demonstration of the kernelization of a graph edgelist
 
@@ -10,6 +10,7 @@ Options:
     -h --help           Show this screen
     --delay=DELAY       Specify delay between iterations in milliseconds [default: 500]
     --label             Show labels on nodes
+    --shuffle           Shuffles order of edges added to kernel
 """
 from typing import Any, Dict, Set, Tuple
 
@@ -21,6 +22,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
+from random import shuffle
 
 from kernel_utils import draw_failure_text, draw_graph, draw_kernel, draw_success_text
 from visuals_utils import _in, get_graph_layout, get_read_func_from_edgelist
@@ -33,7 +35,11 @@ def kernel_stream_demo(args: Dict[str, Any]):
     # Set up graphs
     kernel_exists = True
     graph = read_func(path)
+
     edges = list(graph.edges)
+    if args["--shuffle"]:
+        shuffle(edges)
+
     k = int(args["<k>"])
     kernel = nx.Graph()
     maximal_matching: Set[Tuple[Any, Any]] = set()
