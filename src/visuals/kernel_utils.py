@@ -66,7 +66,7 @@ def draw_kernel(
 ):
     kernel_node_type_names = ["Matched", "Neighbour"]
     kernel_node_type_colours = ["r", "k"]
-    kernel_node_type_sizes = [250, 50]
+    kernel_node_type_sizes = [200, 50]
     kernel_edge_type_widths = [2, 0.5]
 
     kernel_axes.clear()
