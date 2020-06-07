@@ -14,7 +14,9 @@ Options:
     --width=WIDTH           Width of GIF in pixels [default: 800]
     --height=HEIGHT         Height of GIF in pixels [default: 450]
     --label                 Show labels on nodes
+    --shuffle               Shuffle order of edges added to kernel
 """
+from random import shuffle
 from typing import Any, Dict, Set, Tuple
 
 import matplotlib.pyplot as plot
@@ -39,7 +41,11 @@ def kernel_stream_animation(args: Dict[str, Any]):
     # Set up graphs
     kernel_exists = True
     graph = read_func(path)
+
     edges = list(graph.edges)
+    if args["--shuffle"]:
+        shuffle(edges)
+
     k = int(args["<k>"])
     kernel = nx.Graph()
     maximal_matching: Set[Tuple[Any, Any]] = set()
