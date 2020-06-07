@@ -12,6 +12,7 @@ Options:
     --label             Show labels on nodes
     --shuffle           Shuffles order of edges added to kernel
 """
+from random import shuffle
 from typing import Any, Dict, Set, Tuple
 
 import matplotlib as mpl
@@ -22,9 +23,9 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
-from random import shuffle
 
-from kernel_utils import draw_failure_text, draw_graph, draw_kernel, draw_success_text
+from kernel_utils import (draw_failure_text, draw_graph, draw_kernel,
+                          draw_success_text)
 from visuals_utils import _in, get_graph_layout, get_read_func_from_edgelist
 
 
