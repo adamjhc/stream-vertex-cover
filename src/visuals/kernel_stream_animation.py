@@ -86,14 +86,14 @@ def kernel_stream_animation(args: Dict[str, Any]):
     )
 
     progress_bar = tqdm(
-        total=len(edges), leave=False, desc="Rendering", unit=" frames", initial=1
+        total=len(edges), leave=False, desc="Drawing frames", unit=" frames", initial=1,
     )
     anim.save(
         args["<output_name>"],
         writer="imagemagick",
         progress_callback=lambda i, n: progress_bar.update(1)
         if i < n - 1
-        else progress_bar.set_description("Saving"),
+        else progress_bar.set_description("Rendering"),
     )
     progress_bar.close()
 
