@@ -61,20 +61,21 @@ def kernel_stream_demo(args: Dict[str, Any]):
     for i, (u, v) in enumerate(edges):
         # Kernelization algorithm
         is_neighbour = False
-        if _in(u, maximal_matching) and kernel.degree[u] < k:
-            kernel.add_edge(u, v)
+        if _in(u, maximal_matching):
             is_neighbour = True
+            if kernel.degree[u] < k:
+                kernel.add_edge(u, v)
 
-        if _in(v, maximal_matching) and kernel.degree[v] < k:
-            kernel.add_edge(u, v)
+        if _in(v, maximal_matching):
             is_neighbour = True
+            if kernel.degree[v] < k:
+                kernel.add_edge(u, v)
 
         if not is_neighbour:
             maximal_matching.add((u, v))
             kernel.add_edge(u, v)
 
             if len(maximal_matching) > k:
-                draw_failure_text(figure, f"There is no such kernel of size {k}")
                 kernel_exists = False
                 break
 
@@ -95,6 +96,8 @@ def kernel_stream_demo(args: Dict[str, Any]):
 
     if kernel_exists:
         draw_success_text(figure, f"A kernel exists of size {k}")
+    else:
+        draw_failure_text(figure, f"There is no such kernel of size {k}")
 
     plot.show()
 

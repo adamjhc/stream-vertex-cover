@@ -159,20 +159,21 @@ def _kernelize(filename: str, k: int) -> Optional[Kernel]:
             Kernel if one exists for the given value of k
     """
     with open(filename) as stream:
-        edges = int(stream.readline().split()[1])
+        no_of_edges = int(stream.readline().split()[1])
 
         kernel = Kernel(k)
-
-        with tqdm(total=edges, leave=False, desc="Edges") as pbar:
+        kernel_exists = True
+        with tqdm(total=no_of_edges, leave=False, desc="Edges") as pbar:
             for line in stream:
                 u, v = line.split()[:2]
 
                 if not kernel.next(u, v):
-                    return None
+                    kernel_exists = False
+                    break
 
                 pbar.update(1)
 
-        return kernel
+        return kernel if kernel_exists else None
 
 
 if __name__ == "__main__":

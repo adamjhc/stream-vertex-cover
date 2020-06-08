@@ -14,14 +14,16 @@ class Kernel:
         is_neighbour = False
 
         match = self._get_if_in(u, self.matching)
-        if match is not None and len(match.neighbours_u) <= self.k:
-            match.neighbours_u.append((u, v))
+        if match is not None:
             is_neighbour = True
+            if len(match.neighbours_u) < self.k:
+                match.neighbours_u.append((u, v))
 
         match = self._get_if_in(v, self.matching)
-        if match is not None and len(match.neighbours_v) <= self.k:
-            match.neighbours_v.append((u, v))
+        if match is not None:
             is_neighbour = True
+            if len(match.neighbours_v) < self.k:
+                match.neighbours_v.append((u, v))
 
         if not is_neighbour:
             self.matching[(u, v)] = Match()
@@ -52,4 +54,3 @@ class Match:
         """
         self.neighbours_u = []
         self.neighbours_v = []
-
