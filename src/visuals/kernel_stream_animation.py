@@ -115,7 +115,7 @@ def update(
     u, v = edges[i]
 
     # Kernelization algorithm
-    if len(maximal_matching) <= k:
+    if kernel_exists:
         is_neighbour = False
         if _in(u, maximal_matching):
             is_neighbour = True
@@ -136,8 +136,7 @@ def update(
 
     if not kernel_exists:
         draw_failure_text(figure, f"There is no such kernel of size {k}")
-
-    if i == len(edges) and kernel_exists:
+    elif i == len(edges) - 1:
         draw_success_text(figure, f"A kernel exists of size {k}")
 
     ## Graph subplot
