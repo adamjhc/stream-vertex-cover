@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 
 class Kernel:
@@ -6,27 +6,34 @@ class Kernel:
         """
         """
         self.k = k
-        self.matching: dict = {}
+        self.matching: Dict[Tuple[Any, Any], Tuple[List[Any], List[Any]]] = {}
 
     def next(self, u: Any, v: Any) -> bool:
         """
         """
         is_neighbour = False
 
-        match = self._get_if_in(u, self.matching)
-        if match is not None:
+        matching = self._get_if_in(u, self.matching)
+        if matching is not None:
             is_neighbour = True
-            if len(match.neighbours_u) < self.k:
-                match.neighbours_u.append((u, v))
 
-        match = self._get_if_in(v, self.matching)
-        if match is not None:
-            is_neighbour = True
-            if len(match.neighbours_v) < self.k:
-                match.neighbours_v.append((u, v))
+            matched_edge, neighbours = matching
+            vertex_pos = matched_edge.index(u)
+            if len(neighbours[vertex_pos]) < self.k:
+                neighbours[vertex_pos].append((u, v))
+
+        else:
+            matching = self._get_if_in(v, self.matching)
+            if matching is not None:
+                is_neighbour = True
+
+                matched_edge, neighbours = matching
+                vertex_pos = matched_edge.index(v)
+                if len(neighbours[vertex_pos]) < self.k:
+                    neighbours[vertex_pos].append((u, v))
 
         if not is_neighbour:
-            self.matching[(u, v)] = Match()
+            self.matching[(u, v)] = ([], [])
 
             if len(self.matching) > self.k:
                 return False
@@ -42,8 +49,8 @@ class Kernel:
         """
         """
         no_of_edges = 0
-        for match in self.matching.values():
-            no_of_edges += 1 + len(match.neighbours_u) + len(match.neighbours_v)
+        for neighbours in self.matching.values():
+            no_of_edges += 1 + len(neighbours[0]) + len(neighbours[1])
 
         return no_of_edges
 
@@ -52,19 +59,13 @@ class Kernel:
         """
         return len(self.matching)
 
-    def _get_if_in(self, item, dictn: dict) -> Optional[Any]:
+    def _get_if_in(
+        self, item, dictn: dict
+    ) -> Optional[Tuple[Tuple[Any, Any], Tuple[List[Any], List[Any]]]]:
         """
         """
         for pair, match in dictn.items():
             if item in pair:
-                return match
+                return pair, match
 
         return None
-
-
-class Match:
-    def __init__(self):
-        """
-        """
-        self.neighbours_u = []
-        self.neighbours_v = []
