@@ -50,7 +50,7 @@ Vertex cover is a classical problem which has found many use cases. Here's a typ
 
 #### In Streaming
 
-![](./img/2^k-pass-bst.jpg)
+![](../images/2^k-pass-bst.jpg)
 
 ### Kernelization
 
@@ -58,7 +58,7 @@ Vertex cover is a classical problem which has found many use cases. Here's a typ
 
 #### In Streaming
 
-![](./img/1-pass.jpg)
+![](../images/1-pass.jpg)
 
 ### Adapting previous works into streaming
 
