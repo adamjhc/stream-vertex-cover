@@ -117,13 +117,15 @@ def update(
     # Kernelization algorithm
     if len(maximal_matching) <= k:
         is_neighbour = False
-        if _in(u, maximal_matching) and kernel.degree[u] < k:
-            kernel.add_edge(u, v)
+        if _in(u, maximal_matching):
             is_neighbour = True
+            if kernel.degree[u] < k:
+                kernel.add_edge(u, v)
 
-        if _in(v, maximal_matching) and kernel.degree[v] < k:
-            kernel.add_edge(u, v)
+        if _in(v, maximal_matching):
             is_neighbour = True
+            if kernel.degree[v] < k:
+                kernel.add_edge(u, v)
 
         if not is_neighbour:
             maximal_matching.add((u, v))
