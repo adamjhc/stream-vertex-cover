@@ -98,7 +98,7 @@ def vertex_cover_kernelization_stream(graph: Graph, k: int) -> Optional[set]:
             if kernel.degree[u] < k:
                 kernel.add_edge(u, v)
 
-        if v in maximal_matching:
+        elif v in maximal_matching:
             is_neighbour = True
             if kernel.degree[v] < k:
                 kernel.add_edge(u, v)

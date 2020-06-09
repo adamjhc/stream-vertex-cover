@@ -66,7 +66,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
             if kernel.degree[u] < k:
                 kernel.add_edge(u, v)
 
-        if _in(v, maximal_matching):
+        elif _in(v, maximal_matching):
             is_neighbour = True
             if kernel.degree[v] < k:
                 kernel.add_edge(u, v)
