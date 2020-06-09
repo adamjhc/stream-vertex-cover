@@ -38,6 +38,20 @@ class Kernel:
         """
         pass
 
+    def number_of_edges(self):
+        """
+        """
+        no_of_edges = 0
+        for match in self.matching.values():
+            no_of_edges += 1 + len(match.neighbours_u) + len(match.neighbours_v)
+
+        return no_of_edges
+
+    def size_of_matching(self):
+        """
+        """
+        return len(self.matching)
+
     def _get_if_in(self, item, dictn: dict) -> Optional[Any]:
         """
         """
