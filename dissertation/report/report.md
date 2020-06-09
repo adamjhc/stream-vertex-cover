@@ -277,6 +277,7 @@ If I had more time I would look into
 - how the algorithms can be parallelized for greater performance
   - more operations in one pass vs less operations in more passes
 - does including the lower bound of the vertex cover number into the binary search kernel give performance improvements
+- kernel improvements - creating a heuristic that depends on the type of graph (social/road/biological/etc...), then storing the max amount of edges we're allowed and then choosing which to include in matching based on statistical data from the type of graph? 
 
 ## Conclusion
 
