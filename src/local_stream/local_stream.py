@@ -68,15 +68,12 @@ def kernel_min(filename: str):
         total=ceil(log2(end)), desc="Binary Search for min-k", leave=False
     ) as pbar:
         min_k = end
-        percentage_reduction = 0
         while start <= end:
             mid = (start + end) // 2
             kernel = _kernelize(filename, mid)
             if kernel is not None:
                 min_k = mid
-                percentage_reduction = 100 - (
-                    (kernel.number_of_edges() / int(edges)) * 100
-                )
+                edges_kernel = kernel.number_of_edges()
                 end = mid - 1
             else:
                 start = mid + 1
@@ -85,11 +82,12 @@ def kernel_min(filename: str):
 
     result_table = SingleTable(
         [
-            ("Graph", Path(filename).stem),
-            ("Nodes", nodes),
-            ("Edges", edges),
+            ("Graph Name", Path(filename).stem),
+            ("Graph Nodes", nodes),
+            ("Graph Edges", edges),
             ("Min k", min_k),
-            ("% Reduction", round(percentage_reduction, 2)),
+            ("Kernel Edges", edges_kernel),
+            ("Reduction", f"{round(100 - ((edges_kernel / int(edges)) * 100), 2)}%"),
         ],
         title="Result",
     )
