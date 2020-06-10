@@ -128,7 +128,37 @@ def kernel_exists(filename: str, k: int):
         k : int
             Value up to which to find whether a kernel exists
     """
-    print(_kernelize(filename, k) is not None)
+    with open(filename) as stream:
+        graph_nodes, graph_edges = stream.readline().split()[:2]
+
+    kernel = _kernelize(filename, k)
+    result_data = [
+        ("Graph Name", Path(filename).stem),
+        ("Graph Nodes", graph_nodes),
+        ("Graph Edges", graph_edges),
+        ("k", f"{k}"),
+        ("Kernel exists", kernel is not None),
+    ]
+
+    if kernel is not None:
+        kernel_edges = kernel.number_of_edges()
+        kernel_nodes = kernel.number_of_nodes()
+
+        result_data.extend(
+            [
+                ("Kernel Nodes", kernel_nodes),
+                ("Kernel Edges", kernel_edges),
+                (
+                    "Reduction",
+                    f"{round(100 - ((kernel_edges / int(graph_edges)) * 100), 2)}%",
+                ),
+                ("Is Min VC?", k == kernel.size_of_matching()),
+            ]
+        )
+
+    result_table = SingleTable(result_data, title="Results")
+    result_table.inner_heading_row_border = False
+    print(result_table.table)
 
 
 def branching(filename: str, k: int):

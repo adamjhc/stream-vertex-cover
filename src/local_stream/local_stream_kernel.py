@@ -45,6 +45,19 @@ class Kernel:
         """
         pass
 
+    def number_of_nodes(self):
+        """
+        """
+        nodes = set()
+        for matched_edge, neighbours in self.matching.items():
+            nodes.update(matched_edge)
+            for edge in neighbours[0]:
+                nodes.update(edge)
+            for edge in neighbours[1]:
+                nodes.update(edge)
+
+        return len(nodes)
+
     def number_of_edges(self):
         """
         """
