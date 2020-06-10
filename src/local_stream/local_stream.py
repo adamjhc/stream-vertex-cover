@@ -58,41 +58,53 @@ def kernel_min(filename: str):
             The file path to stream from
     """
     with open(filename) as stream:
-        nodes, edges = stream.readline().split()[:2]
+        graph_nodes, graph_edges = stream.readline().split()[:2]
 
     start = 0
     # upper bound is the number of nodes
-    end = int(nodes)
+    end = int(graph_nodes)
 
+    kernel: Optional[Kernel]
+    min_k = end
     with tqdm(
         total=ceil(log2(end)), desc="Binary Search for min-k", leave=False
     ) as pbar:
-        min_k = end
         while start <= end:
             mid = (start + end) // 2
             kernel = _kernelize(filename, mid)
             if kernel is not None:
                 min_k = mid
-                edges_kernel = kernel.number_of_edges()
                 end = mid - 1
             else:
                 start = mid + 1
 
             pbar.update(1)
 
-    result_table = SingleTable(
-        [
-            ("Graph Name", Path(filename).stem),
-            ("Graph Nodes", nodes),
-            ("Graph Edges", edges),
-            ("Min k", min_k),
-            ("Kernel Edges", edges_kernel),
-            ("Reduction", f"{round(100 - ((edges_kernel / int(edges)) * 100), 2)}%"),
-        ],
-        title="Result",
-    )
-    result_table.inner_heading_row_border = False
-    print(result_table.table)
+    if kernel is not None:
+        kernel_nodes = kernel.number_of_nodes()
+        kernel_edges = kernel.number_of_edges()
+        is_min_vc = min_k == kernel.size_of_matching()
+
+        result_table = SingleTable(
+            [
+                ("Graph Name", Path(filename).stem),
+                ("Graph Nodes", graph_nodes),
+                ("Graph Edges", graph_edges),
+                ("Min k", min_k),
+                ("Kernel Nodes", kernel_nodes),
+                ("Kernel Edges", kernel_edges),
+                (
+                    "Reduction",
+                    f"{round(100 - ((kernel_edges / int(graph_edges)) * 100), 2)}%",
+                ),
+                ("Is Min VC?", is_min_vc),
+            ],
+            title="Result",
+        )
+        result_table.inner_heading_row_border = False
+        print(result_table.table)
+    else:
+        print("No Kernel Exists")
 
 
 def kernel_br(filename: str, k: int):
