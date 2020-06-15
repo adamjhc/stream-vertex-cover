@@ -18,12 +18,12 @@ from typing import Any, Dict, Set, Tuple
 
 import matplotlib as mpl
 import matplotlib.pyplot as plot
-import networkx as nx
 from docopt import docopt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
+from networkx import Graph
 
 from kernel_utils import draw_failure_text, draw_graph, draw_kernel, draw_success_text
 from visuals_utils import _in, get_graph_layout, get_read_func_from_edgelist
@@ -42,7 +42,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
         shuffle(edges)
 
     k = int(args["<k>"])
-    kernel = nx.Graph()
+    kernel: Graph = Graph()
     maximal_matching: Set[Tuple[Any, Any]] = set()
 
     # Set up matplotlib
