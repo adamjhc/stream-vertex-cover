@@ -26,6 +26,17 @@ def _in(item: Any, pairs: Collection[Tuple[Any, Any]]) -> bool:
     return False
 
 
+def both_in(pair: Tuple[Any, Any], pairs: Collection[Tuple[Any, Any]]) -> bool:
+    """
+    """
+    for pair_from_coll in pairs:
+        a, b = pair
+        if a in pair_from_coll and b in pair_from_coll:
+            return True
+
+    return False
+
+
 def get_read_func_from_edgelist(path: str) -> Callable:
     """Gets the appropriate NetworkX read edgelist function for a given
     edgelist

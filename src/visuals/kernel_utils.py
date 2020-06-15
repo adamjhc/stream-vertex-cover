@@ -3,7 +3,7 @@ from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
 from networkx import Graph, draw
 
-from visuals_utils import _in
+from visuals_utils import _in, both_in
 
 
 def draw_graph(
@@ -64,15 +64,20 @@ def draw_kernel(
     k,
     maximal_matching,
     with_labels,
+    i,
 ):
     kernel_node_type_names = ["Matched", "Neighbour"]
     kernel_node_type_colours = ["r", "k"]
     kernel_node_type_sizes = [200, 50]
     kernel_edge_type_widths = [2, 0.5]
 
+    kernel_edges_num = kernel.number_of_edges()
+    kernel_nodes_num = kernel.number_of_nodes()
+    graph_edges_num = graph.number_of_edges()
+
     kernel_axes.clear()
     kernel_axes.set_title(
-        f"Kernel (k={k})\nNodes: {kernel.number_of_nodes()}, Edges: {kernel.number_of_edges()}, Size of Graph: {kernel.number_of_edges()/graph.number_of_edges() * 100:.2f}%"
+        f"Kernel (k={k}, i={i}/{graph_edges_num - 1})\nNodes: {kernel_nodes_num}, Edges: {kernel_edges_num}, Size of Graph: {kernel_edges_num/graph_edges_num * 100:.2f}%"
     )
     kernel_axes.legend(
         handles=[
@@ -96,7 +101,7 @@ def draw_kernel(
     kernel_edge_colours = []
     kernel_edge_widths = []
     for edge in kernel.edges:
-        edge_type = 0 if edge in maximal_matching else 1
+        edge_type = 0 if both_in(edge, maximal_matching) else 1
 
         kernel_edge_colours.append(kernel_node_type_colours[edge_type])
         kernel_edge_widths.append(kernel_edge_type_widths[edge_type])
