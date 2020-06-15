@@ -27,11 +27,12 @@ solved in time O(2^{{2k^{2}}}+n+m) for a graph with n vertices and m edges,
 allowing it to be solved efficiently when k is small even if n and m are both
 large.
 """
-from typing import Optional, Tuple
+from typing import Any, Optional, Set, Tuple
 
 from networkx import Graph
 
 from local_branching import vertex_cover_branching, vertex_cover_branching_stream
+from local_util import item_in
 
 
 def vertex_cover_kernelization(graph: Graph, k: int) -> Optional[set]:
@@ -87,24 +88,21 @@ def vertex_cover_kernelization_stream(graph: Graph, k: int) -> Optional[set]:
     edges = list(graph.edges)
 
     kernel = Graph()
-    no_in_matching = 0
-    maximal_matching: set = set()
+    maximal_matching: Set[Tuple[Any, Any]] = set()
 
     for u, v in edges:
 
-        if u in maximal_matching and kernel.degree[u] < k:
+        if item_in(u, maximal_matching) and kernel.degree[u] < k:
             kernel.add_edge(u, v)
 
-        elif v in maximal_matching and kernel.degree[v] < k:
+        elif item_in(v, maximal_matching) and kernel.degree[v] < k:
             kernel.add_edge(u, v)
 
         else:
-            no_in_matching += 1
-            maximal_matching.add(u)
-            maximal_matching.add(v)
+            maximal_matching.add((u, v))
             kernel.add_edge(u, v)
 
-            if no_in_matching > k:
+            if len(maximal_matching) > k:
                 return None
 
     return vertex_cover_branching_stream(kernel, k)

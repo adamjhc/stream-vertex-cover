@@ -1,5 +1,5 @@
 from itertools import combinations
-from typing import Iterator, Sequence
+from typing import Any, Collection, Iterator, Sequence, Tuple
 from warnings import warn
 
 from networkx import Graph
@@ -63,3 +63,25 @@ def is_vertex_cover(graph: Graph, vertex_cover: set) -> bool:
             return False
 
     return True
+
+
+def item_in(item: Any, pairs: Collection[Tuple[Any, Any]]) -> bool:
+    """Checks whether an item exists anywehre in a collection of pairs
+
+    Arguments
+    ---------
+        item : Any
+            Item to look for
+        pairs : Collection[Tuple[Any, Any]]
+            Collections of pairs to look in
+
+    Returns
+    -------
+        bool
+            True/False whether item was found
+    """
+    for pair in pairs:
+        if item in pair:
+            return True
+
+    return False
