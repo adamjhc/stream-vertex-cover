@@ -13,6 +13,7 @@ Options:
     --shuffle           Shuffles order of edges added to kernel
 """
 from random import shuffle
+from tkinter import TclError
 from typing import Any, Dict, Set, Tuple
 
 import matplotlib as mpl
@@ -90,7 +91,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
         try:
             # Wait for update
             plot.pause(delay)
-        except:
+        except TclError:
             # Exception caused when exiting
             break
 
