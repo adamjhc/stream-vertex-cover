@@ -85,7 +85,7 @@ def kernel_stream_demo(args: Dict[str, Any]):
 
         # Kernel subplot
         draw_kernel(
-            kernel_axes, kernel, graph, layout, k, maximal_matching, with_labels
+            kernel_axes, kernel, graph, layout, k, maximal_matching, with_labels, i
         )
 
         try:
