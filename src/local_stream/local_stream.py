@@ -83,7 +83,6 @@ def kernel_min(filename: str):
     if kernel is not None:
         kernel_nodes = kernel.number_of_nodes()
         kernel_edges = kernel.number_of_edges()
-        is_min_vc = min_k == kernel.size_of_matching()
 
         result_table = SingleTable(
             [
@@ -97,7 +96,6 @@ def kernel_min(filename: str):
                     "Reduction",
                     f"{round(100 - ((kernel_edges / int(graph_edges)) * 100), 2)}%",
                 ),
-                ("Is Min VC?", is_min_vc),
             ],
             title="Result",
         )
@@ -164,7 +162,6 @@ def kernel_exists(filename: str, k: int):
                     "Reduction",
                     f"{round(100 - ((kernel_edges / int(graph_edges)) * 100), 2)}%",
                 ),
-                ("Is Min VC?", k == kernel.size_of_matching()),
             ]
         )
 
