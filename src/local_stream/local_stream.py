@@ -43,8 +43,8 @@ def main(args: Dict[str, Any]):
             branching(filename, k)
         elif args["kernel-exists"]:
             kernel_exists(filename, k)
-        elif args["kernel-br"]:
-            kernel_br(filename, k)
+        # elif args["kernel-br"]:
+        #     kernel_br(filename, k)
 
 
 def kernel_min(filename: str):
