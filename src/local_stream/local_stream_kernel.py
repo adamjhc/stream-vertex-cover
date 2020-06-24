@@ -43,7 +43,17 @@ class Kernel:
     def export(self, path: str):
         """
         """
-        pass
+        with open(path, "w+") as kernel_file:
+            kernel_file.write(f"- {self.number_of_edges()}\n")
+            for (
+                (matched_u, matched_v),
+                (neighbours_u, neighbours_v),
+            ) in self.matching.items():
+                kernel_file.write(f"{matched_u} {matched_v}\n")
+                for edge_u, edge_v in neighbours_u:
+                    kernel_file.write(f"{edge_u} {edge_v}\n")
+                for edge_u, edge_v in neighbours_v:
+                    kernel_file.write(f"{edge_u} {edge_v}\n")
 
     def number_of_nodes(self):
         """
