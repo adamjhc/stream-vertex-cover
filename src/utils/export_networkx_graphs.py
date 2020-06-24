@@ -17,7 +17,7 @@ def export_networkx_graphs():
     graphs = {
         "tutte": nx.tutte_graph(),
         "petersen": nx.petersen_graph(),
-        "floretine_families": nx.florentine_families_graph(),
+        "florentine_families": nx.florentine_families_graph(),
         "karate_club": nx.karate_club_graph(),
         "les_miserables": nx.les_miserables_graph(),
     }
