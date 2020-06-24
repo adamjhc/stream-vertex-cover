@@ -1,5 +1,4 @@
 import faust
-
 from faust.cli import argument
 
 from stream_models import GraphInfo

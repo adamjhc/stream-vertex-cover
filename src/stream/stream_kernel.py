@@ -1,10 +1,10 @@
-import faust
+import logging
 import os
 import signal
 
-import logging
-from terminaltables import SingleTable
+import faust
 from faust import StreamT
+from terminaltables import SingleTable
 
 from stream_models import Edge, GraphInfo
 
