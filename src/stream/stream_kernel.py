@@ -1,6 +1,7 @@
 import logging
 import os
 import signal
+from pathlib import Path
 
 import faust
 from faust import StreamT
@@ -18,7 +19,7 @@ topic_info = app.topic("info", key_type=str, value_type=GraphInfo)
 
 @app.task()
 async def on_started():
-    print(f"Visit http://localhost:{web_port}")
+    logging.info(f"Visit http://localhost:{web_port}")
 
 
 @app.agent(topic_edges)
@@ -54,14 +55,23 @@ async def process_edges(edges: StreamT[Edge]):
                 if len(matching) > graph.k:
                     kernel_exists = False
 
+        graph_edges = i
         result_table = SingleTable(
             [
-                ("Graph", "k", "Edges", "Kernel exists?"),
-                (graph.path, graph.k, i, kernel_exists),
+                ("Graph Name", Path(graph.path).stem),
+                ("Graph Edges", graph_edges),
+                ("k", graph.k),
+                ("Kernel exists?", kernel_exists),
+                # ("Kernel Nodes", kernel_nodes),
+                # ("Kernel Edges", kernel_edges),
+                # (
+                #     "Reduction",
+                #     f"{round(100 - ((kernel_edges / graph_edges) * 100), 2)}%",
+                # ),
             ],
             title="Result",
         )
-        logging.warning(f"Completed kernel\n{result_table.table}")
+        logging.info(f"Completed kernelization\n{result_table.table}")
 
 
 @app.page("/")
