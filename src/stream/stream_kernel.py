@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import faust
 from faust import StreamT
+from faust.web.drivers.aiohttp import Web
 from terminaltables import SingleTable
 
 from stream_models import Edge, GraphInfo
@@ -13,6 +14,8 @@ from stream_models import Edge, GraphInfo
 web_port = 6066
 
 app = faust.App("kernelizer", broker="kafka://localhost:9092", web_port=web_port)
+app.web.add_static("/static/", path="./static")
+
 
 topic_edges = app.topic("edges", key_type=str, value_type=Edge)
 topic_info = app.topic("info", key_type=str, value_type=GraphInfo)
@@ -69,15 +72,7 @@ async def process_edges(edges: StreamT[Edge]):
 async def get_index(self, request):
     """
     """
-    with open("./web/index.html", "r") as page:
-        return self.html(page.read())
-
-
-@app.page("/status")
-async def get_status(self, request):
-    """
-    """
-    with open("./web/status.html", "r") as page:
+    with open("./views/index.html", "r") as page:
         return self.html(page.read())
 
 
