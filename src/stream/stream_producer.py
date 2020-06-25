@@ -1,3 +1,4 @@
+import logging
 from time import sleep
 
 import faust
@@ -14,13 +15,13 @@ topic_edges = app.topic("edges", key_type=str, value_type=Edge)
 
 @app.task()
 async def on_started():
-    print("Ready")
+    logging.info("Ready")
 
 
 @app.agent(topic_requests)
 async def stream(requests: StreamT[GraphInfo]):
     async for request in requests.echo(topic_info):
-        print(f"{request.path} {request.k}")
+        logging.info(f"Processing {request.path} {request.k}")
 
         with open(request.path, "r") as edgelist:
             for i, edge in enumerate(edgelist):
