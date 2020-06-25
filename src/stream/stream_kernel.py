@@ -47,7 +47,6 @@ async def process_edges(edges: StreamT[Edge]):
 
         graph_edges = i
         kernel_edges = kernel.number_of_edges()
-        kernel_nodes = kernel.number_of_nodes()
 
         result_table = SingleTable(
             [
@@ -55,7 +54,6 @@ async def process_edges(edges: StreamT[Edge]):
                 ("Graph Edges", graph_edges),
                 ("k", graph.k),
                 ("Kernel exists?", kernel_exists),
-                ("Kernel Nodes", kernel_nodes),
                 ("Kernel Edges", kernel_edges),
                 (
                     "Reduction",
@@ -132,34 +130,6 @@ class Kernel:
 
         return True
 
-    def export(self, path: str):
-        """
-        """
-        with open(path, "w+") as kernel_file:
-            kernel_file.write(f"- {self.number_of_edges()}\n")
-            for (
-                (matched_u, matched_v),
-                (neighbours_u, neighbours_v),
-            ) in self.matching.items():
-                kernel_file.write(f"{matched_u} {matched_v}\n")
-                for edge_u, edge_v in neighbours_u:
-                    kernel_file.write(f"{edge_u} {edge_v}\n")
-                for edge_u, edge_v in neighbours_v:
-                    kernel_file.write(f"{edge_u} {edge_v}\n")
-
-    def number_of_nodes(self):
-        """
-        """
-        nodes = set()
-        for matched_edge, neighbours in self.matching.items():
-            nodes.update(matched_edge)
-            for edge in neighbours[0]:
-                nodes.update(edge)
-            for edge in neighbours[1]:
-                nodes.update(edge)
-
-        return len(nodes)
-
     def number_of_edges(self):
         """
         """
@@ -168,11 +138,6 @@ class Kernel:
             no_of_edges += 1 + len(neighbours[0]) + len(neighbours[1])
 
         return no_of_edges
-
-    def size_of_matching(self):
-        """
-        """
-        return len(self.matching)
 
     def _get_if_in(
         self, item, dictn: dict
