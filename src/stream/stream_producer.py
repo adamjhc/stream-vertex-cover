@@ -3,6 +3,7 @@ from time import sleep
 
 import faust
 from faust import StreamT
+from faust.web import Request, Response, View
 
 from stream_models import Edge, GraphInfo
 
@@ -18,19 +19,33 @@ async def on_started():
     logging.info("Ready")
 
 
+@app.page("/request")
+class WebProducer(View):
+    async def post(self, request: Request) -> Response:
+        body = await request.json()
+
+        logging.info(f"{body['algorithm']} {body['k']} {body['graph']}")
+
+        # send_graph(body["algorithm"], body["k"], body["graph"])
+
+        return self.json({})
+
+
 @app.agent(topic_requests)
 async def stream(requests: StreamT[GraphInfo]):
     async for request in requests.echo(topic_info):
-        logging.info(f"Processing {request.path} {request.k}")
+        send_graph(request.algorithm, request.path, request.k)
 
-        with open(request.path, "r") as edgelist:
-            for i, edge in enumerate(edgelist):
-                u, v = edge.split()[:2]
-                await topic_edges.send(key=str(i), value=Edge(u=u, v=v))
 
-            await topic_edges.send(
-                key=str(i + 1), value=Edge(is_end=True, u="-1", v="-1")
-            )
+async def send_graph(algorithm, path, k):
+    logging.info(f"Processing {path} {k}")
+
+    with open(path, "r") as edgelist:
+        for i, edge in enumerate(edgelist):
+            u, v = edge.split()[:2]
+            await topic_edges.send(key=str(i), value=Edge(u=u, v=v))
+
+        await topic_edges.send(key=str(i + 1), value=Edge(is_end=True, u="-1", v="-1"))
 
 
 if __name__ == "__main__":
