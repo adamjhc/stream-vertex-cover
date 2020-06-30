@@ -8,8 +8,54 @@
     <title>Vertex Cover Stream</title>
   </head>
   <body>
-    <h1>
-      Vertex Cover Stream
-    </h1>
+    <div class="container">
+      <div class="grid">
+        <div class="header">
+          <h1>Stream Vertex Cover</h1>
+        </div>
+        <div class="main box">
+          <h2>Main</h2>
+          <div class="main-form">
+            <div class="input">
+              <label for="input-algs">Choose an algorithm:</label>
+              <select name="input-algs" id="input-algs">
+                <option value="branching">Branching</option>
+                <option value="kernel">Kernel</option>
+              </select>
+            </div>
+            <div class="input">
+              <label for="input-k">Input a k value:</label>
+              <input
+                id="input-k"
+                name="input-k"
+                type="number"
+                min="0"
+                max="9999"
+              />
+            </div>
+            <div class="input">
+              <label for="input-graph">Choose a graph:</label>
+              <select name="input-graph" id="input-graph">
+                <option value="florentine">Florentine</option>
+              </select>
+            </div>
+            <div class="input">
+              <button id="submit">Submit Job</button>
+            </div>
+          </div>
+        </div>
+        <div class="stream box">
+          <h2>Stream Log</h2>
+          <div class="stream-log">u v</div>
+        </div>
+        <div class="results box">
+          <h2>Results</h2>
+          <div class="results-log"></div>
+        </div>
+        <div class="status box">
+          <h2>Status</h2>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
