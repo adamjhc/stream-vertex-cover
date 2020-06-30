@@ -24,23 +24,25 @@ class WebProducer(View):
     async def post(self, request: Request) -> Response:
         body = await request.json()
 
-        logging.info(f"{body['algorithm']} {body['k']} {body['graph']}")
+        logging.info(f"Received {body['algorithm']} {body['graph']} {body['k']}")
 
-        # send_graph(body["algorithm"], body["k"], body["graph"])
+        await send_graph(body["algorithm"], body["graph"], body["k"])
 
         return self.json({})
 
 
 @app.agent(topic_requests)
 async def stream(requests: StreamT[GraphInfo]):
-    async for request in requests.echo(topic_info):
+    async for request in requests:
         send_graph(request.algorithm, request.path, request.k)
 
 
 async def send_graph(algorithm, path, k):
-    logging.info(f"Processing {path} {k}")
+    logging.info(f"Processing {algorithm} {path} {k}")
 
     with open(path, "r") as edgelist:
+        await topic_info.send(value=GraphInfo(path, int(k)))
+
         for i, edge in enumerate(edgelist):
             u, v = edge.split()[:2]
             await topic_edges.send(key=str(i), value=Edge(u=u, v=v))

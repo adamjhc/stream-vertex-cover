@@ -1,3 +1,5 @@
+import asyncio
+import json
 import logging
 import os
 import signal
@@ -5,6 +7,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import faust
+from aiohttp_sse import sse_response
 from faust import StreamT
 from faust.web.drivers.aiohttp import Web
 from terminaltables import SingleTable
@@ -19,6 +22,7 @@ app.web.add_static("/static/", path="./static")
 
 topic_edges = app.topic("edges", key_type=str, value_type=Edge)
 topic_info = app.topic("info", key_type=str, value_type=GraphInfo)
+channel_edges = app.channel()
 
 
 @app.task()
@@ -44,6 +48,8 @@ async def process_edges(edges: StreamT[Edge]):
 
             if kernel_exists == False:
                 continue
+
+            await channel_edges.put(edge)
 
             if not kernel.next(edge.u, edge.v):
                 kernel_exists = False
@@ -74,6 +80,15 @@ async def get_index(self, request):
     """
     with open("./views/index.html", "r") as page:
         return self.html(page.read())
+
+
+@app.page("/stream")
+async def get_stream(self, request):
+    """
+    """
+    async with sse_response(request) as response:
+        async for edge in channel_edges:
+            await response.send(f"{edge.u} {edge.v} {edge.is_end}")
 
 
 def _get_if_in(item, dictn):

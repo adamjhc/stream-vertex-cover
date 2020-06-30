@@ -17,12 +17,30 @@
           <h2>Main</h2>
           <div class="main-form">
             <div class="form-row">
-              <label for="input-algs" class="form-label"
-                >Choose an algorithm:</label
-              >
+              <label for="input-algs" class="form-label">
+                Choose an algorithm:
+              </label>
               <select name="input-algs" id="input-algs" class="form-input">
                 <option value="branching">Branching</option>
                 <option value="kernel">Kernel</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="input-graph" class="form-label">
+                Choose a graph:
+              </label>
+              <select name="input-graph" id="input-graph" class="form-input">
+                <option value="..\test_sets\edge_lists\florentine_families.txt">
+                  Florentine Families
+                </option>
+                <option
+                  value="..\test_sets\edge_lists\les_miserables_edgelist.txt"
+                >
+                  Les Miserables
+                </option>
+                <option value="..\test_sets\edge_lists\rome99_edgelist.txt">
+                  Rome99
+                </option>
               </select>
             </div>
             <div class="form-row">
@@ -36,14 +54,6 @@
                 value="0"
               />
             </div>
-            <div class="form-row">
-              <label for="input-graph" class="form-label"
-                >Choose a graph:</label
-              >
-              <select name="input-graph" id="input-graph" class="form-input">
-                <option value="florentine">Florentine</option>
-              </select>
-            </div>
             <div class="form-submit">
               <button id="submit">Submit Job</button>
             </div>
@@ -51,7 +61,7 @@
         </div>
         <div class="stream box">
           <h2>Stream Log</h2>
-          <div class="stream-log">u v</div>
+          <div class="stream-log" id="stream-log"></div>
         </div>
         <div class="results box">
           <h2>Results</h2>

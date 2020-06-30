@@ -6,8 +6,8 @@ window.onload = () => {
 
     const request = {
       algorithm: inputAlgorithms.value,
-      k: inputK.value,
       graph: inputGraph.value,
+      k: inputK.value,
     };
 
     fetch("http://localhost:6067/request", {
@@ -18,5 +18,25 @@ window.onload = () => {
       },
       body: JSON.stringify(request),
     }).then((response) => {});
+  };
+
+  var streamSource = new EventSource("/stream");
+  streamSource.onmessage = (e) => {
+    const streamLog = document.getElementById("stream-log");
+    const isScrolledToBottom =
+      streamLog.scrollHeight - streamLog.clientHeight <=
+      streamLog.scrollTop + 1;
+
+    const element = document.createElement("div");
+    element.textContent = e.data;
+    streamLog.appendChild(element);
+
+    if (isScrolledToBottom) {
+      streamLog.scrollTop = streamLog.scrollHeight - streamLog.clientHeight;
+    }
+
+    if (streamLog.childNodes.length > 100) {
+      streamLog.removeChild(streamLog.firstChild);
+    }
   };
 };
