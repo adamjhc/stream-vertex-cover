@@ -16,30 +16,35 @@
         <div class="main box">
           <h2>Main</h2>
           <div class="main-form">
-            <div class="input">
-              <label for="input-algs">Choose an algorithm:</label>
-              <select name="input-algs" id="input-algs">
+            <div class="form-row">
+              <label for="input-algs" class="form-label"
+                >Choose an algorithm:</label
+              >
+              <select name="input-algs" id="input-algs" class="form-input">
                 <option value="branching">Branching</option>
                 <option value="kernel">Kernel</option>
               </select>
             </div>
-            <div class="input">
-              <label for="input-k">Input a k value:</label>
+            <div class="form-row">
+              <label for="input-k" class="form-label">Input a k value:</label>
               <input
                 id="input-k"
                 name="input-k"
+                class="form-input"
                 type="number"
                 min="0"
-                max="9999"
+                value="0"
               />
             </div>
-            <div class="input">
-              <label for="input-graph">Choose a graph:</label>
-              <select name="input-graph" id="input-graph">
+            <div class="form-row">
+              <label for="input-graph" class="form-label"
+                >Choose a graph:</label
+              >
+              <select name="input-graph" id="input-graph" class="form-input">
                 <option value="florentine">Florentine</option>
               </select>
             </div>
-            <div class="input">
+            <div class="form-submit">
               <button id="submit">Submit Job</button>
             </div>
           </div>
@@ -50,10 +55,11 @@
         </div>
         <div class="results box">
           <h2>Results</h2>
-          <div class="results-log"></div>
+          <div class="results-log">Finished Job!</div>
         </div>
         <div class="status box">
           <h2>Status</h2>
+          <div class="status-symbol">Ready</div>
         </div>
       </div>
     </div>
