@@ -61,20 +61,26 @@ async def process_edges(edges: StreamT[Edge]):
         graph_edges = i
         kernel_edges = kernel.number_of_edges()
 
-        result_table = SingleTable(
-            [
-                ("Graph Name", Path(graph.path).stem),
-                ("Graph Edges", graph_edges),
-                ("k", graph.k),
-                ("Kernel exists?", kernel_exists),
-                ("Kernel Edges", kernel_edges),
-                (
-                    "Reduction",
-                    f"{round(100 - ((kernel_edges / graph_edges) * 100), 2)}%",
-                ),
-            ],
-            title="Result",
-        )
+        result = [
+            ("Graph Name", Path(graph.path).stem),
+            ("Graph Edges", graph_edges),
+            ("k", graph.k),
+            ("Kernel exists?", kernel_exists),
+        ]
+
+        if kernel_exists:
+            result.extend(
+                [
+                    ("Kernel Edges", kernel_edges),
+                    (
+                        "Reduction",
+                        f"{100 - round(100 - ((kernel_edges / graph_edges) * 100), 2)}%",
+                    ),
+                ]
+            )
+
+        result_table = SingleTable(result, title="Result")
+        result_table.inner_heading_row_border = False
 
         for line in result_table.table.splitlines():
             await channel_results.put(line)
