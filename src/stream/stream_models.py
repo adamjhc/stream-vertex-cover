@@ -7,6 +7,7 @@ class Edge(faust.Record):
     is_end: bool = False
 
 
-class GraphInfo(faust.Record):
+class JobInfo(faust.Record):
+    algorithm: str
     path: str
     k: int

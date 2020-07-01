@@ -12,7 +12,7 @@ from faust import StreamT
 from faust.web.drivers.aiohttp import Web
 from terminaltables import SingleTable
 
-from stream_models import Edge, GraphInfo
+from stream_models import Edge, JobInfo
 
 web_port = 6066
 
@@ -21,7 +21,7 @@ app.web.add_static("/static/", path="./static")
 
 
 topic_edges = app.topic("edges", key_type=str, value_type=Edge)
-topic_info = app.topic("info", key_type=str, value_type=GraphInfo)
+topic_info = app.topic("info", key_type=str, value_type=JobInfo)
 
 channel_edges = app.channel()
 channel_results = app.channel()
@@ -38,12 +38,12 @@ async def on_started():
 async def process_edges(edges: StreamT[Edge]):
     """
     """
-    graphs = app.stream(topic_info)
+    jobs = app.stream(topic_info)
 
-    async for graph in graphs:
-        logging.info(f"Processing {graph.path} {graph.k}")
+    async for job_no, job in jobs.items():
+        logging.info(f"Job #{job_no} {job.algorithm} {job.path} {job.k}")
 
-        kernel = Kernel(graph.k)
+        kernel = Kernel(job.k)
         kernel_exists = True
 
         async for i, edge in edges.enumerate(start=0):
@@ -62,9 +62,9 @@ async def process_edges(edges: StreamT[Edge]):
         kernel_edges = kernel.number_of_edges()
 
         result = [
-            ("Graph Name", Path(graph.path).stem),
+            ("Graph Name", Path(job.path).stem),
             ("Graph Edges", graph_edges),
-            ("k", graph.k),
+            ("k", job.k),
             ("Kernel exists?", kernel_exists),
         ]
 
@@ -79,7 +79,7 @@ async def process_edges(edges: StreamT[Edge]):
                 ]
             )
 
-        result_table = SingleTable(result, title="Result")
+        result_table = SingleTable(result, title=f"Job {job_no}")
         result_table.inner_heading_row_border = False
 
         for line in result_table.table.splitlines():

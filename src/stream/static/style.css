@@ -46,8 +46,8 @@ input {
   grid-template-rows: 0.3fr repeat(3, 1fr);
   grid-template-areas:
     "header header header"
-    "main stream results"
-    "main stream results"
+    "job stream results"
+    "job stream results"
     "status stream results";
 }
 
@@ -57,8 +57,8 @@ input {
   justify-content: center;
 }
 
-.main {
-  grid-area: main;
+.job {
+  grid-area: job;
 }
 
 .stream {
@@ -84,7 +84,7 @@ input {
   box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.75);
 }
 
-.main-form {
+.job-form {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
