@@ -10,6 +10,11 @@ window.onload = () => {
       k: inputK.value,
     };
 
+    const submitButton = document.getElementById("submit");
+    submitButton.disabled = true;
+    const statusText = document.getElementById("status");
+    statusText.innerText = "Processing";
+
     fetch("http://localhost:6067/request", {
       method: "POST",
       mode: "no-cors",
@@ -17,7 +22,10 @@ window.onload = () => {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(request),
-    }).then((response) => {});
+    }).then((_response) => {
+      submitButton.disabled = false;
+      statusText.innerText = "Ready";
+    });
   };
 
   const updateLog = (logName, data) => {
