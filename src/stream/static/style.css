@@ -39,7 +39,7 @@ input {
 
 .grid {
   display: grid;
-  height: calc(100vh - 1rem);
+  height: calc(100vh - 5rem);
   width: 1400px;
   padding-bottom: 1rem;
   grid-template-columns: repeat(3, 1fr);
