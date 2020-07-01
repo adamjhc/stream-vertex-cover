@@ -41,6 +41,8 @@ async def process_edges(edges: StreamT[Edge]):
     graphs = app.stream(topic_info)
 
     async for graph in graphs:
+        logging.info(f"Processing {graph.path} {graph.k}")
+
         kernel = Kernel(graph.k)
         kernel_exists = True
 
@@ -73,7 +75,6 @@ async def process_edges(edges: StreamT[Edge]):
             ],
             title="Result",
         )
-        logging.info(f"Completed kernelization\n{result_table.table}")
 
         for line in result_table.table.splitlines():
             await channel_results.put(line)
