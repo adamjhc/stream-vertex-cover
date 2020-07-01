@@ -20,15 +20,15 @@ window.onload = () => {
     }).then((response) => {});
   };
 
-  var streamSource = new EventSource("/stream");
-  streamSource.onmessage = (e) => {
+  const streamSource = new EventSource("/stream");
+  streamSource.onmessage = (message) => {
     const streamLog = document.getElementById("stream-log");
     const isScrolledToBottom =
       streamLog.scrollHeight - streamLog.clientHeight <=
       streamLog.scrollTop + 1;
 
     const element = document.createElement("div");
-    element.textContent = e.data;
+    element.textContent = message.data;
     streamLog.appendChild(element);
 
     if (isScrolledToBottom) {
@@ -38,5 +38,31 @@ window.onload = () => {
     if (streamLog.childNodes.length > 100) {
       streamLog.removeChild(streamLog.firstChild);
     }
+  };
+  streamSource.onerror = (_ev) => {
+    streamSource.close();
+  };
+
+  const resultsSource = new EventSource("/results");
+  resultsSource.onmessage = (message) => {
+    const streamLog = document.getElementById("results-log");
+    const isScrolledToBottom =
+      streamLog.scrollHeight - streamLog.clientHeight <=
+      streamLog.scrollTop + 1;
+
+    const element = document.createElement("div");
+    element.textContent = message.data;
+    streamLog.appendChild(element);
+
+    if (isScrolledToBottom) {
+      streamLog.scrollTop = streamLog.scrollHeight - streamLog.clientHeight;
+    }
+
+    if (streamLog.childNodes.length > 100) {
+      streamLog.removeChild(streamLog.firstChild);
+    }
+  };
+  resultsSource.onerror = (_ev) => {
+    resultsSource.close();
   };
 };

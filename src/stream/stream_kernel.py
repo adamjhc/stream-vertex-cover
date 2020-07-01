@@ -22,7 +22,9 @@ app.web.add_static("/static/", path="./static")
 
 topic_edges = app.topic("edges", key_type=str, value_type=Edge)
 topic_info = app.topic("info", key_type=str, value_type=GraphInfo)
+
 channel_edges = app.channel()
+channel_results = app.channel()
 
 
 @app.task()
@@ -73,6 +75,9 @@ async def process_edges(edges: StreamT[Edge]):
         )
         logging.info(f"Completed kernelization\n{result_table.table}")
 
+        for line in result_table.table.splitlines():
+            await channel_results.put(line)
+
 
 @app.page("/")
 async def get_index(self, request):
@@ -89,6 +94,15 @@ async def get_stream(self, request):
     async with sse_response(request) as response:
         async for edge in channel_edges:
             await response.send(f"{edge.u} {edge.v} {edge.is_end}")
+
+
+@app.page("/results")
+async def get_results(self, request):
+    """
+    """
+    async with sse_response(request) as response:
+        async for result in channel_results:
+            await response.send(result)
 
 
 def _get_if_in(item, dictn):
