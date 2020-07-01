@@ -33,7 +33,7 @@ window.onload = () => {
       log.scrollTop = log.scrollHeight - log.clientHeight;
     }
 
-    if (log.childNodes.length > 100) {
+    if (log.childNodes.length > 150) {
       log.removeChild(log.firstChild);
     }
   };
