@@ -11,9 +11,11 @@ window.onload = () => {
     };
 
     const submitButton = document.getElementById("submit");
+    const readySymbol = document.getElementById("ready-symbol");
+    const processingSymbol = document.getElementById("processing-symbol");
     submitButton.disabled = true;
-    const statusText = document.getElementById("status");
-    statusText.innerText = "Processing";
+    readySymbol.hidden = true;
+    processingSymbol.hidden = false;
 
     fetch("http://localhost:6067/request", {
       method: "POST",
@@ -24,7 +26,8 @@ window.onload = () => {
       body: JSON.stringify(request),
     }).then((_response) => {
       submitButton.disabled = false;
-      statusText.innerText = "Ready";
+      readySymbol.hidden = false;
+      processingSymbol.hidden = true;
     });
   };
 
