@@ -94,7 +94,7 @@ async def get_stream(self, request):
     """
     async with sse_response(request) as response:
         async for edge in channel_edges:
-            await response.send(f"{edge.u} {edge.v} {edge.is_end}")
+            await response.send(f"{edge.u} {edge.v}")
 
 
 @app.page("/results")
