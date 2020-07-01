@@ -24,8 +24,6 @@ class WebProducer(View):
     async def post(self, request: Request) -> Response:
         body = await request.json()
 
-        logging.info(f"Received {body['algorithm']} {body['graph']} {body['k']}")
-
         await send_graph(body["algorithm"], body["graph"], body["k"])
 
         return self.json({})
