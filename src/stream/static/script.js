@@ -20,49 +20,29 @@ window.onload = () => {
     }).then((response) => {});
   };
 
-  const streamSource = new EventSource("/stream");
-  streamSource.onmessage = (message) => {
-    const streamLog = document.getElementById("stream-log");
+  const updateLog = (logName, data) => {
+    const log = document.getElementById(logName);
     const isScrolledToBottom =
-      streamLog.scrollHeight - streamLog.clientHeight <=
-      streamLog.scrollTop + 1;
+      log.scrollHeight - log.clientHeight <= log.scrollTop + 1;
 
     const element = document.createElement("div");
-    element.textContent = message.data;
-    streamLog.appendChild(element);
+    element.textContent = data;
+    log.appendChild(element);
 
     if (isScrolledToBottom) {
-      streamLog.scrollTop = streamLog.scrollHeight - streamLog.clientHeight;
+      log.scrollTop = log.scrollHeight - log.clientHeight;
     }
 
-    if (streamLog.childNodes.length > 100) {
-      streamLog.removeChild(streamLog.firstChild);
+    if (log.childNodes.length > 100) {
+      log.removeChild(log.firstChild);
     }
   };
-  streamSource.onerror = (_ev) => {
-    streamSource.close();
-  };
+
+  const streamSource = new EventSource("/stream");
+  streamSource.onmessage = (message) => updateLog("stream-log", message.data);
+  streamSource.onerror = (_ev) => streamSource.close();
 
   const resultsSource = new EventSource("/results");
-  resultsSource.onmessage = (message) => {
-    const streamLog = document.getElementById("results-log");
-    const isScrolledToBottom =
-      streamLog.scrollHeight - streamLog.clientHeight <=
-      streamLog.scrollTop + 1;
-
-    const element = document.createElement("div");
-    element.textContent = message.data;
-    streamLog.appendChild(element);
-
-    if (isScrolledToBottom) {
-      streamLog.scrollTop = streamLog.scrollHeight - streamLog.clientHeight;
-    }
-
-    if (streamLog.childNodes.length > 100) {
-      streamLog.removeChild(streamLog.firstChild);
-    }
-  };
-  resultsSource.onerror = (_ev) => {
-    resultsSource.close();
-  };
+  resultsSource.onmessage = (message) => updateLog("results-log", message.data);
+  resultsSource.onerror = (_ev) => resultsSource.close();
 };
