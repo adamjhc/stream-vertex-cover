@@ -26,7 +26,7 @@ class WebProducer(View):
     async def post(self, request: Request) -> Response:
         body = await request.json()
 
-        await send_graph(body["algorithm"], body["graph"], body["k"])
+        await send_job(body["algorithm"], body["graph"], body["k"])
 
         return self.json({})
 
@@ -34,10 +34,10 @@ class WebProducer(View):
 @app.agent(topic_requests)
 async def stream(requests: StreamT[JobInfo]):
     async for request in requests:
-        send_graph(request.algorithm, request.path, request.k)
+        send_job(request.algorithm, request.path, request.k)
 
 
-async def send_graph(algorithm, path, k):
+async def send_job(algorithm, path, k):
     global job_no
 
     logging.info(f"Job #{job_no} {algorithm} {path} {k}")
