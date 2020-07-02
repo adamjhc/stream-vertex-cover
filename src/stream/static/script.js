@@ -1,4 +1,8 @@
 window.onload = () => {
+  const submitButton = document.getElementById("submit");
+  const readySymbol = document.getElementById("ready-symbol");
+  const processingSymbol = document.getElementById("processing-symbol");
+
   document.getElementById("submit").onclick = () => {
     const inputAlgorithms = document.getElementById("input-algs");
     const inputK = document.getElementById("input-k");
@@ -10,9 +14,6 @@ window.onload = () => {
       k: inputK.value,
     };
 
-    const submitButton = document.getElementById("submit");
-    const readySymbol = document.getElementById("ready-symbol");
-    const processingSymbol = document.getElementById("processing-symbol");
     submitButton.disabled = true;
     readySymbol.hidden = true;
     processingSymbol.hidden = false;
@@ -24,10 +25,6 @@ window.onload = () => {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(request),
-    }).then((_response) => {
-      submitButton.disabled = false;
-      readySymbol.hidden = false;
-      processingSymbol.hidden = true;
     });
   };
 
@@ -61,6 +58,11 @@ window.onload = () => {
   streamSource.onerror = (_ev) => streamSource.close();
 
   const resultsSource = new EventSource("/results");
-  resultsSource.onmessage = (message) => updateLog("results-log", message.data);
+  resultsSource.onmessage = (message) => {
+    updateLog("results-log", message.data);
+    submitButton.disabled = false;
+    readySymbol.hidden = false;
+    processingSymbol.hidden = true;
+  };
   resultsSource.onerror = (_ev) => resultsSource.close();
 };
