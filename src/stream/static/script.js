@@ -50,7 +50,14 @@ window.onload = () => {
   };
 
   const streamSource = new EventSource("/stream");
-  streamSource.onmessage = (message) => updateLog("stream-log", message.data);
+  let inThrottle = false;
+  streamSource.onmessage = (message) => {
+    if (!inThrottle) {
+      updateLog("stream-log", message.data);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), 1);
+    }
+  };
   streamSource.onerror = (_ev) => streamSource.close();
 
   const resultsSource = new EventSource("/results");
