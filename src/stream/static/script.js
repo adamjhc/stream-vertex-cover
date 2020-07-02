@@ -46,6 +46,14 @@ window.onload = () => {
     }
   };
 
+  const errorLock = () => {
+    const errorSymbol = document.getElementById("error-symbol");
+    submitButton.diabled = true;
+    readySymbol.hidden = true;
+    processingSymbol.hidden = true;
+    errorSymbol.hidden = false;
+  };
+
   const streamSource = new EventSource("/stream");
   let inThrottle = false;
   streamSource.onmessage = (message) => {
@@ -55,7 +63,10 @@ window.onload = () => {
       setTimeout(() => (inThrottle = false), 1);
     }
   };
-  streamSource.onerror = (_ev) => streamSource.close();
+  streamSource.onerror = (_ev) => {
+    streamSource.close();
+    errorLock();
+  };
 
   const resultsSource = new EventSource("/results");
   resultsSource.onmessage = (message) => {
@@ -64,5 +75,8 @@ window.onload = () => {
     readySymbol.hidden = false;
     processingSymbol.hidden = true;
   };
-  resultsSource.onerror = (_ev) => resultsSource.close();
+  resultsSource.onerror = (_ev) => {
+    resultsSource.close();
+    errorLock();
+  };
 };
