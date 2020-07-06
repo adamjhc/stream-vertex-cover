@@ -29,6 +29,8 @@ select {
 
 input,
 select {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 0.9em;
   width: calc(175px);
   box-sizing: border-box;
   padding: 12px 20px;
@@ -137,6 +139,8 @@ select:focus {
 .submit {
   color: white;
   font-weight: bold;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 1em;
   background: #364f6b;
   padding: 0.7rem 1rem;
   border-radius: 15px;
