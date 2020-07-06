@@ -7,8 +7,10 @@
 \usepackage{graphicx}
 \graphicspath{ {../images/} }
 
+\usepackage{amsmath}
+
 \title{On Parameterized Vertex Cover in Streaming}
-\date{\today}
+\date{July 6, 2020}
 \author{Adam Cox}
 \institute{
     School of Computer Science \\
@@ -18,8 +20,6 @@
 \begin{document}
 
 \maketitle
-
-\section{Quick crash course in Graph Theory}
 
 \begin{frame}{Graph Theory}
     \begin{columns}
@@ -43,16 +43,14 @@
     \end{center}
 \end{frame}
 
-\section{Let me break down the title}
-
-\begin{frame}{On Parameterized \alert{Vertex Cover} in Streaming}
+\begin{frame}{Vertex Cover}
     \begin{columns}
         \begin{column}{0.6\textwidth}
             A set of vertices that includes at least one endpoint of every edge of the graph.
 
             \hfill
 
-            Typically we want to find the \textbf{minimum} vertex cover.
+            A real life example would be putting up cameras at road intersections to be able to see down every road.
         \end{column}
         \begin{column}{0.3\textwidth}
             \begin{center}
@@ -62,17 +60,23 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}{On \alert{Parameterized} Vertex Cover in Streaming}
-    Classical complexity measures runtime of an algorithm solely based on the input size
+\begin{frame}{Karp's 21 NP-complete problems}
+    The vertex cover problem is an NP-complete problem: it was one of Karp's 21 NP-complete problems.
 
-    Parameterized complexity allows for multiple parameters of the input or output
-
-    Non-parameterized/classical TIME : 1960s
-
-    parameterized TIME : 1990s
+    It is often used in computational complexity theory as a starting point for NP-hardness proofs.
 \end{frame}
 
-\begin{frame}{On \alert{Parameterized Vertex Cover} in Streaming}
+\begin{frame}{Parameterized Algorithms}
+    Classical complexity measures runtime of an algorithm solely based on the input size.
+
+    Parameterized complexity measures runtime of an algorithm based on parameters of the input or output.
+
+    \hfill
+
+    Non-parameterized/classical time complexity has been used since the 1960s. Parameterized time complexity only came about in the 1990s.
+\end{frame}
+
+\begin{frame}{Parameterized Vertex Cover}
     This is known as the \textbf{Vertex Cover Problem} or k-VC
 
     \hfill
@@ -87,42 +91,24 @@
     The vertex cover problem is an NP-complete problem
 \end{frame}
 
-\begin{frame}{On Parameterized Vertex Cover in \alert{Streaming}}
-    Big Data means it's too big to store/look at in one go. Therefore we need streaming.
+\begin{frame}{Big Data and Streaming}
+    Big Data applies to any dataset that is too big to store/look at in one go. We need other methods to be able to make the data usable.
 
     \hfill
 
-    Non-parameterized SPACE :2000s
-
-    parameterized SPACE :2015
+    Non-parameterized space complexity began being studied around the 2000s and only in 2014 did parameterized space complexity start being covered.
 \end{frame}
 
-\begin{frame}{On \alert{Parameterized Vertex Cover in Streaming}}
+\begin{frame}{Parameterized Vertex Cover in Streaming}
     So for the full problem, we are looking at:
 
     \begin{itemize}
-        \item insertion-only stream of edges
-        \item value $k$
+        \item Insertion-only stream of edges
+        \item Value $k$
     \end{itemize}
 
-    And we want a True/False answer.
+    And we want a True/False answer. In practise, users would also want the set of vertices that make up the vertex cover.
 \end{frame}
-
-\section{Motivation}
-
-\begin{frame}{Karp's 21 NP-complete problems}
-    The vertex cover problem is an NP-complete problem: it was one of Karp's 21 NP-complete problems. It is often used in computational complexity theory as a starting point for NP-hardness proofs.
-\end{frame}
-
-\begin{frame}{If you need a physical example}
-    Imagine a city with a highly complex road network. The city wants to set up cameras at junctions to be able to monitor every road. How would you calculate the most efficient placement of the cameras?
-
-    \begin{itemize}
-        \item Budget of cameras/money
-    \end{itemize}
-\end{frame}
-
-\section{The Algorithms}
 
 \begin{frame}{Historically}
     \begin{block}{}
@@ -148,19 +134,11 @@
 \end{frame}
 
 \begin{frame}{State of the Art}
-    Rajesh Chitnis et al 2014/2017 put forward streaming algorithms based on the previous two ideas.
-\end{frame}
+    In 2014, Chitnis et al put forward streaming algorithms based on these two ideas.
 
-\section{My work}
+    Branching - Space required is $O(k \boldsymbol\cdot \log n)$ and requires $2^k$ passes
 
-\begin{frame}{Implementation}
-    While these algorithms complexities have been shown theoretically, there's one thing we should all know by now:
-
-    \hfill
-
-    \begin{quote}
-        "In theory, there is no difference between theory and practice. In practice, there is."
-    \end{quote}
+    Kernel - Space required is $O(k^2)$ and requires 1 pass
 \end{frame}
 
 \begin{frame}{Implementation}
@@ -171,24 +149,33 @@
         \item Local-Stream
         \item Stream
     \end{itemize}
-
-    This way we're able to compare the streaming algorithms to the historic algorithms
 \end{frame}
 
-\begin{frame}{Visualisation}
-    I've also created some visualisations of the algorithms in action to aid in understanding.
-
-    \includegraphics[width=0.5\textwidth]{1-pass}
+\begin{frame}{\alert{Local} - Visualisation}
+    \includegraphics[width=\textwidth]{demo_kernel.jpg}
 \end{frame}
 
-\begin{frame}{Testing}
-    Runtime analysis and memory profiling
-
+\begin{frame}{\alert{Local-Stream} - Performance Profiling}
     \includegraphics[width=\textwidth]{memory-profiler}
+
+    \hfill
+
+    Disclaimer: This is just an example of what a memory profiling graph looks like.
+\end{frame}
+
+\begin{frame}{\alert{Stream} - Graph Streaming Platform}
+    \begin{columns}
+        \begin{column}{0.7\textwidth}
+            \includegraphics[width=\textwidth]{stream_crop.jpg}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \includegraphics[width=\textwidth]{kafka.png}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}[standout]
-    Thank you
+    Thank you - Any questions?
 \end{frame}
 
 \end{document}
