@@ -134,6 +134,36 @@ select:focus {
   justify-content: center;
 }
 
+.submit {
+  color: white;
+  font-weight: bold;
+  background: #364f6b;
+  padding: 0.7rem 1rem;
+  border-radius: 15px;
+  border: none;
+  box-shadow: 2px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  transition: all 0.4s ease 0s;
+}
+
+.submit:focus {
+  outline: none;
+}
+
+.submit:hover {
+  background-color: #2b3f57;
+}
+
+.submit:active {
+  position: relative;
+  top: 1px;
+}
+
+.submit:disabled,
+.submit[disabled] {
+  background-color: #cccccc;
+  color: #666666;
+}
+
 .status-symbol {
   flex-grow: 1;
   display: flex;
