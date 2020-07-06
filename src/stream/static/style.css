@@ -27,8 +27,20 @@ select {
   min-width: 150px;
 }
 
-input {
-  width: calc(150px - 8px);
+input,
+select {
+  width: calc(175px);
+  box-sizing: border-box;
+  padding: 12px 20px;
+  border: none;
+  background: aliceblue;
+  border-radius: 15px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0px 0px 3px grey;
 }
 
 ::-webkit-scrollbar {
