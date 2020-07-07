@@ -11,3 +11,7 @@ class JobInfo(faust.Record):
     algorithm: str
     path: str
     k: int
+
+
+class GraphRequest(faust.Record):
+    path: str

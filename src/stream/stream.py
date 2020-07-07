@@ -4,9 +4,9 @@ import faust
 from aiohttp_sse import sse_response
 from faust import StreamT
 
-from stream_kernel import handle_kernel
 from stream_branching import handle_branching
-from stream_models import Edge, JobInfo
+from stream_kernel import handle_kernel
+from stream_models import Edge, GraphRequest, JobInfo
 
 web_port = 6066
 
@@ -14,8 +14,9 @@ app = faust.App("kernelizer", broker="kafka://localhost:9092", web_port=web_port
 app.web.add_static("/static/", path="./static")
 
 
-topic_edges = app.topic("edges", key_type=str, value_type=Edge)
 topic_info = app.topic("info", key_type=str, value_type=JobInfo)
+topic_edges = app.topic("edges", key_type=str, value_type=Edge)
+topic_requests = app.topic("requests", key_type=str, value_type=GraphRequest)
 
 channel_edges = app.channel()
 channel_results = app.channel()
@@ -42,7 +43,14 @@ async def handle_jobs(stream_jobs: StreamT[Edge]):
                 stream_edges, channel_edges, channel_results, job_no, job
             )
         elif job.algorithm == "branching":
-            await handle_branching()
+            await handle_branching(
+                topic_requests,
+                stream_edges,
+                channel_edges,
+                channel_results,
+                job_no,
+                job,
+            )
 
 
 @app.page("/")

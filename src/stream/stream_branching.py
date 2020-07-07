@@ -1,70 +1,100 @@
-from typing import Iterator, Optional, TextIO, Tuple
+from collections import AsyncIterable
+from pathlib import Path
+from typing import Iterator, Optional, Tuple
+
+from faust import ChannelT, StreamT, TopicT
+from terminaltables import SingleTable
+
+from stream_models import Edge, GraphRequest, JobInfo
 
 
-async def handle_branching():
+async def handle_branching(
+    topic_requests: TopicT,
+    stream_edges: StreamT,
+    channel_edges: ChannelT,
+    channel_results: ChannelT,
+    job_no: str,
+    job: JobInfo,
+):
     """
     """
-    pass
+    vertex_cover = await _calculate_vertex_cover(
+        topic_requests, stream_edges, channel_edges, job
+    )
+
+    result = [
+        ("Algorithm", job.algorithm),
+        ("Graph Name", Path(job.path).stem),
+        ("k", job.k),
+        ("VC exists?", vertex_cover is not None),
+    ]
+
+    if vertex_cover is not None:
+        result.extend(
+            [("VC size", len(vertex_cover)),]
+        )
+
+    result_table = SingleTable(result, title=f"Job {job_no}")
+    result_table.inner_heading_row_border = False
+
+    for line in result_table.table.splitlines():
+        await channel_results.put(line)
 
 
-class Branching:
-    def __init__(self, k, no_of_edges):
-        self.k = k
-        self.no_of_edges = no_of_edges
+async def _calculate_vertex_cover(
+    topic_requests: TopicT, stream_edges: StreamT, channel_edges: ChannelT, job: JobInfo
+) -> Optional[set]:
+    """
+    """
+    for bin_string in _get_binary_strings(job.k):
 
-        self.edge_pos_prev = -1
-        self.edge_pos = 0
-        self.edge_current = None
+        vertex_cover: set = set()
+        vertex_cover_exists = True
+        bin_string_pos = 0
 
-    def calculate_vc(self, stream: TextIO) -> Optional[set]:
-        for bin_string in self._get_binary_strings():
-            # Return stream to start
-            stream.seek(0)
-            # Ignore number of nodes and edges
-            stream.readline()
+        async for edge in stream_edges:
+            if edge.is_end:
+                break
 
-            vertex_cover: set = set()
-            bin_string_pos = 0
-            self.edge_pos = 0
-            self.edge_pos_prev = -1
+            if not vertex_cover_exists:
+                continue
 
-            while bin_string_pos != self.k:
-                u, v = self._get_edge(stream)
+            await channel_edges.put(edge)
 
-                if u not in vertex_cover and v not in vertex_cover:
-                    edge_sm, edge_bg = (u, v) if u < v else (v, u)
+            u = edge.u
+            v = edge.v
 
-                    if bin_string[bin_string_pos] == "0":
-                        vertex_cover.add(edge_sm)
-                    else:
-                        vertex_cover.add(edge_bg)
+            if u not in vertex_cover and v not in vertex_cover:
+                if bin_string_pos == job.k:
+                    vertex_cover_exists = False
+                    continue
 
-                    bin_string_pos += 1
-                self.edge_pos += 1
+                edge_sm, edge_bg = (u, v) if u < v else (v, u)
 
-            if self.edge_pos == self.no_of_edges:
-                return vertex_cover
+                if bin_string[bin_string_pos] == "0":
+                    vertex_cover.add(edge_sm)
+                else:
+                    vertex_cover.add(edge_bg)
 
-        return None
+                bin_string_pos += 1
 
-    def _get_binary_strings(self) -> Iterator[str]:
-        """
-        Generates binary strings up to a given length k
+        if vertex_cover_exists:
+            return vertex_cover
 
-        Yields
-        ------
-            str
-                Incrementing binary strings
-        """
-        for i in range(2 ** self.k):
-            yield bin(i)[2:].rjust(self.k, "0")
+        # Request new stream of edges
+        await topic_requests.send(value=GraphRequest(job.path))
 
-    def _get_edge(self, stream: TextIO) -> Tuple:
-        """
+    return None
 
-        """
-        if self.edge_pos != self.edge_pos_prev:
-            self.edge_current = stream.readline().split()[:2]
-            self.edge_pos_prev = self.edge_pos
 
-        return self.edge_current
+def _get_binary_strings(k: int) -> Iterator[str]:
+    """
+    Generates binary strings up to a given length k
+
+    Yields
+    ------
+        str
+            Incrementing binary strings
+    """
+    for i in range(2 ** k):
+        yield bin(i)[2:].rjust(k, "0")

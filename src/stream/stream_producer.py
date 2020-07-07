@@ -5,13 +5,13 @@ import faust
 from faust import StreamT
 from faust.web import Request, Response, View
 
-from stream_models import Edge, JobInfo
+from stream_models import Edge, JobInfo, GraphRequest
 
 app = faust.App("producer", broker="kafka://localhost:9092", web_port=6067)
 
-topic_requests = app.topic("requests", key_type=str, value_type=JobInfo)
 topic_info = app.topic("info", key_type=str, value_type=JobInfo)
 topic_edges = app.topic("edges", key_type=str, value_type=Edge)
+topic_requests = app.topic("requests", key_type=str, value_type=GraphRequest)
 
 job_no = 1
 
@@ -26,26 +26,29 @@ class WebProducer(View):
     async def post(self, request: Request) -> Response:
         body = await request.json()
 
-        await send_job(body["algorithm"], body["graph"], body["k"])
+        await send_job(job_no, body["algorithm"], body["graph"], body["k"])
 
         return self.json({})
 
 
 @app.agent(topic_requests)
-async def stream(requests: StreamT[JobInfo]):
+async def handle_graph_requests(requests: StreamT[GraphRequest]):
     async for request in requests:
-        send_job(request.algorithm, request.path, request.k)
+        await send_edges(request.path)
 
 
-async def send_job(algorithm, path, k):
-    global job_no
-
+async def send_job(job_no, algorithm, path, k):
     logging.info(f"Job #{job_no} {algorithm} {path} {k}")
 
-    with open(path, "r") as edgelist:
-        await topic_info.send(key=str(job_no), value=JobInfo(algorithm, path, int(k)))
-        job_no += 1
+    await topic_info.send(key=str(job_no), value=JobInfo(algorithm, path, int(k)))
 
+    await send_edges(path)
+
+    job_no += 1
+
+
+async def send_edges(path):
+    with open(path, "r") as edgelist:
         for i, edge in enumerate(edgelist):
             u, v = edge.split()[:2]
             await topic_edges.send(key=str(i), value=Edge(u=u, v=v))
