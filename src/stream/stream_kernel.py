@@ -1,10 +1,19 @@
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from faust import ChannelT, StreamT
 from terminaltables import SingleTable
 
+from stream_models import JobInfo
 
-async def handle_kernel(stream_edges, channel_edges, channel_results, job_no, job):
+
+async def handle_kernel(
+    stream_edges: StreamT,
+    channel_edges: ChannelT,
+    channel_results: ChannelT,
+    job_no: str,
+    job: JobInfo,
+):
     kernel = Kernel(job.k)
     kernel_exists = True
 
@@ -12,7 +21,7 @@ async def handle_kernel(stream_edges, channel_edges, channel_results, job_no, jo
         if edge.is_end:
             break
 
-        if kernel_exists == False:
+        if not kernel_exists:
             continue
 
         await channel_edges.put(edge)
@@ -24,6 +33,7 @@ async def handle_kernel(stream_edges, channel_edges, channel_results, job_no, jo
     kernel_edges = kernel.number_of_edges()
 
     result = [
+        ("Algorithm", job.algorithm),
         ("Graph Name", Path(job.path).stem),
         ("Graph Edges", graph_edges),
         ("k", job.k),
