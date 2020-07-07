@@ -38,7 +38,7 @@ async def handle_jobs(stream_jobs: StreamT[Edge]):
     async for job_no, job in stream_jobs.items():
         logging.info(f"Job #{job_no} {job.algorithm} {job.path} {job.k}")
 
-        if job.algorithm == "kernel":
+        if job.algorithm == "kernelization":
             await handle_kernel(
                 stream_edges, channel_edges, channel_results, job_no, job
             )
