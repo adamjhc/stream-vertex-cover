@@ -6,9 +6,7 @@ class Branching:
         self.k = k
         self.no_of_edges = no_of_edges
 
-        self.edge_pos_prev = -1
         self.edge_pos = 0
-        self.edge_current = None
 
     def calculate_vc(self, stream: TextIO) -> Optional[set]:
         for bin_string in self._get_binary_strings():
@@ -20,10 +18,9 @@ class Branching:
             vertex_cover: set = set()
             bin_string_pos = 0
             self.edge_pos = 0
-            self.edge_pos_prev = -1
 
             while bin_string_pos != self.k:
-                u, v = self._get_edge(stream)
+                u, v = stream.readline().split()[:2]
 
                 if u not in vertex_cover and v not in vertex_cover:
                     edge_sm, edge_bg = (u, v) if u < v else (v, u)
@@ -36,8 +33,8 @@ class Branching:
                     bin_string_pos += 1
                 self.edge_pos += 1
 
-            if self.edge_pos == self.no_of_edges:
-                return vertex_cover
+                if self.edge_pos == self.no_of_edges:
+                    return vertex_cover
 
         return None
 
@@ -52,13 +49,3 @@ class Branching:
         """
         for i in range(2 ** self.k):
             yield bin(i)[2:].rjust(self.k, "0")
-
-    def _get_edge(self, stream: TextIO) -> Tuple:
-        """
-
-        """
-        if self.edge_pos != self.edge_pos_prev:
-            self.edge_current = stream.readline().split()[:2]
-            self.edge_pos_prev = self.edge_pos
-
-        return self.edge_current
