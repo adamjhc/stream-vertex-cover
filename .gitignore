@@ -417,4 +417,4 @@ src/test_sets/*
 
 src/local_stream/*.csv
 
-.doit*
+!dissertation/presentation/*.pdf
