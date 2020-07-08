@@ -3,6 +3,10 @@
 ## Abstract
 
 > The goal of the abstract is to give a complete overview of: the problem you identified, the approach you took/what you produced, your evaluation of it, what it all means.
+>
+> 250-300 words
+
+With the rise in the size of datasets in the order of magnitudes, there has been greater demand for memory efficient streaming algorithms. Many of these algorithms still lie in unimplemented theoretical space. This paper aims to build a base on how to go about implementing streaming algorithms and to provide aids in understanding of how these algorithms work. We provide as-is implementations from previous work as well as optimised implementations, visualisations, performance profiling against graphs from a number of different domains, and a proof-of-concept streaming platform. All together we believe this provides all the tools needed to further development into new graph theoretic parameterized streaming algorithms.
 
 [TOC]
 
