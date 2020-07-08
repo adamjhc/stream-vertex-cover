@@ -30,45 +30,47 @@ parameterized SPACE :2015
 
 My supervisor Rajesh Chitnis had previously been researching the problem of parameterized vertex cover. I found that none of the algorithms he talked about had ever been put into practice, only ever written theoretically.
 
-### The Problem
+## Motivation
 
-Parameterized Streaming Algorithms for the Graph Theory problem of Vertex Cover. That is the problem. Let me break that down into its individual parts.
-
-Graph Theory: the study of mathematical structures which are used to show pairwise relations between objects.
-
-Vertex Cover: a set of vertices such that each edge of a graph is incident to at least one vertex of the set. The problem of finding a minimum vertex cover (the smallest possible) is a classical optimization problem and is a typical example of an NP-hard problem. The decision version (where we only want a yes/no answer), known as the Vertex Cover Problem, is one of Karp's 21 NP-complete problems. This makes is a very classical problem. Formally, given a graph $G = (V, E)$ and a vertex cover $V'$:
-
-$V' \subset V \text{ such that } \forall (u, v) \in E \Rightarrow u \in V' \vee v \in V'$
-
-Parameterized complexity: A branch of computational complexity theory that focusses on classifying computational problems according to their inherent difficulty with respect to multiple parameters of the input or output. The complexity of the problem is then measured as a function of those parameters. The vertex cover problem is fixed-parameter tractable, meaning that, while it may be NP-complete in terms of the input size only, it is polynomial in the output of a vertex cover size $k$.
-
-Streaming Algorithms: We now live in a world where data is the most valuable resource. Given such, it's no surprise that we're drowning in it. Datasets have become larger than what we can store on hard drives. The solution is to not store the dataset. Simply stream it as one item at a time. Streaming algorithms have been developed to handle this, being able to gather information while having access to a limited amount of memory.
-
-### Why is this important?
+> - What is the general problem?
+> - Why is it worth working on?
+> - Who else as worked on this problem?
+> - What did they find?
+> - Given this, what is the specific problem you will solve?
 
 Vertex cover is a classical problem which has found many use cases. Here's a typical example. Imagine a heavily connected road network in a city. The city council wants to figure out the most cost effective placement of cameras so that they are able to see every road (assume the cameras can see 360$^\circ$). The way of calculating this mathematically would be as a vertex cover of a graph where each intersection was a node and each road between them is an edge. For cities nowadays, this graph can be too big to compute using traditional methods. So we need updated methods to handle this.
 
+## Background
+
+### Concepts
+
+For the reader unfamiliar with these concepts an explanation has been provided for each of the concepts covered in this paper. For those simply unfamiliar with abbreviations, a glossary has been provided.
+
+**Graph Theory**: the study of mathematical structures which are used to show pairwise relations between objects.
+
+**Vertex Cover**: a set of vertices such that each edge of a graph is incident to at least one vertex of the set. The problem of finding a minimum vertex cover (the smallest possible) is a classical optimization problem and is a typical example of an NP-hard problem. The decision version (where we only want a yes/no answer), known as the Vertex Cover Problem, is one of Karp's 21 NP-complete problems. This makes is a very classical problem. Formally, given a graph $G = (V, E)$ and a vertex cover $V'$:
+
+$V' \subset V \text{ such that } \forall (u, v) \in E \Rightarrow u \in V' \vee v \in V'$
+
+**Parameterized complexity**: A branch of computational complexity theory that focusses on classifying computational problems according to their inherent difficulty with respect to multiple parameters of the input or output. The complexity of the problem is then measured as a function of those parameters. The vertex cover problem is fixed-parameter tractable, meaning that, while it may be NP-complete in terms of the input size only, it is polynomial in the output of a vertex cover size $k$.
+
+**Streaming Algorithms**: We now live in a world where data is the most valuable resource. Given such, it's no surprise that we're drowning in it. Datasets have become larger than what we can store on hard drives. The solution is to not store the dataset. Simply stream it as one item at a time. Streaming algorithms have been developed to handle this, being able to gather information while having access to a limited amount of memory.
+
 ### Branching
-
-#### Historically
-
-#### In Streaming
 
 ![](../images/2^k-pass-bst.jpg)
 
 ### Kernelization
 
-#### Historically
-
-#### In Streaming
-
 ![](../images/1-pass.jpg)
-
-### Adapting previous works into streaming
 
 ## Literature Review
 
-## Methods
+## Method
+
+> - What are you doing?
+> - How are you doing it?
+> - Why are you doing it this way?
 
 Python is good. Wide adoption in data science so has many tools in big data. Also, more importantly, used for many streaming applications in the Apache line-up.
 
@@ -84,7 +86,7 @@ Size:
 Source:
 
 - Local - You have direct access to the graph, for example, in the form of a file.
-- Stream - You do not have direct access, the data is streamed to you in pieces. This may be either due to the size of the data (it being too large to feasibly store) or due to the nature of the data. This nature being that it doesn't yet exist as stored data and so must be processed in some way from pre-existing data.
+- Network - You do not have direct access, the data is streamed to you in pieces. This may be either due to the size of the data (it being too large to feasibly store) or due to the nature of the data. This nature being that it doesn't yet exist as stored data and so must be processed in some way from pre-existing data.
 
 ### Domains
 
@@ -169,29 +171,35 @@ Pseudocode
 Pseudocode
 ```
 
-### Use Cases
+### Local - Visualisation
 
-There are a number of ways the above algorithms could be constructed to be made for user friendly and easy to apply to problems. 
+In order to aid in the understanding of algorithms, it is often helpful to create visualisations. So I did just that.
+
+![](../images/demo_kernel.jpg)
+
+### Local-Stream - Use Cases
+
+There are a number of ways the above algorithms could be constructed to be made for user friendly and easy to apply to problems.
 
 #### `find_vertex_cover` (branching)
 
-This is simply using the branching algorithm. For the situation where you already know your k value. You may already know this value because you know your memory limits or you have previously calculated it.
+This is simply using the branching algorithm. For the situation where you already know your k value. You may already know this value because you know your memory limits or have a budget.
 
-#### `does_vertex_cover_exist` (kernel-exists)
+#### `find-kernel` (kernelization)
 
-This is simply using the kernelization algorithm. For finding whether there is such a vertex cover for a given budget.
+This is simply using the kernelization algorithm. Shrinking a given input down to it's most important core.
 
-#### `find_vertex_cover_efficient` (kernel-br)
+#### `find_vertex_cover_efficient` (kernelization-branching)
 
 This combines the algorithms using the kernelized graph and passing that into the branching algorithm.
 
-#### `find_min_vertex_cover_size` (kernel-min)
+#### `find_min_vertex_cover` (branching-min)
 
-This uses the kernelization algorithm in a binary search to find the minimum size a vertex cover could be.
+This uses the branching algorithm in a binary search to find the minimum size a vertex cover could be.
 
-#### `find_min_vertex_cover` (kernel-min-br)
+#### `find_min_vertex_cover_efficient` (kernelization--branching-min)
 
-This then combines the previous two for a complete solution to find a minimum vertex cover for a given stream. 
+This then combines the previous two for a complete solution to find a minimum vertex cover for a given stream.
 
 ### Datasets
 
@@ -207,37 +215,31 @@ There is even a limit for Visual Studio Code though.
 
 ![](../images/dataset-too-big2.jpg)
 
-### Visualisation
-
-In order to aid in the understanding of algorithms, it is often helpful to create visualisations. So I will do this. 
-
-![](../images/demo_kernel.jpg)
-
 ### Testing and Comparison
 
 We don't live in a world anymore where we have to hack our way around machines to push the limits of their memory just so we can play some games. We haven't for a while. This goes the same for algorithms. Most of the time, we will happily sacrifice memory efficiency for any extra pittance of time efficiency. Memory is is dispensable, our time is not. This may still be true for streaming algorithms, but only to an extent. We are very much interested in both time and space complexity here. And so, we need to test as such.
 
 Testing will be carried out across all three domains. Each will be tested against the same set of datasets which will include graphs from a variety of sources. Some synthetic, some constructed, some realistic. Varying in densities. It is important to account for these factors in our datasets as input size isn't the only thing that affects graph algorithms.
 
-Measuring runtime will be handled by Python's  `time.perf_counter_ns ` which is a clock designed for performance testing; it being monotonic and ~~SOMETHING ELSE~~. Memory will be measure through a python memory profiler called `memory-profiler`.  Each domain, algorithm, and dataset will be run through both a number of times to achieve a result ~~hopefully~~ devoid of inconsistencies.
+Measuring runtime will be handled by Python's  `time.perf_counter_ns` which is a clock designed for performance testing; it being monotonic and ~~SOMETHING ELSE~~. Memory will be measure through a python memory profiler called `memory-profiler`.  Each domain, algorithm, and dataset will be run through both a number of times to achieve a result ~~hopefully~~ devoid of inconsistencies.
 
-## Results and Discussion
+## Results
 
 > - What have you done?
 > - What went into it?
 > - Why have you done things the way you have done them?
 
-### Domain Comparison
+### Profiling
 
 #### Runtime Analysis
 
-| Problem                       | Local | Local-Stream | Stream |
-| ----------------------------- | ----- | ------------ | ------ |
-| `find_vertex_cover`           |       |              |        |
-| `does_vertex_cover_exist`     |       |              |        |
-| `find_vertex_cover_efficient` |       |              |        |
-| `find_min_vertex_cover_size`  |       |              |        |
-| `find_min_vertex_cover`       |       |              |        |
+| Problem                       | Time Complexity | Local |
+| ----------------------------- | --------------- | ----- |
+| `find_vertex_cover`           | $O()$           |       |
+| `does_vertex_cover_exist`     |                 |       |
+| `find_vertex_cover_efficient` |                 |       |
+| `find_min_vertex_cover_size`  |                 |       |
+| `find_min_vertex_cover`       |                 |       |
 
 `Insert graph here`
 
@@ -266,6 +268,10 @@ Since we have two viable solutions for finding the vertex cover for a given grap
 
 `Insert graph here`
 
+## Discussion
+
+> - Discuss things
+
 ## Evaluation
 
 > - Did your idea work?
@@ -274,12 +280,12 @@ Since we have two viable solutions for finding the vertex cover for a given grap
 
 If I had more time I would look into
 
-- expanding the proof-of-concept into a full platform/website
+- expanding the proof-of-concept into a full platform
 - expanding it to more algorithms
 - how the algorithms can be parallelized for greater performance
   - more operations in one pass vs less operations in more passes
 - does including the lower bound of the vertex cover number into the binary search kernel give performance improvements
-- kernel improvements - creating a heuristic that depends on the type of graph (social/road/biological/etc...), then storing the max amount of edges we're allowed and then choosing which to include in matching based on statistical data from the type of graph? 
+- kernel improvements - creating a heuristic that depends on the type of graph (social/road/biological/etc...), then storing the max amount of edges we're allowed and then choosing which to include in matching based on statistical data from the type of graph?
 
 ## Conclusion
 
