@@ -90,9 +90,7 @@ This is the traditional case. The graph is small enough to use in-memory and you
 
 ##### NetworkX
 
-
-
-![](./img/memory-error.jpg)
+![](../images/memory-error.jpg)
 
 #### Local Stream
 
@@ -195,21 +193,21 @@ This then combines the previous two for a complete solution to find a minimum ve
 
 Eventually you get to a point when the datasets become too large to even read.
 
-![](./img/dataset-too-big.jpg)
+![](../images/dataset-too-big.jpg)
 
 Visual Studio Code, a more modern text editor, is able to open the file however not without performance issues even when wrapping and folding have been turned off.
 
-![](./img/dataset-too-big3.jpg)
+![](../images/dataset-too-big3.jpg)
 
 There is even a limit for Visual Studio Code though.
 
-![](./img/dataset-too-big2.jpg)
+![](../images/dataset-too-big2.jpg)
 
 ### Visualisation
 
 In order to aid in the understanding of algorithms, it is often helpful to create visualisations. So I will do this. 
 
-![](..\src\visuals\kernel_les-miserables_77.gif)
+![](../images/demo_kernel.jpg)
 
 ### Testing and Comparison
 
