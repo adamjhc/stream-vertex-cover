@@ -8,6 +8,8 @@
 
 With the rise in the size of datasets in the order of magnitudes, there has been greater demand for memory efficient streaming algorithms. Many of these algorithms still lie in unimplemented theoretical space. This paper aims to build a base on how to go about implementing streaming algorithms and to provide aids in understanding of how these algorithms work. We provide as-is implementations from previous work as well as optimised implementations, visualisations, performance profiling against graphs from a number of different domains, and a proof-of-concept streaming platform. All together we believe this provides all the tools needed to further development into new graph theoretic parameterized streaming algorithms.
 
+> This probs needs more stuff about parameterization as that's the focus of these algorithms rather than the fact that they're streaming algorithms.
+
 [TOC]
 
 ## Introduction
@@ -26,7 +28,7 @@ Non-parameterized SPACE :2000s
 
 parameterized SPACE :2015
 
-~~
+---
 
 My supervisor Rajesh Chitnis had previously been researching the problem of parameterized vertex cover. I found that none of the algorithms he talked about had ever been put into practice, only ever written theoretically.
 
@@ -54,23 +56,48 @@ $V' \subset V \text{ such that } \forall (u, v) \in E \Rightarrow u \in V' \vee 
 
 **Parameterized complexity**: A branch of computational complexity theory that focusses on classifying computational problems according to their inherent difficulty with respect to multiple parameters of the input or output. The complexity of the problem is then measured as a function of those parameters. The vertex cover problem is fixed-parameter tractable, meaning that, while it may be NP-complete in terms of the input size only, it is polynomial in the output of a vertex cover size $k$.
 
+**Parameterized Vertex Cover**:
+
 **Streaming Algorithms**: We now live in a world where data is the most valuable resource. Given such, it's no surprise that we're drowning in it. Datasets have become larger than what we can store on hard drives. The solution is to not store the dataset. Simply stream it as one item at a time. Streaming algorithms have been developed to handle this, being able to gather information while having access to a limited amount of memory.
 
 ### Branching
+
+> Talk about the non-streaming branching algorithm?
 
 ![](../images/2^k-pass-bst.jpg)
 
 ### Kernelization
 
+> Talk about the non-streaming kernel?
+
 ![](../images/1-pass.jpg)
 
 ## Literature Review
+
+> - Parameterized Streaming Algorithms for Vertex Cover, 2014
+> - Towards a Theory of Parameterized Streaming Algorithms, 2019
+>
+> 1. **Search** for relevant literature
+> 2. **Evaluate** sources
+> 3. **Identify** themes, debates and gaps
+> 4. **Outline** the structure
+> 5. **Write** your literature review
+>
+> A good literature review doesn’t just summarise sources – it analyses, synthesises, and critically evaluates to give a clear picture of the state of knowledge on the subject.
 
 ## Method
 
 > - What are you doing?
 > - How are you doing it?
 > - Why are you doing it this way?
+
+In researching for this paper, more often than not we found that, while the core concepts weren't too difficult to get our heads around, the higher level explanations would often go right over our heads.
+
+Our work here covers three areas which we think would increase accessibility into the field.
+
+1. As with any widely adopted algorithm, clear explanation of how the algorithm works in practice is essential. This includes efforts to visualise the algorithms in action. As with most state-of-the-art research it takes many years of studying to even be able to understand what the papers are talking about, let alone being able to understand the pseudocode that is provided.
+2. Practical evidence of performance of the algorithms. While Big-O notation is a good indicator of runtime and memory performance, those only refer to average performance which few, if any, datasets will fit. Seeing whether your problem area is suitable to have a specific algorithm applied to it is crucial.
+3. Aid in choosing the correct tools. There exist many tools and platforms nowadays for the development of streaming systems. As with many modern tooling, each have their fair share of buzzwords and jargon most are forced to wade through before fully understanding what a tools function even is.
 
 Python is good. Wide adoption in data science so has many tools in big data. Also, more importantly, used for many streaming applications in the Apache line-up.
 
@@ -88,9 +115,33 @@ Source:
 - Local - You have direct access to the graph, for example, in the form of a file.
 - Network - You do not have direct access, the data is streamed to you in pieces. This may be either due to the size of the data (it being too large to feasibly store) or due to the nature of the data. This nature being that it doesn't yet exist as stored data and so must be processed in some way from pre-existing data.
 
-### Domains
+### The Algorithms
 
-#### Local
+#### Branching - Non-Stream
+
+```
+Pseudocode
+```
+
+#### Branching - Stream
+
+```
+Pseudocode
+```
+
+#### Kernelization - Non-Stream
+
+```
+Pseudocode
+```
+
+#### Kernelization - Stream
+
+```
+Pseudocode
+```
+
+### Local - Visualisation
 
 This is the traditional case. The graph is small enough to use in-memory and you have local access to it so you are able to use which ever tools you wish to calculate the vertex cover.
 
@@ -98,13 +149,59 @@ This is the traditional case. The graph is small enough to use in-memory and you
 
 ![](../images/memory-error.jpg)
 
-#### Local Stream
+In order to aid in the understanding of algorithms, it is often helpful to create visualisations. So I did just that.
+
+![](../images/demo_kernel.jpg)
+
+### Local-Stream - Performance Profiling
 
 In this case the graph is no longer large enough to store in-memory but you are able to have direct access to it. The graph may be large but it is feasible to store the graph on disk since disk sizes are often many magnitudes larger than that of memory. Traditional algorithms are no longer applicable here, this is the first example where the invention of streaming algorithms is a necessity.
 
-##### The Python `io` module
+There are a number of ways the above algorithms could be constructed to be made for user friendly and easy to apply to problems.
 
-#### Stream
+#### `find_vertex_cover` (branching)
+
+This is simply using the branching algorithm. For the situation where you already know your k value. You may already know this value because you know your memory limits or have a budget.
+
+#### `find-kernel` (kernelization)
+
+This is simply using the kernelization algorithm. Shrinking a given input down to it's most important core.
+
+#### `find_vertex_cover_efficient` (kernelization-branching)
+
+This combines the algorithms using the kernelized graph and passing that into the branching algorithm.
+
+#### `find_min_vertex_cover` (branching-min)
+
+This uses the branching algorithm in a binary search to find the minimum size a vertex cover could be.
+
+#### `find_min_vertex_cover_efficient` (kernelization--branching-min)
+
+This then combines the previous two for a complete solution to find a minimum vertex cover for a given stream.
+
+#### Datasets
+
+Eventually you get to a point when the datasets become too large to even read.
+
+![](../images/dataset-too-big.jpg)
+
+Visual Studio Code, a more modern text editor, is able to open the file however not without performance issues even when wrapping and folding have been turned off.
+
+![](../images/dataset-too-big3.jpg)
+
+There is even a limit for Visual Studio Code though.
+
+![](../images/dataset-too-big2.jpg)
+
+#### Testing and Comparison
+
+We don't live in a world anymore where we have to hack our way around machines to push the limits of their memory just so we can play some games. We haven't for a while. This goes the same for algorithms. Most of the time, we will happily sacrifice memory efficiency for any extra pittance of time efficiency. Memory is is dispensable, our time is not. This may still be true for streaming algorithms, but only to an extent. We are very much interested in both time and space complexity here. And so, we need to test as such.
+
+Testing will be carried out across all three domains. Each will be tested against the same set of datasets which will include graphs from a variety of sources. Some synthetic, some constructed, some realistic. Varying in densities. It is important to account for these factors in our datasets as input size isn't the only thing that affects graph algorithms.
+
+Measuring runtime will be handled by Python's  `time.perf_counter_ns` which is a clock designed for performance testing; it being monotonic and ~~SOMETHING ELSE~~. Memory will be measure through a python memory profiler called `memory-profiler`.  Each domain, algorithm, and dataset will be run through both a number of times to achieve a result ~~hopefully~~ devoid of inconsistencies.
+
+### Stream - Proof-of-Concept
 
 This is the main case. In a typical situation, knowledge of the graph's attributes will be limited so it should be treated as a unbounded stream (a stream that has no end). The opposite of this would be treating it as a bounded stream, where we know there is an end to the stream.
 
@@ -145,89 +242,13 @@ Once we have the platform we need an in-memory framework to handle the processin
 
 If you know beforehand the size of the graph and it's of an in-memory size then you don't need to go through the hassle of treating it as a stream. One pass through the graph will allow you to store the graph locally and therefore be able to use it as a local graph instead.
 
-### The Algorithms
-
-#### Branching - Non-Stream
-
-```
-Pseudocode
-```
-
-#### Branching - Stream
-
-```
-Pseudocode
-```
-
-#### Kernelization - Non-Stream
-
-```
-Pseudocode
-```
-
-#### Kernelization - Stream
-
-```
-Pseudocode
-```
-
-### Local - Visualisation
-
-In order to aid in the understanding of algorithms, it is often helpful to create visualisations. So I did just that.
-
-![](../images/demo_kernel.jpg)
-
-### Local-Stream - Use Cases
-
-There are a number of ways the above algorithms could be constructed to be made for user friendly and easy to apply to problems.
-
-#### `find_vertex_cover` (branching)
-
-This is simply using the branching algorithm. For the situation where you already know your k value. You may already know this value because you know your memory limits or have a budget.
-
-#### `find-kernel` (kernelization)
-
-This is simply using the kernelization algorithm. Shrinking a given input down to it's most important core.
-
-#### `find_vertex_cover_efficient` (kernelization-branching)
-
-This combines the algorithms using the kernelized graph and passing that into the branching algorithm.
-
-#### `find_min_vertex_cover` (branching-min)
-
-This uses the branching algorithm in a binary search to find the minimum size a vertex cover could be.
-
-#### `find_min_vertex_cover_efficient` (kernelization--branching-min)
-
-This then combines the previous two for a complete solution to find a minimum vertex cover for a given stream.
-
-### Datasets
-
-Eventually you get to a point when the datasets become too large to even read.
-
-![](../images/dataset-too-big.jpg)
-
-Visual Studio Code, a more modern text editor, is able to open the file however not without performance issues even when wrapping and folding have been turned off.
-
-![](../images/dataset-too-big3.jpg)
-
-There is even a limit for Visual Studio Code though.
-
-![](../images/dataset-too-big2.jpg)
-
-### Testing and Comparison
-
-We don't live in a world anymore where we have to hack our way around machines to push the limits of their memory just so we can play some games. We haven't for a while. This goes the same for algorithms. Most of the time, we will happily sacrifice memory efficiency for any extra pittance of time efficiency. Memory is is dispensable, our time is not. This may still be true for streaming algorithms, but only to an extent. We are very much interested in both time and space complexity here. And so, we need to test as such.
-
-Testing will be carried out across all three domains. Each will be tested against the same set of datasets which will include graphs from a variety of sources. Some synthetic, some constructed, some realistic. Varying in densities. It is important to account for these factors in our datasets as input size isn't the only thing that affects graph algorithms.
-
-Measuring runtime will be handled by Python's  `time.perf_counter_ns` which is a clock designed for performance testing; it being monotonic and ~~SOMETHING ELSE~~. Memory will be measure through a python memory profiler called `memory-profiler`.  Each domain, algorithm, and dataset will be run through both a number of times to achieve a result ~~hopefully~~ devoid of inconsistencies.
-
 ## Results
 
 > - What have you done?
 > - What went into it?
 > - Why have you done things the way you have done them?
+
+### Visualisation
 
 ### Profiling
 
@@ -267,6 +288,8 @@ Since we have two viable solutions for finding the vertex cover for a given grap
 |       |       |       |         |             |                    |
 
 `Insert graph here`
+
+### Stream Implementation
 
 ## Discussion
 
