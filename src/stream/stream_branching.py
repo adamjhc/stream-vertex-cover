@@ -37,7 +37,7 @@ async def handle_branching(
         topic_requests, stream_edges, channel_edges, job
     )
 
-    # Create reults table to display on frontend
+    # Create results table to display on frontend
     result = [
         ("Algorithm", job.algorithm),
         ("Graph Name", Path(job.path).stem),

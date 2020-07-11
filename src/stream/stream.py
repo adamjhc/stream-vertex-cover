@@ -36,7 +36,7 @@ channel_results = app.channel()
 @app.task()
 async def on_started():
     """
-    Logs website to visit on startup
+    Logs website to visit on start-up
     """
     logging.info(f"Visit http://localhost:{web_port}")
 

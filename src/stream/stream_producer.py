@@ -46,7 +46,7 @@ class WebProducer(View):
         Returns
         -------
             Response
-                Empty HTTP 200 json response
+                Empty HTTP 200 JSON response
         """
         body = await request.json()
 
