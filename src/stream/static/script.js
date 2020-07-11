@@ -3,6 +3,7 @@ window.onload = () => {
   const readySymbol = document.getElementById("ready-symbol");
   const processingSymbol = document.getElementById("processing-symbol");
 
+  // Handling job form submission
   document.getElementById("submit").onclick = () => {
     const inputAlgorithms = document.getElementById("input-algs");
     const inputK = document.getElementById("input-k");
@@ -37,6 +38,7 @@ window.onload = () => {
     element.textContent = data;
     log.appendChild(element);
 
+    // Keeps scoll at bottom if it was already there
     if (isScrolledToBottom) {
       log.scrollTop = log.scrollHeight - log.clientHeight;
     }
@@ -46,6 +48,7 @@ window.onload = () => {
     }
   };
 
+  // Locks job form submission on server disconnect
   const errorLock = () => {
     const errorSymbol = document.getElementById("error-symbol");
     submitButton.diabled = true;
@@ -54,9 +57,12 @@ window.onload = () => {
     errorSymbol.hidden = false;
   };
 
+  // Handling SSE logs for stream and results
   const streamSource = new EventSource("/stream");
   let inThrottle = false;
   streamSource.onmessage = (message) => {
+    // Throttles stream log to update once per ms
+    // Any less freezes up whole site
     if (!inThrottle) {
       updateLog("stream-log", message.data);
       inThrottle = true;
