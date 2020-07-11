@@ -8,8 +8,8 @@ In order to run Kafka, ZooKeeper is also needed so a docker-compose file has bee
 
 Breakdown of programs:
 
-- `stream.py` runs Faust and uses it's web server feature to host a single page from which the user can create processing jobs and access results
-- `stream-producer.py` also runs Faust but acts as an off-site server, responding to graph requests and streaming edges of the graph back
+- `stream.py`: Runs Faust and uses it's web server feature to host a single page from which the user can create processing jobs and access results
+- `stream-producer.py`: Also runs Faust but acts as an off-site server, responding to graph requests and streaming edges of the graph back
 
 ## Steps to run
 
