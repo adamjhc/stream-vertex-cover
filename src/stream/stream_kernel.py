@@ -7,13 +7,31 @@ from terminaltables import SingleTable
 from stream_models import JobInfo
 
 
-async def handle_kernel(
+async def handle_kernelization(
     stream_edges: StreamT,
     channel_edges: ChannelT,
     channel_results: ChannelT,
     job_no: str,
     job: JobInfo,
 ):
+    """
+    Handles the kernelization job type
+
+    Parameters
+    ----------
+        stream_edges : StreamT
+            Faust stream of edges
+        channel_edges : ChannelT
+            Faust channel to pass edges to
+        channel_results : ChannelT
+            Faust channel to pass results to
+        job_no : str
+            Job number
+        job : JobInfo
+            Information of the job
+    """
+
+    # Calculate kernel
     kernel = Kernel(job.k)
     kernel_exists = True
 
@@ -29,6 +47,7 @@ async def handle_kernel(
         if not kernel.next(edge.u, edge.v):
             kernel_exists = False
 
+    # Create results table to display on frontend
     graph_edges = i
     kernel_edges = kernel.number_of_edges()
 
@@ -54,6 +73,7 @@ async def handle_kernel(
     result_table = SingleTable(result, title=f"Job {job_no}")
     result_table.inner_heading_row_border = False
 
+    # Results table is multi-line to write all lines to results channel
     for line in result_table.table.splitlines():
         await channel_results.put(line)
 
@@ -61,16 +81,30 @@ async def handle_kernel(
 class Kernel:
     def __init__(self, k: int):
         """
+        Initialises variables in kernelization
         """
         self.k = k
-        self.matching: Dict[Tuple[Any, Any], Tuple[List[Any], List[Any]]] = {}
+        self.maximal_matching: Dict[Tuple[Any, Any], Tuple[List[Any], List[Any]]] = {}
 
     def next(self, u: Any, v: Any) -> bool:
         """
+        Adds next edge from stream to kernel
+
+        Parameters
+        ----------
+            u : Any
+                u of edge
+            v : Any
+                v of edge
+
+        Returns
+        -------
+            bool
+                True/False if kernel exists or not
         """
         is_neighbour = False
 
-        matching = self._get_if_in(u, self.matching)
+        matching = self._get_matching(u)
         if matching is not None:
             is_neighbour = True
 
@@ -80,7 +114,7 @@ class Kernel:
                 neighbours[vertex_pos].append((u, v))
 
         else:
-            matching = self._get_if_in(v, self.matching)
+            matching = self._get_matching(v)
             if matching is not None:
                 is_neighbour = True
 
@@ -90,30 +124,48 @@ class Kernel:
                     neighbours[vertex_pos].append((u, v))
 
         if not is_neighbour:
-            self.matching[(u, v)] = ([], [])
+            self.maximal_matching[(u, v)] = ([], [])
 
-            if len(self.matching) > self.k:
+            if len(self.maximal_matching) > self.k:
                 return False
 
         return True
 
-    def number_of_edges(self):
+    def number_of_edges(self) -> int:
         """
+        Counts the number of edges in the kernel
+
+        Returns
+        -------
+            int
+                Number of edges in kernel
         """
         no_of_edges = 0
-        for neighbours in self.matching.values():
+        for neighbours in self.maximal_matching.values():
             no_of_edges += 1 + len(neighbours[0]) + len(neighbours[1])
 
         return no_of_edges
 
-    def _get_if_in(
-        self, item, dictn: dict
+    def _get_matching(
+        self, node: Any
     ) -> Optional[Tuple[Tuple[Any, Any], Tuple[List[Any], List[Any]]]]:
         """
+        Gets matching of vertex if one exists
+
+        Parameters
+        ----------
+            node : Any
+                Node to find in maximal matching
+
+        Returns
+        -------
+            Optional[Tuple[Tuple[Any, Any], Tuple[List[Any], List[Any]]]]
+                If match exists in maximal matching then returns edge and
+                neighbours else None
         """
-        for pair, match in dictn.items():
-            if item in pair:
-                return pair, match
+        for edge, match in self.maximal_matching.items():
+            if node in edge:
+                return edge, match
 
         return None
 
