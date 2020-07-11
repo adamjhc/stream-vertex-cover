@@ -35,6 +35,16 @@ from visuals_utils import _in, get_graph_layout, get_read_func_from_edgelist
 
 
 def kernel_stream_animation(args: Dict[str, Any]):
+    """
+    Creates video of kernelization algorithm
+
+    Export format depends on output_name suffix
+
+    Parameters
+    ----------
+        args : Dict[str, Any]
+            Command line arguments
+    """
     path = args["<edge_list_file>"]
     read_func = get_read_func_from_edgelist(path)
 
@@ -108,10 +118,42 @@ def update(
     kernel: Graph,
     maximal_matching: Set[Tuple[Any, Any]],
     k: int,
-    kernel_exists,
+    kernel_exists: bool,
     edges: list,
     with_labels: bool,
 ):
+    """
+    Update function to run once per frame
+
+    Runs the kernelization algorithm and then redraws
+
+    Parameters
+    ----------
+        i : int
+            Frame counter
+        figure : Figure
+            Matplotlib figure
+        graph_axes : Axes
+            Axes whole graph is drawn on
+        kernel_axes : Axes
+            Axes kernel is drawn on
+        layout : dict
+            Layout of nodes
+        graph : Graph
+            Whole graph
+        kernel : Graph
+            Kernel
+        maximal_matching : Set[Tuple[Any, Any]]
+            Maximal matching kept for kernelization
+        k : int
+            Value of k
+        kernel_exists : bool
+            Whether kernel exists
+        edges : list
+            "Stream" of edges
+        with_labels : bool
+            Whether to show labels on nodes
+    """
     u, v = edges[i]
 
     # Kernelization algorithm

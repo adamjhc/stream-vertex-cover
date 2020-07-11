@@ -1,3 +1,5 @@
+from typing import Any
+
 from matplotlib.axes import Axes
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.lines import Line2D
@@ -7,8 +9,37 @@ from visuals_utils import _in, both_in
 
 
 def draw_graph(
-    graph_axes: Axes, graph: Graph, kernel: Graph, layout, u, v, with_labels
+    graph_axes: Axes,
+    graph: Graph,
+    kernel: Graph,
+    layout: dict,
+    u: Any,
+    v: Any,
+    with_labels: bool,
 ):
+    """
+    Draw whole graph
+
+    Highlights current edge as well as colouring which edges are kept in the
+    kernel
+
+    Parameters
+    ----------
+        graph_axes : Axes
+            Axes whole graph is drawn to
+        graph : Graph
+            Whole graph
+        kernel : Graph
+            Kernel
+        layout : dict
+            Layout of nodes
+        u : Any
+            u of edge
+        v : Any
+            v of edge
+        with_labels : bool
+            Whether to show labels on nodes
+    """
     graph_node_type_names = ["Current", "In Kernel", "Not in Kernel"]
     graph_node_type_colours = ["y", "m", "k"]
 
@@ -66,6 +97,30 @@ def draw_kernel(
     with_labels,
     i,
 ):
+    """
+    Draw kernel
+
+    Shows matched edges in red
+
+    Parameters
+    ----------
+        kernel_axes : Axes
+            Axes kernel is drawn to
+        kernel : Graph
+            Kernel
+        graph : Graph
+            Whole graph
+        layout : dict
+            Layout of nodes
+        k : int
+            Value of k
+        maximal_matching : Set[Tuple[Any, Any]]
+            Maximal matching of kernel
+        with_labels : bool
+            Whether to show labels on nodes
+        i : int
+            Frame counter
+    """
     kernel_node_type_names = ["Matched", "Neighbour"]
     kernel_node_type_colours = ["r", "k"]
     kernel_node_type_sizes = [200, 50]

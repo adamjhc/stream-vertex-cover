@@ -1,11 +1,16 @@
 from typing import Any, Callable, Collection, Tuple
 
-import networkx as nx
-from networkx import Graph
+from networkx import (
+    Graph,
+    kamada_kawai_layout,
+    read_edgelist,
+    read_weighted_edgelist,
+    spring_layout,
+)
 
 
 def _in(item: Any, pairs: Collection[Tuple[Any, Any]]) -> bool:
-    """Checks whether an item exists anywehre in a collection of pairs
+    """Checks whether an item exists anywhere in a collection of pairs
 
     Arguments
     ---------
@@ -51,11 +56,11 @@ def get_read_func_from_edgelist(path: str) -> Callable:
         Callable
             NetworkX read_edgelist or read_weighted_edgelist
     """
-    read_func = nx.read_edgelist
+    read_func = read_edgelist
     with open(path, "r") as edgelist:
         line = edgelist.readline()
         if len(line.split()) > 2:
-            read_func = nx.read_weighted_edgelist
+            read_func = read_weighted_edgelist
 
     return read_func
 
@@ -77,6 +82,6 @@ def get_graph_layout(graph: Graph) -> dict:
             Dictionary containing positions of nodes
     """
     if graph.number_of_edges() < 1000:
-        return nx.kamada_kawai_layout(graph)
+        return kamada_kawai_layout(graph)
     else:
-        return nx.spring_layout(graph)
+        return spring_layout(graph)
