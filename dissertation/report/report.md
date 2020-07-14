@@ -59,33 +59,48 @@ In the past, streaming algorithms had always interested us but we lacked a speci
 
 ### Concepts
 
-For the reader unfamiliar with these concepts an explanation has been provided for each of the concepts covered in this paper. For those simply unfamiliar with abbreviations, a glossary has been provided.
+For the reader unfamiliar with concepts covered in this paper, an explanation has been provided for each. For those simply unfamiliar with abbreviations, a glossary has been provided.
 
-**Graph Theory**: the study of mathematical structures which are used to show pairwise relations between objects.
+**Graph Theory**: the study of mathematical structures (graphs) which are used to show pairwise relations between objects.
 
 **Vertex Cover**: a set of vertices such that each edge of a graph is incident to at least one vertex of the set. The problem of finding a minimum vertex cover (the smallest possible) is a classical optimization problem and is a typical example of an NP-hard problem. The decision version (where we only want a yes/no answer), known as the Vertex Cover Problem, is one of Karp's 21 NP-complete problems. This makes is a very classical problem. Formally, given a graph $G = (V, E)$ and a vertex cover $V'$:
-
-$V' \subset V \text{ such that } \forall (u, v) \in E \Rightarrow u \in V' \vee v \in V'$
-
+$$
+V' \subset V \text{ such that } \forall (u, v) \in E \Rightarrow u \in V' \vee v \in V'
+$$
 **Parameterized complexity**: A branch of computational complexity theory that focusses on classifying computational problems according to their inherent difficulty with respect to multiple parameters of the input or output. The complexity of the problem is then measured as a function of those parameters. The vertex cover problem is fixed-parameter tractable, meaning that, while it may be NP-complete in terms of the input size only, it is polynomial in the output of a vertex cover size $k$.
 
 **Fixed Parameter Tractable**:
 
-**Parameterized Vertex Cover**:
+**Parameterized Vertex Cover**: Also known as k-VC, the vertex cover problem is posed as a decision problem in which we are given a graph $G$ and a positive integer $k$ and we must find out whether $G$ has a vertex cover of size at most $k$. The $k$ value can be thought of as a "budget" to spend on the vertex cover. If we are limited but such a budget then we have no reason to consider solutions that exceeds this.
+
+**Streaming Model**:
 
 **Streaming Algorithms**: We now live in a world where data is the most valuable resource. Given such, it's no surprise that we're drowning in it. Datasets have become larger than what we can store on hard drives. The solution is to not store the dataset. Simply stream it as one item at a time. Streaming algorithms have been developed to handle this, being able to gather information while having access to a limited amount of memory.
 
-### Branching
-
-> Talk about the non-streaming branching algorithm?
-
-![](../images/2^k-pass-bst.jpg)
-
 ### Kernelization
 
-> Talk about the non-streaming kernel?
+Kernelization is a pre-processing method for minimising datasets into their core components known as a "kernel". Processing completed on such a kernel will return the same output as that would be returned had the processing been run on the entire dataset.
 
-![](../images/1-pass.jpg)
+A kernelization algorithm for vertex cover was put forward by S. Buss in 1993[citation needed]. Given an input of an undirected graph $G$ and a number $k$, the algorithm works by applying the following rules until no more reductions can be made.
+
+1. If $k > 0$ and $v$ is a vertex of degree $> k$, remove $v$ from the graph and
+   decrease $k$ by 1.
+2. If $v$ is an isolated vertex, remove it.
+3. If more than $k^2$ edges remain in the graph, and neither of the previous two
+   rules can be applied, then the graph cannot contain a vertex cover of size
+   $k$.
+
+The output is a set of at most $k$ vertices that includes an endpoint of every edge in the graph, if such a set exists, or a failure exception if no such set exists.
+
+### Branching
+
+Trees have been used as a abstract data type in computer science for decades. They provide relatively easy logarithmic complexity, due to the fact that they split their data into $n$ sections recursively, and are simple to understand and implement, leading to them being a core concept in any University introduction-level algorithms course.
+
+Bounded-depth Search Trees provide a parameterized algorithm for vertex cover:
+
+![k-VC with bounded-depth search trees](../images/2^k-pass-bst.jpg)
+
+> In this section, we show how to reduce the number of passes to $2^k$ (while still maintaining the same storage) using the technique of bounded-depth search trees (also known as branching). The method of bounded-depth search trees gives a folklore FPT algorithm for k-VC which runs in $2^{O(k)} · n^{O(1)}$ time. The idea is simple: any vertex cover must contain at least one end-point of each edge. We now build a search tree as follows: choose an arbitrary edge, say $e = u − v$ in the graph. Start with the graph $G$ at the root node of the search tree. Branch into two options, viz. choosing either $u$ or $v$ into the vertex cover. The resulting graphs at the two children of the root node are $G − u$ and $G − v$. Continue the branching process. Note that at each step, we branch into two options and we only need to build the search tree to height $k$ for the k-VC problem. Hence, the binary search tree has $2^O(k)$ leaf nodes. If the resulting graph at any leaf node is empty (i.e. has no edges) then $G$ has a vertex cover of size $≤ k$ which can be obtained by following the path from the root node to the leaf node in the search tree. Conversely, if the resulting graphs at none of the leaf nodes of the search tree are empty then $G$ does not have a vertex cover of size $≤ k$: this is because at each step we branched on all the (two) possibilities at each node of the search tree.
 
 ## Literature Review
 
