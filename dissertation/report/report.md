@@ -121,7 +121,7 @@ Bounded-depth Search Trees provide a parameterized algorithm for vertex cover:
 > - How are you doing it?
 > - Why are you doing it this way?
 
-In researching for this paper, more often than not we found that, while the core concepts weren't too difficult to get our heads around, the higher level explanations would often go right over our heads.
+In researching for this paper, more often than, not we found that, while the core concepts weren't too difficult to get our heads around, the higher level explanations would often go right over our heads.
 
 Our work here covers three areas which we think would increase accessibility into the field.
 
@@ -129,11 +129,7 @@ Our work here covers three areas which we think would increase accessibility int
 2. Practical evidence of performance of the algorithms. While Big-O notation is a good indicator of runtime and memory performance, those only refer to average performance which few, if any, datasets will fit. Seeing whether your problem area is suitable to have a specific algorithm applied to it is crucial.
 3. Aid in choosing the correct tools. There exist many tools and platforms nowadays for the development of streaming systems. As with many modern tooling, each have their fair share of buzzwords and jargon most are forced to wade through before fully understanding what a tools function even is.
 
-Python is good. Wide adoption in data science so has many tools in big data. Also, more importantly, used for many streaming applications in the Apache line-up.
-
-Build first locally to test correctability. Implement a faux-stream using file streaming (reading line-by-line) then implement a proof-of-concept networked system to show how the system might be used in a real world example.
-
-I identified three separate use cases where a vertex cover (or any graph) algorithm could be applied depending on the size and source of the graph given. These two attributes, size and source, each bubble down to two sub-cases.
+We identified two attributes that mattered most when implementing vertex cover (or any graph-theoretic) algorithm. These two attributes, size and source, each bubble down to two sub-cases.
 
 Size:
 
@@ -142,8 +138,14 @@ Size:
 
 Source:
 
-- Local - You have direct access to the graph, for example, in the form of a file.
-- Network - You do not have direct access, the data is streamed to you in pieces. This may be either due to the size of the data (it being too large to feasibly store) or due to the nature of the data. This nature being that it doesn't yet exist as stored data and so must be processed in some way from pre-existing data.
+- Local - One has direct access to the graph, for example, in the form of a file.
+- Networked - One does not have direct access, the data is streamed to you in pieces. This may be either due to the size of the data (it being too large to feasibly store) or due to the nature of the data. This nature being that the data could be fragmented across databases and so must be processed in some way to put it all together.
+
+This allows us to break down our aims into three sections based on these attributes. For in-memory sized local graphs (the traditional setting) we're able to provide traditional tools. This includes visualisations and simplified implementations using well-worn graph libraries. We will be using a library called NetworkX[citation needed]. NetworkX provides data structures for graphs with an intuitive API. It also includes a module for drawing graphs with Matplotlib, a Python visualization library that has been around since 2003. In this setting we can simulate streaming by looping through the edges of a graph. This gives us a particular advantage in seeing truly how the algorithms work as we are able to see the entire graph at the same time.
+
+The second section is for out-of-memory sized local graphs. In our original plan, this section didn't exist as we assumed most implementation details would come forward when implementing into a real streaming framework. However, we found that this was too much of a jump so this middle step was envisioned to allow for a true streaming implementation while still being in the familiarity of the core Python libraries. So that's exactly what we'll be doing. Having the graph represented by an edge list stored in a file allows us to read from the file line by line and therefore edge by edge. This is exactly how a streaming application would see the input of a graph. Since the time taken to read from a file is negligible in comparison to any network activity, we will be able to gauge the performance of these algorithms with minimal external variables. This gives us a platform for accurate performance profiling.
+
+The final section is for out-of-memory sized networked graphs. This is what you'd consider to be an actual use case. This is most flexible section, in that, there are many ways of going about it depending on your situation. We're taking this as an opportunity to build a proof-of-concept system that covers the basics. Apache Kafka has shown promise in it's versatility as a streaming platform rather than being tied down to a particular workflow. This allows for our fairly custom implementation of stream processing. Most streaming platforms prioritise parallelisation in their processing which we don't concern ourselves with. Our data source will be external in the sense that it could be replicated to run on a server far, far away but for ease-of-development's sake it will be ran locally.
 
 ### The Algorithms
 
