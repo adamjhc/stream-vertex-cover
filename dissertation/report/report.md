@@ -6,9 +6,11 @@
 >
 > 250-300 words
 
-With the rise in the size of datasets in the order of magnitudes, there has been greater demand for memory efficient streaming algorithms. Many of these algorithms still lie in unimplemented theoretical space. This paper aims to build a base on how to go about implementing streaming algorithms and to provide aids in understanding of how these algorithms work. We provide as-is implementations from previous work as well as optimised implementations, visualisations, performance profiling against graphs from a number of different domains, and a proof-of-concept streaming platform. All together we believe this provides all the tools needed to further development into new graph theoretic parameterized streaming algorithms.
+With the size of datasets growing in the order of magnitudes, there has been greater 8demand for techniques to process the data. Streaming algorithms have been shown to be a strong contender in order to tackle this. While these datasets have been growing, many of the classical problems questioned about these datasets have not changed and neither has the order of their output size. This gives us a perfect environment to take advantage of parameterized complexity. Vertex Cover is one such such classical problem that has had parameterized streaming algorithms developed for it in recent years. However, many of these algorithms still lie in unimplemented theoretical space. 
 
-> This probs needs more stuff about parameterization as that's the focus of these algorithms rather than the fact that they're streaming algorithms.
+This paper aims to build a base on how to go about implementing streaming algorithms and to provide aids in understanding of how these algorithms work. We provide as-is implementations from previous work as well as optimised implementations, visualisations, performance profiling against graphs from a number of different domains, and a proof-of-concept streaming platform. All together, we believe our work provides all the tools needed to further development in bringing this class of algorithms out of theoretical space.
+
+> needs more about memory parameterization
 
 [TOC]
 
