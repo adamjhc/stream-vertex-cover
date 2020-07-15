@@ -157,6 +157,8 @@ Pseudocode
 
 #### Branching - Stream
 
+> Talk about how pseudocode in Rajesh's paper was wrong with a specific worked example of how it doesn't work. Give updated pseudocode.
+
 ```
 Pseudocode
 ```
