@@ -11,7 +11,7 @@ In all cases, use the flag `--help` or `-h` to show the help page to view all op
 ### Kernel Demo
 
 ```sh
-$ python kernel_stream_demo.py <edge_list_file> <K> [options]
+$ python kernel_stream_demo.py <edge_list_file> <k> [options]
 ```
 
 This program is for showing live demonstration of the Kernelization algorithm. It is displayed in a Matplotlib figure so there is no control over playback.
