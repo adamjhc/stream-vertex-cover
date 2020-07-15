@@ -2,7 +2,7 @@
 Usage:
     local_stream.py branching FILE <k>
     local_stream.py kernel-exists FILE <k>
-    # local_stream.py kernel-br FILE <k>
+    local_stream.py kernel-br FILE <k>
     local_stream.py kernel-min FILE
 
 Stream a labelled edge list through a specified algorithm to calculate
@@ -43,8 +43,8 @@ def main(args: Dict[str, Any]):
             branching(filename, k)
         elif args["kernel-exists"]:
             kernel_exists(filename, k)
-        # elif args["kernel-br"]:
-        #     kernel_br(filename, k)
+        elif args["kernel-br"]:
+            kernel_br(filename, k)
 
 
 def kernel_min(filename: str):
@@ -105,28 +105,28 @@ def kernel_min(filename: str):
         print("No Kernel Exists")
 
 
-# def kernel_br(filename: str, k: int):
-#     """Finds a vertex cover if one exists of at most size k
+def kernel_br(filename: str, k: int):
+    """Finds a vertex cover if one exists of at most size k
 
-#     First kernelizes the graph and then runs it through the branching method
+    First kernelizes the graph and then runs it through the branching method
 
-#     Arguments
-#     ---------
-#         filename : str
-#             The file path to stream from
-#         k : int
-#             Maximum size of vertex cover
-#     """
-#     kernel = _kernelize(filename, k)
-#     if not kernel:
-#         print("No Kernel found")
-#         return
+    Arguments
+    ---------
+        filename : str
+            The file path to stream from
+        k : int
+            Maximum size of vertex cover
+    """
+    kernel = _kernelize(filename, k)
+    if not kernel:
+        print("No Kernel found")
+        return
 
-#     kernel_file = "kernel.txt"
-#     kernel.export(kernel_file)
+    kernel_file = "kernel.txt"
+    kernel.export(kernel_file)
 
-#     branching(kernel_file, k)
-#     os.remove(kernel_file)
+    branching(kernel_file, k)
+    os.remove(kernel_file)
 
 
 def kernel_exists(filename: str, k: int):
