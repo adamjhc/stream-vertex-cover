@@ -108,7 +108,7 @@ def kernel_min(filename: str):
 # def kernel_br(filename: str, k: int):
 #     """Finds a vertex cover if one exists of at most size k
 
-#     First kernelises the graph and then runs it through the branching method
+#     First kernelizes the graph and then runs it through the branching method
 
 #     Arguments
 #     ---------
