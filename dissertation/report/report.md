@@ -1,3 +1,9 @@
+---
+header-includes:
+	- \usepackage{lineno}
+	- \linenumbers
+---
+
 # On Parameterized Vertex Cover in Streaming
 
 ## Abstract
