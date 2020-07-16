@@ -113,6 +113,8 @@ def _calculate_vertex_cover_and_draw(
         bin_string_pos = 0
         edge_pos = 0
 
+        current_node = 0
+
         _draw(
             figure,
             tree,
@@ -120,6 +122,7 @@ def _calculate_vertex_cover_and_draw(
             tree_axes,
             bin_string,
             bin_string_pos,
+            current_node,
             edge_pos,
             vertex_cover,
             text_bin_string,
@@ -141,6 +144,7 @@ def _calculate_vertex_cover_and_draw(
                 bin_string_pos += 1
             edge_pos += 1
 
+            current_node = _get_node_index(bin_string, bin_string_pos - 1)
             _draw(
                 figure,
                 tree,
@@ -148,6 +152,7 @@ def _calculate_vertex_cover_and_draw(
                 tree_axes,
                 bin_string,
                 bin_string_pos,
+                current_node,
                 edge_pos,
                 vertex_cover,
                 text_bin_string,
@@ -181,6 +186,7 @@ def _draw(
     tree_axes: Axes,
     bin_string: str,
     bin_string_pos: int,
+    current_node: int,
     edge_pos: int,
     vertex_cover: set,
     text_bin_string,
@@ -193,9 +199,8 @@ def _draw(
     )
 
     # highlight current node
-    current_node_index = _get_node_index(bin_string, bin_string_pos)
     node_colours = [
-        "yellow" if i == current_node_index else "#1f78b4"
+        "yellow" if i == current_node else "#1f78b4"
         for i in range(tree.number_of_nodes())
     ]
 
@@ -223,9 +228,6 @@ def _draw(
 
 
 def _get_node_index(bin_string, bin_string_pos):
-    if bin_string_pos <= 0:
-        return 0
-
     return 2 ** (bin_string_pos + 1) - 1 + int(bin_string[: (bin_string_pos + 1)], 2)
 
 
