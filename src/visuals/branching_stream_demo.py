@@ -206,15 +206,15 @@ def _draw(
 
     # bolden path
     path = []
-    for i in range(bin_string_pos):
-        if i + 1 >= bin_string_pos:
-            break
+    if current_node > 0:
+        path.append((0, _get_node_index(bin_string, 0)))
+        for i in range(bin_string_pos - 1):
+            if i + 1 > bin_string_pos:
+                break
 
-        u_index = _get_node_index(bin_string, i)
-        v_index = _get_node_index(bin_string, i + 1)
-        path.append((u_index, v_index))
-
-    print(path)
+            u_index = _get_node_index(bin_string, i)
+            v_index = _get_node_index(bin_string, i + 1)
+            path.append((u_index, v_index))
 
     edge_widths = [2 if edge in path else 1 for edge in tree.edges]
 
