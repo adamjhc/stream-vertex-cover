@@ -14,7 +14,7 @@ Options:
 """
 from random import shuffle
 from tkinter import TclError
-from typing import Any, Dict, Iterator, Set, Tuple
+from typing import Any, Dict, Iterator, Optional, Set, Tuple
 
 import matplotlib as mpl
 import matplotlib.pyplot as plot
@@ -75,7 +75,7 @@ def branching_stream_demo(args: Dict[str, Any]):
     delay = float(args["--delay"]) / 1000
 
     try:
-        vertex_cover_exists = _calculate_vertex_cover_and_draw(
+        vertex_cover = _calculate_vertex_cover_and_draw(
             figure,
             edges,
             k,
@@ -92,10 +92,10 @@ def branching_stream_demo(args: Dict[str, Any]):
         # Exception caused when exiting
         return False
 
-    if vertex_cover_exists:
-        _draw_success_text(figure, f"A Vertex Cover exists of size {k}")
+    if vertex_cover is not None:
+        _draw_success_text(figure, f"A Vertex Cover exists of size {len(vertex_cover)}")
     else:
-        _draw_failure_text(figure, f"There is Vertex Cover of size {k}")
+        _draw_failure_text(figure, f"There is no Vertex Cover of max size {k}")
 
     plot.show()
 
@@ -112,7 +112,7 @@ def _calculate_vertex_cover_and_draw(
     text_bin_string,
     text_bin_string_pos,
     text_current_edge,
-) -> bool:
+) -> Optional[set]:
     for bin_string in _get_binary_strings(k):
         vertex_cover: set = set()
         bin_string_pos = 0
@@ -184,9 +184,9 @@ def _calculate_vertex_cover_and_draw(
             )
 
             if edge_pos == graph.number_of_edges():
-                return True
+                return vertex_cover
 
-    return False
+    return None
 
 
 def _get_binary_strings(k) -> Iterator[str]:
