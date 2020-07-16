@@ -62,9 +62,12 @@ def branching_stream_demo(args: Dict[str, Any]):
     # Fix window to x=50 y=50 from top right of screen
     figure.canvas.manager.window.wm_geometry("+50+50")
     figure.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.9)
-    figure.suptitle("Branching Algorithm")
-    text_bin_string = figure.text(0.1, 0.8, "", fontsize=24, family="monospace")
-    text_bing_string_pos = figure.text(0.1, 0.8, "", fontsize=24, family="monospace")
+    figure.suptitle("Branching Algorithm", fontsize=24)
+    text_bin_string = figure.text(0.05, 0.85, "", fontsize=24, family="monospace")
+    text_bing_string_pos = figure.text(
+        0.05, 0.854, "", fontsize=24, family="monospace", weight="bold"
+    )
+    text_current_edge = figure.text(0.05, 0.80, "", fontsize=24, family="monospace")
     tree_axes = figure.subplots()
 
     tree = balanced_tree(2, k)
@@ -83,6 +86,7 @@ def branching_stream_demo(args: Dict[str, Any]):
             delay,
             text_bin_string,
             text_bing_string_pos,
+            text_current_edge,
         )
     except TclError:
         # Exception caused when exiting
@@ -106,7 +110,8 @@ def _calculate_vertex_cover_and_draw(
     tree_axes,
     delay,
     text_bin_string,
-    text_bing_string_pos,
+    text_bin_string_pos,
+    text_current_edge,
 ) -> bool:
     for bin_string in _get_binary_strings(k):
         vertex_cover: set = set()
@@ -124,14 +129,31 @@ def _calculate_vertex_cover_and_draw(
             bin_string_pos,
             current_node,
             edge_pos,
-            vertex_cover,
+            ("", ""),
             text_bin_string,
-            text_bing_string_pos,
+            text_bin_string_pos,
+            text_current_edge,
             delay,
         )
 
         while bin_string_pos != k:
             u, v = edges[edge_pos]
+
+            _draw(
+                figure,
+                tree,
+                layout,
+                tree_axes,
+                bin_string,
+                bin_string_pos,
+                current_node,
+                edge_pos,
+                (u, v),
+                text_bin_string,
+                text_bin_string_pos,
+                text_current_edge,
+                delay,
+            )
 
             if u not in vertex_cover and v not in vertex_cover:
                 edge_sm, edge_bg = (u, v) if u < v else (v, u)
@@ -154,9 +176,10 @@ def _calculate_vertex_cover_and_draw(
                 bin_string_pos,
                 current_node,
                 edge_pos,
-                vertex_cover,
+                (u, v),
                 text_bin_string,
-                text_bing_string_pos,
+                text_bin_string_pos,
+                text_current_edge,
                 delay,
             )
 
@@ -188,14 +211,15 @@ def _draw(
     bin_string_pos: int,
     current_node: int,
     edge_pos: int,
-    vertex_cover: set,
+    current_edge,
     text_bin_string,
     text_bin_string_pos,
+    text_current_edge,
     delay,
 ):
     tree_axes.clear()
     tree_axes.set_title(
-        f"i={bin_string_pos}, j={edge_pos}, Vertex Cover size={len(vertex_cover)}"
+        f"i={bin_string_pos}, j={edge_pos}", fontsize=20,
     )
 
     # highlight current node
@@ -216,12 +240,13 @@ def _draw(
             v_index = _get_node_index(bin_string, i + 1)
             path.append((u_index, v_index))
 
-    edge_widths = [2 if edge in path else 1 for edge in tree.edges]
+    edge_widths = [3 if edge in path else 1 for edge in tree.edges]
 
     draw(tree, pos=layout, ax=tree_axes, node_color=node_colours, width=edge_widths)
 
     text_bin_string.set_text(bin_string)
     text_bin_string_pos.set_text(" " * bin_string_pos + "_")
+    text_current_edge.set_text(current_edge)
 
     # Wait for update
     plot.pause(delay)
