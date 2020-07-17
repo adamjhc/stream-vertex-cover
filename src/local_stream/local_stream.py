@@ -27,7 +27,6 @@ from typing import Any, Dict, Optional
 
 from docopt import docopt
 from terminaltables import SingleTable
-from tqdm import tqdm
 
 from local_stream_branching import Branching
 from local_stream_kernel import Kernel
@@ -66,19 +65,14 @@ def kernel_min(filename: str):
 
     kernel: Optional[Kernel]
     min_k = end
-    with tqdm(
-        total=ceil(log2(end)), desc="Binary Search for min-k", leave=False
-    ) as pbar:
-        while start <= end:
-            mid = (start + end) // 2
-            kernel = _kernelize(filename, mid)
-            if kernel is not None:
-                min_k = mid
-                end = mid - 1
-            else:
-                start = mid + 1
-
-            pbar.update(1)
+    while start <= end:
+        mid = (start + end) // 2
+        kernel = _kernelize(filename, mid)
+        if kernel is not None:
+            min_k = mid
+            end = mid - 1
+        else:
+            start = mid + 1
 
     if kernel is not None:
         kernel_nodes = kernel.number_of_nodes()
@@ -192,7 +186,7 @@ def branching(filename: str, k: int):
 
 
 def _kernelize(filename: str, k: int) -> Optional[Kernel]:
-    """Generates a kernel for a given filepath and k value
+    """Generates a kernel for a given file path and k value
 
     Arguments
     ---------
@@ -211,15 +205,12 @@ def _kernelize(filename: str, k: int) -> Optional[Kernel]:
 
         kernel = Kernel(k)
         kernel_exists = True
-        with tqdm(total=no_of_edges, leave=False, desc="Edges") as pbar:
-            for line in stream:
-                u, v = line.split()[:2]
+        for line in stream:
+            u, v = line.split()[:2]
 
-                if not kernel.next(u, v):
-                    kernel_exists = False
-                    break
-
-                pbar.update(1)
+            if not kernel.next(u, v):
+                kernel_exists = False
+                break
 
         return kernel if kernel_exists else None
 
