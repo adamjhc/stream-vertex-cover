@@ -1,25 +1,25 @@
-"""Usage: convert_edgelist_to_labelled_edgelist.py <input> <output>
+"""Usage: convert_edgelist_to_labelled_edgelist.py <input>
 
 Arguments:
     input   Path to edgelist file
-    output  Path to output file
 """
+from pathlib import Path
+
 from docopt import docopt
+
 from tqdm import tqdm
 
 
-def convert_edgelist_to_labelled_edgelist(edgelist_path: str, output_path: str):
+def convert_edgelist_to_labelled_edgelist(edgelist_path: str):
     """Converts an edgelist file to a labelled edgelist
 
     Arguments
     ---------
         edgelist_path : str
             File path to edgelist
-        output_path : str
-            File path to output
     """
     nodes = set()
-    edges = 0
+    num_edges = 0
     with open(edgelist_path, "r") as edgelist:
         for line in tqdm(
             edgelist, total=0, leave=False, desc="Reading edge list", unit=" edges"
@@ -27,14 +27,14 @@ def convert_edgelist_to_labelled_edgelist(edgelist_path: str, output_path: str):
             u, v = line.split()[:2]
             nodes.add(u)
             nodes.add(v)
-            edges += 1
+            num_edges += 1
 
         edgelist.seek(0)
-        with open(output_path, "x") as output:
-            output.write(f"{len(nodes)} {edges}\n")
+        with open(f"{Path(edgelist_path).stem}_labelled.txt", "w") as output:
+            output.write(f"{len(nodes)} {num_edges}\n")
             for line in tqdm(
                 edgelist,
-                total=edges,
+                total=num_edges,
                 leave=False,
                 desc="Writing labelled edge list",
                 unit=" edges",
@@ -44,4 +44,4 @@ def convert_edgelist_to_labelled_edgelist(edgelist_path: str, output_path: str):
 
 if __name__ == "__main__":
     args = docopt(__doc__)
-    convert_edgelist_to_labelled_edgelist(args["<input>"], args["<output>"])
+    convert_edgelist_to_labelled_edgelist(args["<input>"])
