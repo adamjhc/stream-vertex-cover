@@ -44,7 +44,7 @@ If everything has been setup correctly, you should be able to run the demo using
 
 ```sh
 $ make demo_local_stream
-python ./src/local_stream/local_stream.py kernel-min ./src/test_sets/labelled_edge_lists/rome99.txt
+python ./src/local_stream/local_stream.py branching-min ./src/test_sets/labelled_edge_lists/rome99.txt
 ┌Result────────┬────────┐
 │ Graph Name   │ rome99 │
 │ Graph Nodes  │ 3353   │
