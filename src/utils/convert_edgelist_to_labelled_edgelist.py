@@ -1,8 +1,9 @@
 """Usage: convert_edgelist_to_labelled_edgelist.py <input>
 
 Arguments:
-    input   Path to edgelist file
+    input   Path to edge list file or dir
 """
+import os
 from pathlib import Path
 
 from docopt import docopt
@@ -44,4 +45,11 @@ def convert_edgelist_to_labelled_edgelist(edgelist_path: str):
 
 if __name__ == "__main__":
     args = docopt(__doc__)
-    convert_edgelist_to_labelled_edgelist(args["<input>"])
+
+    path = args["<input>"]
+    if os.path.isfile(path):
+        convert_edgelist_to_labelled_edgelist(path)
+    elif os.path.isdir(path):
+        for file in os.listdir(path):
+            if file.endswith(".txt"):
+                convert_edgelist_to_labelled_edgelist(f"{path}/{file}")
