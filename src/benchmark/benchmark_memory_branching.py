@@ -4,13 +4,15 @@ sys.path.append("../local")
 sys.path.append("../local_stream")
 
 from local_branching import vertex_cover_branching
-from local_stream import branching
+from local_stream import _calculate_vertex_cover
 import networkx as nx
 
 
 @profile
 def profile_stream_branching(graph_name: str, k: int):
-    branching(f"../test_sets/labelled_edge_lists/{graph_name}_labelled.txt", k)
+    _calculate_vertex_cover(
+        f"../test_sets/labelled_edge_lists/{graph_name}_labelled.txt", k
+    )
 
 
 @profile

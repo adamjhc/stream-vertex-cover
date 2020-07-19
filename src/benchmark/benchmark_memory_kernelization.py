@@ -4,13 +4,13 @@ sys.path.append("../local")
 sys.path.append("../local_stream")
 
 from local_kernel import vertex_cover_kernelization
-from local_stream import kernel_exists
+from local_stream import _kernelize
 import networkx as nx
 
 
 @profile
 def profile_stream_kernelization(graph_name: str, k: int):
-    kernel_exists(f"../test_sets/labelled_edge_lists/{graph_name}_labelled.txt", k)
+    _kernelize(f"../test_sets/labelled_edge_lists/{graph_name}_labelled.txt", k)
 
 
 @profile
