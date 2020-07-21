@@ -166,28 +166,187 @@ The final section is for out-of-memory sized networked graphs. This is what you'
 
 #### Branching - Non-Stream
 
-```
-Pseudocode
+```python
+def vertex_cover_branching(
+    graph: Graph, k: int, vertex_cover: set = set()
+) -> Optional[set]:
+    if graph.number_of_edges() == 0:
+        return vertex_cover
+
+    if k == 0:
+        return None
+
+    (u, v) = list(graph.edges)[0]
+
+    left_graph = graph.copy()
+    left_graph.remove_node(u)
+    left_current_vc = vertex_cover.copy()
+    left_current_vc.add(u)
+    vc_left = vertex_cover_branching(left_graph, k - 1, left_current_vc)
+
+    if vc_left:
+        return vc_left
+
+    right_graph = graph.copy()
+    right_graph.remove_node(v)
+    right_current_vc = vertex_cover.copy()
+    right_current_vc.add(v)
+    vc_right = vertex_cover_branching(right_graph, k - 1, right_current_vc)
+    return vc_right
 ```
 
 #### Branching - Stream
 
 > Talk about how pseudocode in Rajesh's paper was wrong with a specific worked example of how it doesn't work. Give updated pseudocode.
 
+[Rajesh et al 2019] converted the above branching algorithm into one that was compatible with the streaming model. This algorithm required $O(k\cdot \log n)$ space and $2^k$ passes. We noticed their pseudocode had an error that had not been caught. In their version, if the end of the edge stream ($j$ in their pseudocode) was reached before a depth ($i$ in their pseudocode) of $k$ was reached then the program would presumably throw an exception as there were no more edges to read. This is due to the fact that the check for whether the end of stream had been reached was put outside the inner-most loop. Below is our corrected version.
+
+```pseudocode
+while X != ♠ do
+	∅, i = 1, j = 1
+	while i != k + 1 do
+		Let e_j = u − v such that u < v under the ordering φ
+		if Both u /∈ S and v /∈ S then
+			if X[i] = 0 then S ← S ∪ {u}
+			else S ← S ∪ {v}
+			i ← i + 1
+		j ← j + 1
+		if j = m + 1 then Return S and abort
+	X ← Dictk(Next(X))
+if X = ♠ then Return NO
 ```
-Pseudocode
+
+> Whether to put new pseudocode here or in results?
+
+In implementing this algorithm into a streaming platform such as Kafka, we found that the way the pseudo had been structured made implementation difficult. This is due to the fact that Kafka relies on brokers recording whether they have seen a message or not, this is counted as the number of `acks` (acknowledgements). If the algorithm were to exit before acknowledging all the edges in the stream then these edges would lay dormant until another algorithm was run and it would start reading them incorrectly. This caused us to rewrite the algorithm with the inner-most loop being based on looping through the edges rather than looping through the depths of the tree.
+
+```python
+for bin_string in _get_binary_strings(job.k):
+    vertex_cover: set = set()
+    vertex_cover_exists = True
+    bin_string_pos = 0
+
+    async for edge in stream_edges:
+        if edge.is_end:
+            break
+
+        if not vertex_cover_exists:
+            continue
+
+        u = edge.u
+        v = edge.v
+
+        if u not in vertex_cover and v not in vertex_cover:
+            if bin_string_pos == job.k:
+                vertex_cover_exists = False
+                continue
+
+            edge_sm, edge_bg = (u, v) if u < v else (v, u)
+
+            if bin_string[bin_string_pos] == "0":
+                vertex_cover.add(edge_sm)
+            else:
+                vertex_cover.add(edge_bg)
+
+            bin_string_pos += 1
+
+    if vertex_cover_exists:
+        return vertex_cover
+
+    await topic_requests.send(value=GraphRequest(job.path))
+
+return None
 ```
+
+**Note**: `i = bin_string_pos`, `X = bin_string`.
+
+As you can see the loop through the edges is only broken from once the `is_end` edge is acknowledged.
 
 #### Kernelization - Non-Stream
 
-```
-Pseudocode
+```python
+def vertex_cover_kernelization(graph: Graph, k: int) -> Optional[set]:
+    kernel, vertex_cover = _kernelize(graph, k)
+
+    if kernel.number_of_nodes() > k ** 2 + k or kernel.number_of_edges() > k ** 2:
+        return None
+
+	pass
+
+def _kernelize(graph: Graph, k: int) -> Tuple[Graph, set]:
+    kernel = graph.copy()
+    vertex_cover = set()
+    reductions_can_be_made = True
+    while reductions_can_be_made:
+        reduction_made = False
+        for node in list(kernel.nodes):
+            degree = kernel.degree[node]
+            if k > 0 and degree > k:
+                reduction_made = True
+                kernel.remove_node(node)
+                vertex_cover.add(node)
+                k -= 1
+            elif degree == 0:
+                kernel.remove_node(node)
+
+        if not reduction_made:
+            reductions_can_be_made = False
+
+    return kernel, vertex_cover
 ```
 
 #### Kernelization - Stream
 
-```
-Pseudocode
+```python
+def _kernelize(filename: str, k: int) -> Optional[Kernel]:
+    with open(filename) as stream:
+        no_of_edges = int(stream.readline().split()[1])
+
+        kernel = Kernel(k)
+        kernel_exists = True
+        for line in stream:
+            u, v = line.split()[:2]
+
+            if not kernel.next(u, v):
+                kernel_exists = False
+                break
+
+        return kernel if kernel_exists else None
+
+class Kernel:
+    def __init__(self, k: int):
+        self.k = k
+        self.matching: Dict[Tuple[Any, Any], Tuple[List[Any], List[Any]]] = {}
+
+    def next(self, u: Any, v: Any) -> bool:
+        is_neighbour = False
+
+        matching = self._get_if_in(u, self.matching)
+        if matching is not None:
+            is_neighbour = True
+
+            matched_edge, neighbours = matching
+            vertex_pos = matched_edge.index(u)
+            if len(neighbours[vertex_pos]) < self.k:
+                neighbours[vertex_pos].append((u, v))
+
+        else:
+            matching = self._get_if_in(v, self.matching)
+            if matching is not None:
+                is_neighbour = True
+
+                matched_edge, neighbours = matching
+                vertex_pos = matched_edge.index(v)
+                if len(neighbours[vertex_pos]) < self.k:
+                    neighbours[vertex_pos].append((u, v))
+
+        if not is_neighbour:
+            self.matching[(u, v)] = ([], [])
+
+            if len(self.matching) > self.k:
+                return False
+
+        return True
 ```
 
 ### Local - Visualisation
