@@ -359,8 +359,6 @@ This is the traditional case. The graph is small enough to use in-memory and you
 
 In order to aid in the understanding of algorithms, it is often helpful to create visualisations. So I did just that.
 
-![Streaming Kernelization Visualisation](../images/demo_kernel.jpg)
-
 ### Local-Stream - Performance Profiling
 
 In this case the graph is no longer large enough to store in-memory but you are able to have direct access to it. The graph may be large but it is feasible to store the graph on disk since disk sizes are often many magnitudes larger than that of memory. Traditional algorithms are no longer applicable here, this is the first example where the invention of streaming algorithms is a necessity.
@@ -458,46 +456,43 @@ If you know beforehand the size of the graph and it's of an in-memory size then 
 
 ### Visualisation
 
+![Streaming Kernelization Visualisation](..\images\visual_kernelization.jpg)
+
+![Streaming Branching Visualisation](..\images\visual_branching.png)
+
 ### Profiling
-
-#### Runtime Analysis
-
-| Problem                       | Time Complexity | Local |
-| ----------------------------- | --------------- | ----- |
-| `find_vertex_cover`           | $O()$           |       |
-| `does_vertex_cover_exist`     |                 |       |
-| `find_vertex_cover_efficient` |                 |       |
-| `find_min_vertex_cover_size`  |                 |       |
-| `find_min_vertex_cover`       |                 |       |
-
-`Insert graph here`
 
 #### Memory profiling
 
-| Problem                       | Local | Local-Stream | Stream |
-| ----------------------------- | ----- | ------------ | ------ |
-| `find_vertex_cover`           |       |              |        |
-| `does_vertex_cover_exist`     |       |              |        |
-| `find_vertex_cover_efficient` |       |              |        |
-| `find_min_vertex_cover_size`  |       |              |        |
-| `find_min_vertex_cover`       |       |              |        |
+For memory profiling, we used the Python package `memory-profiler` which records memory usage at intervals of $0.1\text{s}$
 
-`Insert graph here`
+##### Kernelization
 
-### Algorithm Comparison
+![benchmark_memory_kernelization_100_10000](..\images\benchmark_memory_kernelization_100_10000.png)
 
-Since we have two viable solutions for finding the vertex cover for a given graph stream and value $k$, `find_vertex_cover` and `find_vertex_cover_efficient` it would be a good idea to compare them.
+##### Branching
+
+
+
+![benchmark_memory_branching_50_1000](..\images\benchmark_memory_branching_50_1000.png)
+
+
+
+![benchmark_memory_branching_10_100000_error](..\images\benchmark_memory_branching_10_100000_error.png)
 
 #### Runtime Analysis
 
-| Graph | Nodes | Edges | Density | `branching` | `kernel-branching` |
-| ----- | ----- | ----- | ------- | ----------- | ------------------ |
-|       |       |       |         |             |                    |
-|       |       |       |         |             |                    |
+##### Kernelization
 
-`Insert graph here`
+![benchmark_time_kernelization](..\images\benchmark_time_kernelization.png)
+
+##### Branching
+
+![benchmark_time_branching](..\images\benchmark_time_branching.png)
 
 ### Stream Implementation
+
+![stream](..\images\stream.jpg)
 
 ## Discussion
 
