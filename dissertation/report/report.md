@@ -476,11 +476,21 @@ Due to the branching algorithm having a runtime of $O(2^k)$, it quickly became c
 
 ![benchmark_time_branching](..\images\benchmark_time_branching.png)
 
-### Stream Implementation
+### Proof-of-Concept Stream Implementation
 
 
 
 ![stream](..\images\stream_new.png)
+
+#### Control Flow
+
+- App (Client) - The browser client of the user
+- App (Server) - The web server serving pages to the user and processing
+- Producer - The "external" server as the source of the stream of graph edges
+
+![stream_kernelization](..\images\stream_kernelization.png)
+
+![stream_branching](..\images\stream_branching.png)
 
 ## Discussion
 
