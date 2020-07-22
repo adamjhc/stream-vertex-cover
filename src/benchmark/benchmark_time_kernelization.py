@@ -3,7 +3,7 @@ import sys
 sys.path.append("../local")
 sys.path.append("../local_stream")
 
-from typing import List
+from typing import List, Dict
 
 import networkx as nx
 import pyperf
@@ -21,13 +21,13 @@ def benchmark_kernelization():
         "erdos_renyi_100_0.3_edgelist",
         "erdos_renyi_100_0.4_edgelist",
         "erdos_renyi_100_0.5_edgelist",
-        "erdos_renyi_100_0.05_edgelist",
+        # "erdos_renyi_100_0.05_edgelist",
         "erdos_renyi_100_0.6_edgelist",
         "erdos_renyi_100_0.7_edgelist",
-        "erdos_renyi_100_0.07_edgelist",
+        # "erdos_renyi_100_0.07_edgelist",
         "erdos_renyi_100_0.8_edgelist",
         "erdos_renyi_100_0.9_edgelist",
-        "erdos_renyi_100_0.09_edgelist",
+        # "erdos_renyi_100_0.09_edgelist",
         "erdos_renyi_100_0.11_edgelist",
         "erdos_renyi_100_0.13_edgelist",
         "erdos_renyi_100_0.15_edgelist",
@@ -61,30 +61,37 @@ def benchmark_kernelization():
         "tutte",
     ]
 
+    # Generate k values up to graph nodes to test with
+    k_values_for_graphs: Dict[str, List[int]] = {}
     for graph_name in graphs:
         # Get number of nodes in graph
         filename = labelled_graph_path.format(graph_name)
         with open(filename) as stream:
             graph_nodes = int(stream.readline().split()[0])
 
-        # Generate k values up to graph nodes to test with
-        k_values = []
+        k_values_for_graphs[graph_name] = []
         for i in range(1, graph_nodes):
-            if 2 ** i < graph_nodes and i <= 4:
-                k_values.append(2 ** i)
+            if 2 ** i < graph_nodes:
+                k_values_for_graphs[graph_name].append(2 ** i)
             else:
                 break
 
-        for k in k_values:
-            runner.bench_func(
-                f"local-{graph_name}-{k}", benchmark_local_kernelization, graph_name, k,
-            )
-            runner.bench_func(
-                f"stream-{graph_name}-{k}",
-                benchmark_stream_kernelization,
-                graph_name,
-                k,
-            )
+    for i in range(len(max(k_values_for_graphs))):
+        for graph_name in graphs:
+            if i < len(k_values_for_graphs[graph_name]):
+                k = k_values_for_graphs[graph_name][i]
+                runner.bench_func(
+                    f"local-{graph_name}-{k}",
+                    benchmark_local_kernelization,
+                    graph_name,
+                    k,
+                )
+                runner.bench_func(
+                    f"stream-{graph_name}-{k}",
+                    benchmark_stream_kernelization,
+                    graph_name,
+                    k,
+                )
 
 
 def benchmark_local_kernelization(graph_name: str, k: int):
