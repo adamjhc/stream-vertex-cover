@@ -1,0 +1,15 @@
+sequenceDiagram
+    Note over App (Client),Producer: HTTP POST
+    App (Client)->>Producer: algorithm, graph, k
+    Note over Producer,App (Server): Info (Kafka Topic)
+    Producer->>App (Server): algorithm, graph, k
+    Note over Producer: Reads graph
+    Note over App (Server): Processes job
+    loop For every edge
+        Note over Producer, App (Server): Edges (Kafka Topic)
+        Producer->>App (Server): u,v
+        Note over App (Server),App (Client): Server Side Events (SSE)
+        App (Server)->>App (Client): u, v
+    end
+    Producer->>App (Server): end
+    App (Server)->>App (Client): Results
