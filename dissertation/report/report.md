@@ -94,6 +94,8 @@ $$
 
 Kernelization is a pre-processing method for minimising datasets into their core components known as a "kernel". Processing completed on such a kernel will return the same output as that would be returned had the processing been run on the entire dataset.
 
+> There is a book on Kernelization (https://www.cambridge.org/core/books/kernelization/36F327A8BB97CB6BBEA564368BF1AD4A) that you can refer to.
+
 A kernelization algorithm for vertex cover was put forward by S. Buss in 1993[citation needed]. Given an input of an undirected graph $G$ and a number $k$, the algorithm works by applying the following rules until no more reductions can be made.
 
 1. If $k > 0$ and $v$ is a vertex of degree $> k$, remove $v$ from the graph and
@@ -105,7 +107,7 @@ A kernelization algorithm for vertex cover was put forward by S. Buss in 1993[ci
 
 The output is a set of at most $k$ vertices that includes an endpoint of every edge in the graph, if such a set exists, or a failure exception if no such set exists.
 
-> There is a book on Kernelization (https://www.cambridge.org/core/books/kernelization/36F327A8BB97CB6BBEA564368BF1AD4A) that you can refer to. There are more relevant references for both parameterized complexity and streaming in the "Towards a Theory of Parameterized Streaming Algorithms" paper...
+> There are more relevant references for both parameterized complexity and streaming in the "Towards a Theory of Parameterized Streaming Algorithms" paper...
 
 ### Branching
 
