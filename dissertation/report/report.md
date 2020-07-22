@@ -436,9 +436,9 @@ If you know beforehand the size of the graph and it's of an in-memory size then 
 
 ### Visualisation
 
-![Streaming Kernelization Visualisation](..\images\visual_kernelization.jpg)
+![Streaming Kernelization Visualisation](..\images\visuals_kernelization.png)
 
-![Streaming Branching Visualisation](..\images\visual_branching.png)
+![Streaming Branching Visualisation](..\images\visuals_branching.png)
 
 ### Performance Profiling
 

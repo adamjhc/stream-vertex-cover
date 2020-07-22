@@ -55,8 +55,6 @@ def kernel_stream_demo(args: Dict[str, Any]):
 
     # Set up matplotlib
 
-    # turn off matplotlib toolbar
-    mpl.rcParams["toolbar"] = "None"
     plot.show()
     figure: Figure = plot.figure("Kernelization Algorithm", figsize=(16, 9))
 

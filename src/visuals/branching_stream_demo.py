@@ -53,9 +53,6 @@ def branching_stream_demo(args: Dict[str, Any]):
         print("k values 10 or more will take significantly longer to load")
 
     # Set up matplotlib
-
-    # turn off matplotlib toolbar
-    mpl.rcParams["toolbar"] = "None"
     plot.show()
     figure: Figure = plot.figure("Branching Algorithm", figsize=(16, 9))
 
