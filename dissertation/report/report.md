@@ -363,28 +363,6 @@ In order to aid in the understanding of algorithms, it is often helpful to creat
 
 In this case the graph is no longer large enough to store in-memory but you are able to have direct access to it. The graph may be large but it is feasible to store the graph on disk since disk sizes are often many magnitudes larger than that of memory. Traditional algorithms are no longer applicable here, this is the first example where the invention of streaming algorithms is a necessity.
 
-There are a number of ways the above algorithms could be constructed to be made for user friendly and easy to apply to problems.
-
-#### `find_vertex_cover` (branching)
-
-This is simply using the branching algorithm. For the situation where you already know your k value. You may already know this value because you know your memory limits or have a budget.
-
-#### `find-kernel` (kernelization)
-
-This is simply using the kernelization algorithm. Shrinking a given input down to it's most important core.
-
-#### `find_vertex_cover_efficient` (kernelization-branching)
-
-This combines the algorithms using the kernelized graph and passing that into the branching algorithm.
-
-#### `find_min_vertex_cover` (branching-min)
-
-This uses the branching algorithm in a binary search to find the minimum size a vertex cover could be.
-
-#### `find_min_vertex_cover_efficient` (kernelization--branching-min)
-
-This then combines the previous two for a complete solution to find a minimum vertex cover for a given stream.
-
 #### Datasets
 
 Eventually you get to a point when the datasets become too large to even read.
