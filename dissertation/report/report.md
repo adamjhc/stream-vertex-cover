@@ -482,11 +482,17 @@ For memory profiling, we used the Python package `memory-profiler` which records
 
 #### Runtime Analysis
 
+For runtime analysis, we used a Python package called `pyperf`. It includes tools for writing, running, and analysing runtime benchmarks. By creating a script to run through a handful of graphs and $k$ values and run them with both the local and stream versions of each algorithm, we were able to paint a clearer picture of how the stream versions compare to their local counterparts.
+
 ##### Kernelization
 
-![benchmark_time_kernelization](..\images\benchmark_time_kernelization.png)
+
+
+![benchmark_time_kernelization](..\images\benchmark_time_kernelization_1.png)
 
 ##### Branching
+
+Due to the branching algorithm having a runtime of $O(2^k)$, it quickly became clear that we weren't going to be able to gather as much data as we had initially wanted.
 
 ![benchmark_time_branching](..\images\benchmark_time_branching.png)
 
