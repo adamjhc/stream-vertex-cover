@@ -460,11 +460,11 @@ If you know beforehand the size of the graph and it's of an in-memory size then 
 
 ![Streaming Branching Visualisation](..\images\visual_branching.png)
 
-### Profiling
+### Performance Profiling
 
 #### Memory profiling
 
-For memory profiling, we used the Python package `memory-profiler` which records memory usage at intervals of $0.1\text{s}$
+For memory profiling, we used the Python package `memory-profiler` which records memory usage at intervals of $0.1\text{s}$. It also allows for tagging of functions meaning that we can see when each function starts and ends. Creating a script to run both the local and stream versions of each algorithm allowed us to show the memory usage of each side by side.
 
 ##### Kernelization
 
