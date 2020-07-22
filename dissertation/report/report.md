@@ -492,7 +492,9 @@ For memory profiling, we used the Python package `memory-profiler` which records
 
 ### Stream Implementation
 
-![stream](..\images\stream.jpg)
+
+
+![stream](..\images\stream_new.png)
 
 ## Discussion
 
