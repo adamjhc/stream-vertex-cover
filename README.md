@@ -44,16 +44,13 @@ If everything has been setup correctly, you should be able to run the demo using
 
 ```sh
 $ make demo_local_stream
-python ./src/local_stream/local_stream.py branching-min ./src/test_sets/labelled_edge_lists/rome99.txt
-┌Result────────┬────────┐
-│ Graph Name   │ rome99 │
-│ Graph Nodes  │ 3353   │
-│ Graph Edges  │ 8870   │
-│ Min k        │ 1458   │
-│ Kernel Nodes │ 3353   │
-│ Kernel Edges │ 8870   │
-│ Reduction    │ 0.0%   │
-└──────────────┴────────┘
+python ./src/local_stream/local_stream.py branching-min ./src/test_sets/labelled_edge_lists/florentine_families_labelled.txt
+┌Result────────────┬──────────────────────────────┐
+│ Graph Name       │ florentine_families_labelled │
+│ Graph Nodes      │ 15                           │
+│ Graph Edges      │ 20                           │
+│ Min Vertex Cover │ 8                            │
+└──────────────────┴──────────────────────────────┘
 ```
 
 ## About
