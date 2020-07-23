@@ -8,8 +8,8 @@ from typing import List, Dict
 import networkx as nx
 import pyperf
 
-from local_kernel import vertex_cover_kernelization
-from local_stream import _kernelize
+from local_kernel import _kernelize as local_kernelize
+from local_stream import _kernelize as stream_kernelize
 
 
 def benchmark_kernelization():
@@ -21,13 +21,13 @@ def benchmark_kernelization():
         "erdos_renyi_100_0.3_edgelist",
         "erdos_renyi_100_0.4_edgelist",
         "erdos_renyi_100_0.5_edgelist",
-        # "erdos_renyi_100_0.05_edgelist",
+        "erdos_renyi_100_0.05_edgelist",
         "erdos_renyi_100_0.6_edgelist",
         "erdos_renyi_100_0.7_edgelist",
-        # "erdos_renyi_100_0.07_edgelist",
+        "erdos_renyi_100_0.07_edgelist",
         "erdos_renyi_100_0.8_edgelist",
         "erdos_renyi_100_0.9_edgelist",
-        # "erdos_renyi_100_0.09_edgelist",
+        "erdos_renyi_100_0.09_edgelist",
         "erdos_renyi_100_0.11_edgelist",
         "erdos_renyi_100_0.13_edgelist",
         "erdos_renyi_100_0.15_edgelist",
@@ -48,13 +48,13 @@ def benchmark_kernelization():
         "florentine_families",
         "high_node_low_vc_10_1000_shuffled",
         "high_node_low_vc_10_10000_shuffled",
-        # "high_node_low_vc_10_100000_shuffled",
+        "high_node_low_vc_10_100000_shuffled",
         "high_node_low_vc_50_100_shuffled",
         "high_node_low_vc_50_1000_shuffled",
-        # "high_node_low_vc_50_10000_shuffled",
-        # "high_node_low_vc_50_50000_shuffled",
+        "high_node_low_vc_50_10000_shuffled",
+        "high_node_low_vc_50_50000_shuffled",
         "high_node_low_vc_100_1000_shuffled",
-        # "high_node_low_vc_100_10000_shuffled",
+        "high_node_low_vc_100_10000_shuffled",
         "karate_club",
         "les_miserables",
         "petersen",
@@ -96,11 +96,14 @@ def benchmark_kernelization():
 
 def benchmark_local_kernelization(graph_name: str, k: int):
     graph = nx.read_edgelist(f"../test_sets/edge_lists/{graph_name}.txt")
-    vertex_cover_kernelization(graph, k)
+    kernel, vertex_cover = local_kernelize(graph, k)
+
+    if kernel.number_of_nodes() > k ** 2 + k or kernel.number_of_edges() > k ** 2:
+        return None
 
 
 def benchmark_stream_kernelization(graph_name: str, k: int):
-    _kernelize(f"../test_sets/labelled_edge_lists/{graph_name}_labelled.txt", k)
+    stream_kernelize(f"../test_sets/labelled_edge_lists/{graph_name}_labelled.txt", k)
 
 
 if __name__ == "__main__":
