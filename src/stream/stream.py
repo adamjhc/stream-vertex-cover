@@ -83,7 +83,7 @@ async def get_stream(self, request):
     """
     Handles HTTP Get "/stream"
 
-    Creates a Server Side Event response to send edges in real time
+    Creates a Server-Sent Event response to send edges in real time
     """
     async with sse_response(request) as response:
         async for edge in channel_edges:
@@ -95,7 +95,7 @@ async def get_results(self, request):
     """
     Handles HTTP Get "/results"
 
-    Creates a Server Side Event response to send results in real time
+    Creates a Server-Sent Event response to send results in real time
     """
     async with sse_response(request) as response:
         async for result in channel_results:

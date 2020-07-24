@@ -13,7 +13,7 @@ sequenceDiagram
     loop For every edge
         Note over Producer, App (Server): Edges (Kafka Topic)
         Producer->>App (Server): u,v
-        Note over App (Server),App (Client): Server Side Events (SSE)
+        Note over App (Server),App (Client): Server-Sent Events (SSE)
         App (Server)->>App (Client): u, v
     end
     Producer->>App (Server): end
@@ -33,7 +33,7 @@ sequenceDiagram
     loop For every edge
         Note over Producer, App (Server): Edges (Kafka Topic)
         Producer->>App (Server): u,v
-        Note over App (Server),App (Client): Server Side Events (SSE)
+        Note over App (Server),App (Client): Server-Sent Events (SSE)
         App (Server)->>App (Client): u, v
     end
     Producer->>App (Server): end
@@ -44,7 +44,7 @@ sequenceDiagram
             loop For every edge
                 Note over Producer, App (Server): Edges (Kafka Topic)
                 Producer->>App (Server): u,v
-                Note over App (Server),App (Client): Server Side Events (SSE)
+                Note over App (Server),App (Client): Server-Sent Events (SSE)
                 App (Server)->>App (Client): u, v
             end
             Producer->>App (Server): end
