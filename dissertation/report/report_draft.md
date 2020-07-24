@@ -1,7 +1,7 @@
 ---
 header-includes:
-	- \usepackage{lineno}
-	- \linenumbers
+    - \usepackage{lineno}
+    - \linenumbers
 ---
 
 # On Parameterized Vertex Cover in Streaming
@@ -32,7 +32,7 @@ This paper aims to build a base on how to go about implementing streaming algori
 
 > This paper considers the parameterized Vertex Cover problem, abbreviated VC henceforth: given a graph G and a parameter k, decide if G has a vertex cover of at most k vertices. This problem was amongst the first few problems that were shown to be NP-hard [14]. In addition, the problem has been a central problem in the study of parameterized algorithms [11], and has applications in areas such as computational biochemistry and biology [6].
 
-Vertex cover is a classical graph theoretic problem. The decision version was one of Karp's 21 NP-complete problems[citation needed]. 
+Vertex cover is a classical graph theoretic problem. The decision version was one of Karp's 21 NP-complete problems[citation needed].
 
 Imagine a heavily connected road network in a city. The city council wants to figure out the most cost effective placement of cameras so that they are able to see every road (assume the cameras can see 360$^\circ$). The way of calculating this mathematically would be as a vertex cover of a graph where each intersection was a node and each road between them is an edge. For cities nowadays, this graph can be too big to compute using traditional methods. So we need updated methods to handle this. The city now realises that they only have a certain number of cameras they're able to put up, $k$ cameras. The city decides the project won't be worth the investment if they're not able to cover the entire city. This is now the vertex cover problem. The city doesn't care for any solution that exceeds their budget of $k$ cameras.
 
@@ -68,12 +68,6 @@ In 2014, the UK Government identified Big Data as one of "eight great technologi
 > - https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/325024/informatics-bigdata.pdf
 > - https://data.gov.uk/data/contracts-finder-archive/download/1508537/821e7b57-36d3-4d7a-b8b7-9aa306dbe7c9
 
----
-
-> My supervisor Rajesh Chitnis had previously been researching the problem of parameterized vertex cover. I found that none of the algorithms he talked about had ever been put into practice, only ever written theoretically.
-
-In the past, streaming algorithms had always interested us but we lacked a specific area to be able to begin learning as the topic is very broad. This is when the area of graph theory was brought to us by our supervisor. This project gave us the platform to be able to spend time learning about streaming algorithms and frameworks.
-
 ### Aims
 
 Our work here focuses on two algorithms developed by Rajesh Chitnis et al: a branching method for solving VC($k$)[citation needed] and a kernelization method[citation needed]. The branching method is built on a traditional non-stream method for solving VC($k$) while the kernelization technique is entirely novel. This techniques are designed for non-dynamic undirected graph streams.
@@ -84,20 +78,22 @@ Our main aim is to create a foundation for further work to be built upon. We ide
 2. Practical evidence of performance of the algorithms. While Big-O notation is a good indicator of runtime and memory performance, those only refer to average performance which few, if any, datasets will fit. Seeing whether your problem area is suitable to have a specific algorithm applied to it is crucial.
 3. Aid in choosing the correct tools. There exist many tools and platforms nowadays for the development of streaming systems. As with many modern tooling, each have their fair share of buzzwords and jargon most are forced to wade through before fully understanding what a tools function even is.
 
+> My supervisor Rajesh Chitnis had previously been researching the problem of parameterized vertex cover. I found that none of the algorithms he talked about had ever been put into practice, only ever written theoretically.
+
+In the past, streaming algorithms had always interested us but we lacked a specific area to be able to begin learning as the topic is very broad. This is when the area of graph theory was brought to us by our supervisor. This project gave us the platform to be able to spend time learning about streaming algorithms and frameworks.
+
 ## Background
 
 For the reader unfamiliar with concepts covered in this paper, an explanation has been provided for each. For those simply unfamiliar with abbreviations, a glossary has been provided.
 
 **Graph Theory**: The study of mathematical structures (graphs) which are used to show pairwise relations between objects.
 
-​	**Graph Density**:
-$$
-s
-$$
 **Vertex Cover**: A set of vertices such that each edge of a graph is incident to at least one vertex of the set. The problem of finding a minimum vertex cover (the smallest possible) is a classical optimization problem and is a typical example of an NP-hard problem. The decision version (where we only want a yes/no answer) is known as the Vertex Cover Problem. Formally, given a graph $G = (V, E)$ and a vertex cover $V'$:
 $$
 V' \subset V \text{ such that } \forall (u, v) \in E \Rightarrow u \in V' \vee v \in V'
 $$
+**Maximal Matching**:
+
 **Parameterized complexity**: A branch of computational complexity theory that focusses on classifying computational problems according to their inherent difficulty with respect to multiple parameters of the input or output. The complexity of the problem is then measured as a function of those parameters. The vertex cover problem is fixed-parameter tractable, meaning that, while it may be NP-complete in terms of the input size only, it is polynomial in the output of a vertex cover size $k$.
 
 **Fixed Parameter Tractable** (FPT): A subset of parameterized problems, those that can be solved by algorithms that are exponential only in the size of the parameter but polynomial in the size of the input. These algorithms allow for efficient solving for small values of the fixed parameter.
@@ -106,19 +102,16 @@ $$
 
 **Streaming Algorithm**: An algorithm designed for processing either a bounded or unbounded data stream. Bounded streams may be replayed with either a fixed or random order. Unbounded streams are typically used for aggregation of data.
 
-**Streaming Model**: The stream is split into blocks of data 
+**Streaming Model**: The stream is split into blocks of data
 
 **Kernelization**: Kernelization is a pre-processing method for minimising datasets into their core components known as a kernel. Processing completed on such a kernel will return the same output as that would be returned had the processing been run on the entire dataset.
 
 > There is a book on Kernelization (https://www.cambridge.org/core/books/kernelization/36F327A8BB97CB6BBEA564368BF1AD4A) that you can refer to.
-
 > There are more relevant references for both parameterized complexity and streaming in the "Towards a Theory of Parameterized Streaming Algorithms" paper...
 
 **Branching**: Trees have been used as a abstract data type in computer science for decades. They provide relatively easy logarithmic complexity, due to the fact that they split their data into $n$ sections recursively, and are simple to understand and implement, leading to them being a core concept in any University introduction-level algorithms course.
 
 > In this section, we show how to reduce the number of passes to $2^k$ (while still maintaining the same storage) using the technique of bounded-depth search trees (also known as branching). The method of bounded-depth search trees gives a folklore FPT algorithm for k-VC which runs in $2^{O(k)} · n^{O(1)}$ time. The idea is simple: any vertex cover must contain at least one end-point of each edge. We now build a search tree as follows: choose an arbitrary edge, say $e = u − v$ in the graph. Start with the graph $G$ at the root node of the search tree. Branch into two options, viz. choosing either $u$ or $v$ into the vertex cover. The resulting graphs at the two children of the root node are $G − u$ and $G − v$. Continue the branching process. Note that at each step, we branch into two options and we only need to build the search tree to height $k$ for the k-VC problem. Hence, the binary search tree has $2^{O(k)}$ leaf nodes. If the resulting graph at any leaf node is empty (i.e. has no edges) then $G$ has a vertex cover of size $≤ k$ which can be obtained by following the path from the root node to the leaf node in the search tree. Conversely, if the resulting graphs at none of the leaf nodes of the search tree are empty then $G$ does not have a vertex cover of size $≤ k$: this is because at each step we branched on all the (two) possibilities at each node of the search tree.
-
-**Maximal Matching**: 
 
 ## Related Work
 
@@ -208,16 +201,16 @@ Rajesh et al 2019[citation needed] converted the above branching algorithm into 
 
 ```pseudocode
 while X != ♠ do
-	S = ∅, i = 1, j = 1
-	while i != k + 1 do
-		Let e_j = u − v such that u < v under the ordering φ
-		if Both u /∈ S and v /∈ S then
-			if X[i] = 0 then S ← S ∪ {u}
-			else S ← S ∪ {v}
-			i ← i + 1
-		j ← j + 1
-		if j = m + 1 then Return S and abort
-	X ← Dictk(Next(X))
+    S = ∅, i = 1, j = 1
+    while i != k + 1 do
+        Let e_j = u − v such that u < v under the ordering φ
+        if Both u /∈ S and v /∈ S then
+            if X[i] = 0 then S ← S ∪ {u}
+            else S ← S ∪ {v}
+            i ← i + 1
+        j ← j + 1
+        if j = m + 1 then Return S and abort
+    X ← Dictk(Next(X))
 if X = ♠ then Return NO
 ```
 
@@ -225,18 +218,18 @@ In implementing this algorithm into a streaming platform such as Kafka, we found
 
 ```pseudocode
 while X != ♠ do
-	∅, i = 0, j = 0
-	while j != m do
-		if i > k then continue
-		Let e_j = u − v such that u < v under the ordering φ
-		if Both u /∈ S and v /∈ S then
-        	if i == k then i ← i + 1 and continue
-			if X[i] = 0 then S ← S ∪ {u}
-			else S ← S ∪ {v}
-			i ← i + 1
-		j ← j + 1
+    ∅, i = 0, j = 0
+    while j != m do
+        if i > k then continue
+        Let e_j = u − v such that u < v under the ordering φ
+        if Both u /∈ S and v /∈ S then
+            if i == k then i ← i + 1 and continue
+            if X[i] = 0 then S ← S ∪ {u}
+            else S ← S ∪ {v}
+            i ← i + 1
+        j ← j + 1
     if i < k then Return S and abort
-	X ← Dictk(Next(X))
+    X ← Dictk(Next(X))
 if X = ♠ then Return NO
 ```
 
@@ -256,23 +249,23 @@ The output is a set of at most $k$ vertices that includes an endpoint of every e
 ```pseudocode
 vertex_cover ← ∅
 while True
-	reduction ← False
-	foreach node in graph.nodes
-		if k > 0 and node.degree > k:
-			reduction ← True
-			graph ← graph - node
-			vertex_cover ← vertex_cover ∪ {node}
-			k ← k - 1
-		else if node.degree = 0
-			reduction ← True
-			graph ← graph - node
-	
-	if reduction = False
-		break
+    reduction ← False
+    foreach node in graph.nodes
+        if k > 0 and node.degree > k:
+            reduction ← True
+            graph ← graph - node
+            vertex_cover ← vertex_cover ∪ {node}
+            k ← k - 1
+        else if node.degree = 0
+            reduction ← True
+            graph ← graph - node
+
+    if reduction = False
+        break
 
 if kernel.number_of_edges() > k^2:
     return null
-    
+
 return graph
 ```
 
@@ -284,15 +277,15 @@ Rajesh et al 2015[citation needed] developed this algorithm. It works by greedil
 kernel = Kernel(k)
 kernel_exists = True
 for line in stream:
-	u, v = line.split()[:2]
+    u, v = line.split()[:2]
 
-	is_neighbour = False
+    is_neighbour = False
 
-	matching = self._get_if_in(u, self.matching)
+    matching = self._get_if_in(u, self.matching)
     if matching is not None:
-    	is_neighbour = True
+        is_neighbour = True
 
-		matched_edge, neighbours = matching
+        matched_edge, neighbours = matching
         vertex_pos = matched_edge.index(u)
         if len(neighbours[vertex_pos]) < self.k:
             neighbours[vertex_pos].append((u, v))
@@ -318,29 +311,29 @@ return kernel if kernel_exists else None
 
 ### Local - Visualisation
 
-This is the traditional case. The graph is small enough to use in-memory and you have local access to it so you are able to use which ever tools you wish to calculate the vertex cover. We will be using a library called NetworkX[citation needed]. NetworkX provides data structures for graphs with an intuitive API. It also includes a module for drawing graphs with Matplotlib[citation needed], a Python visualization library that has been around since 2003. With these tools we will be able to create programs that create visualisations of both the kernelization and branching stream algorithms. 
+This is the traditional case. The graph is small enough to use in-memory and you have local access to it so you are able to use which ever tools you wish to calculate the vertex cover. We will be using a library called NetworkX[citation needed]. NetworkX provides data structures for graphs with an intuitive API. It also includes a module for drawing graphs with Matplotlib[citation needed], a Python visualization library that has been around since 2003. With these tools we will be able to create programs that create visualisations of both the kernelization and branching stream algorithms.
 
 There are some key aspects we'd like to highlight in both algorithms. For the kernelization algorithm, these include being able to compare the kernel to the whole graph and being able to see when edges are not added to the kernel. For the branching algorithm, these include the binary string and the binary search tree.
 
-### Local-Stream - Performance Profiling
+### Local-Stream - Performance Benchmarking
 
 In this case the graph is no longer large enough to store in-memory but you are able to have direct access to it. The graph may be large but it is feasible to store the graph on disk since disk sizes are often many magnitudes larger than that of memory. Traditional algorithms are no longer applicable here, this is the first example where the invention of streaming algorithms is a necessity.
 
 #### Datasets
 
-While the original intention for this section of the project was to test against large graphs from all possible backgrounds (constructed/synthetic/real), we quickly realised that many, if not all, graphs we considered were of the same shape/form. That is, they all had relatively uniform density and so had a minimum vertex cover close to the number of vertices. In order to get any results that was anything more than a null result, we would have to generate some graphs of our own. These graphs would have to have a very high density while simultaneously having a low vertex cover number.
+While the original intention for this section of the project was to test against large graphs from all possible backgrounds (constructed/synthetic/real), we quickly realised that many, if not all, graphs we considered were of the same shape/form. That is, they all had relatively uniform density and so had a minimum vertex cover close to the number of vertices. In order to get any results that was anything more than a null result, we would have to generate some graphs of our own. These graphs would have to have a large number of edges while simultaneously having a low vertex cover number. This leads to graphs with a low level of connectivity.
 
 Eventually you get to a point when the datasets become too large to even read.
 
-![](../images/dataset-too-big.jpg)
+![Dataset too big 1](../images/dataset-too-big.jpg)
 
 Visual Studio Code, a more modern text editor, is able to open the file however not without performance issues even when wrapping and folding have been turned off.
 
-![](../images/dataset-too-big3.jpg)
+![Dataset too big 3](../images/dataset-too-big3.jpg)
 
 There is even a limit for Visual Studio Code though.
 
-![](../images/dataset-too-big2.jpg)
+![Dataset too big 2](../images/dataset-too-big2.jpg)
 
 #### Testing and Comparison
 
@@ -354,7 +347,7 @@ For runtime analysis, we will use a Python package called `pyperf`. It includes 
 
 This is the main case. In a typical situation, knowledge of the graph's attributes will be limited so it should be treated as a unbounded stream (a stream that has no end). The opposite of this would be treating it as a bounded stream, where we know there is an end to the stream.
 
-##### Batch vs Stream processing
+#### Batch vs Stream processing
 
 Most "streaming" applications work on **unbounded** streams. These are data streams which are essentially infinite. Examples include: sensor readings and application logging. In these cases, the objective is not to obtain a final result but to aggregate the data before storing it for future use. This would be classed as **stream processing**.
 
@@ -385,21 +378,14 @@ Once we have the platform we need an in-memory framework to handle the processin
 - Apache Beam
 - Apache Samza
 
-##### Kafka and Faust
-
-##### In-memory-sized stream graphs
+#### In-memory-sized stream graphs
 
 If you know beforehand the size of the graph and it's of an in-memory size then you don't need to go through the hassle of treating it as a stream. One pass through the graph will allow you to store the graph locally and therefore be able to use it as a local graph instead.
 
-#### Control Flow
+#### Actors
 
-- App (Client) - The browser client of the user
-- App (Server) - The web server serving pages to the user and processing
-- Producer - The "external" server as the source of the stream of graph edges
-
-![stream_kernelization](..\images\stream_kernelization.png)
-
-![stream_branching](..\images\stream_branching.png)
+- producer - explain role and abstract interface
+-
 
 ## Results
 
@@ -409,15 +395,35 @@ If you know beforehand the size of the graph and it's of an in-memory size then 
 
 ### Visualisation
 
-![](../images/memory-error.jpg)
+We were able to develop command-line programs to show both the kernelization and branching algorithms working in real-time. Obviously, the speed of the algorithms have been slowed to allow for the user to understand what's happening at each step. Both programs take a  path to an edge list file and a $k$ value as command-line arguments so visualisations can be produced of different graphs at different $k$ values. This gives the ability to see how a kernel of a graph changes depending on the value of $k$.
+
+Naturally, there is a limit to the size of the graph being displayed. On top of having the entire graph in memory and the memory required for running each algorithm, memory is also needed for rendering the image for each frame.
+
+![Memory error](../images/memory-error.jpg)
+
+#### Kernelization
+
+Being the visually more interesting and intricate algorithm, it made sense for us to focus our effort on the kernelization algorithm. In [Figure], you can see that we have split the plot into two. On the left side we show the entire graph, marking which vertices and edges have been added to the kernel as well as which edge of the graph is currently being processed. A subtitle shows totals of the number of nodes and edges in the graph. On the right we show the kernel being built up as the algorithm progresses. All vertices and edges of the kernel exist in the same position as they do in the graph so it is easy to see how the kernel resembles the core components of the whole graph once enough vertices have been added to the kernel. Red mark those vertices and edges that are part of the maximal matching the kernelization algorithm maintains. Black marks the neighbours of each matched vertex. A subtitle also shows information relating to the kernel at each step as well as how the kernel relates to the graph in terms of its size.
+
+bit about graph drawing?
 
 ![Streaming Kernelization Visualisation](..\images\visuals_kernelization.png)
 
+While the method we chose in Matplotlib for creating live demonstrations was rather crude, Matplotlib does include classes to create animations with that are able to then be exported into video formats. Using this, we ported over the code used to generate the live demonstration into a new program that creates videos exported to whichever format is specified. This allows for easy sharing of GIFs showing the kernelization in practice.
+
+#### Branching
+
+The branching algorithm is much simpler visually. We created a live demonstration that shows the search tree and the depth-first search being applied to it. The yellow vertex marks the current vertex cover configuration being tested and a boldened trail of edges shows the current path being taken. The binary string being used for the path is shown towards the top left as well as an underscore under the current binary value. Below that is the current edge of the stream. A subtitle shows the current depth and edge index.
+
 ![Streaming Branching Visualisation](..\images\visuals_branching.png)
 
-### Performance Profiling
+It should be noted that, due to the exponential nature of trees, a $k$ value of 10 or more will take significantly longer to load. So, it is advised to only use the visualisation for $k$ values smaller than this. From the [Figure] you can see that already at $k=6$, the bottom line of vertices is getting cramped for space.
+
+### Performance Benchmarking
 
 #### Memory profiling
+
+Nothing here surprised us but it's always nice to be able to see the truth laid out in front of you.
 
 ##### Kernelization
 
@@ -425,17 +431,11 @@ If you know beforehand the size of the graph and it's of an in-memory size then 
 
 ##### Branching
 
-
-
 ![benchmark_memory_branching_50_1000](..\images\benchmark_memory_branching_50_1000.png)
-
-
 
 ![benchmark_memory_branching_10_100000_error](..\images\benchmark_memory_branching_10_100000_error.png)
 
 #### Runtime Analysis
-
-
 
 ##### Kernelization
 
@@ -449,11 +449,31 @@ Due to the branching algorithm having a runtime of $O(2^k)$, it quickly became c
 
 ![benchmark_time_branching](..\images\benchmark_time_branching.png)
 
-### Proof-of-Concept Stream Implementation
+### Proof-of-Concept Implementation
 
-
+We built a graph streaming platform on top of Faust and Apache Kafka. Faust is a Python stream processing library for use with Kafka. The platform consists of one Faust instance serving as both the processor performing the algorithms and a web server, and a second Faust instance serving as the source of the graph stream. The web server serves a front end to clients shown in [Figure]. From here users are able to create processing jobs by selecting the algorithm, graph, and a $k$ value from the top left box. On submission of a job, the middle column shows the stream of edges down the middle column and, on completion, the right column displays results of the job.
 
 ![stream](..\images\stream_new.png)
+
+As this is just a proof-of-concept, the second Faust instance was built purely for development purposes. Once a graph is requested, it streams the edge list from a file and then relays that into a Kafka topic. In the development environment, it is run locally but, because it's built with Kafka, can be setup over a network for a more typical production environment.
+
+Kafka is platform agnostic in terms of the connections it allows since it just facilitates the messaging between connections. This means that many different data sources can be used, from databases to web crawlers.
+
+#### Control Flow
+
+We have three actors present in our system:
+
+- App (Client) - The browser client of the user
+- App (Server) - The web server serving pages to the user and processing the algorithms
+- Producer - The "external" server as the source of the stream of graph edges
+
+For the kernelization algorithm the control flow is shown in [Figure]. The protocol used to communicate between each actor is shown as a note covering between them.
+
+![stream_kernelization](..\images\stream_kernelization.png)
+
+The branching algorithm requires a slightly different sequence of events due to the fact that it is a multi-pass algorithm. The sequence is shown in [Figure]. As shown, some coordination is required
+
+![stream_branching](..\images\stream_branching.png)
 
 ## Evaluation
 
@@ -461,9 +481,24 @@ Due to the branching algorithm having a runtime of $O(2^k)$, it quickly became c
 > - How did you test it?
 > - What would you do differently?
 
-## Discussion
+Overall, we consider our work a success
 
-> - Discuss things
+### Visualisation
+
+- Increasing performance of visualisation using blits
+- Add interactivity to visualisations
+
+### Benchmarking
+
+- allow more time to get better results
+
+### Proof-of-Concept
+
+- better output of results
+- selection of graphs
+- moving responsibility out of producer
+
+## Discussion
 
 If I had more time I would look into
 
