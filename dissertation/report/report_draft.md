@@ -12,9 +12,9 @@ header-includes:
 >
 > 250-300 words
 
-With the size of datasets growing in the order of magnitudes, there has been greater demand for techniques to process the data. Streaming algorithms have been shown to be a strong contender in order to tackle this. While these datasets have been growing, many of the classical problems questioned about these datasets have not changed and neither has the order of their output size. This gives us a perfect environment to take advantage of parameterized complexity. Vertex Cover is one such such classical problem that has had parameterized streaming algorithms developed for it in recent years. However, many of these algorithms have not been implemented and tested on real world datasets.
+With the size of datasets growing in the order of magnitudes, there has been a greater demand for techniques to process the data. Streaming algorithms have been shown to be a strong contender in order to tackle this. While these datasets have been growing, many of the classical problems questioned about these datasets have not changed and neither has the order of their output size. This gives us a perfect environment to take advantage of parameterized complexity. Vertex Cover is one such classical problem that has had parameterized streaming algorithms developed for it in recent years. Yet, many of these algorithms have not been implemented and tested on real-world datasets.
 
-This paper aims to build a base on how to go about implementing streaming algorithms and to provide aids in understanding of how these algorithms work. We provide as-is implementations from previous work as well as optimised implementations, visualisations, performance profiling, and a proof-of-concept streaming platform. All together, we believe our work provides all the tools needed to further development in this class of algorithms.
+This paper aims to build a base on how to go about implementing streaming algorithms and to provide aids in the understanding of how these algorithms work. We provide as-is implementations from previous work as well as optimised implementations, visualisations, performance profiling, and a proof-of-concept streaming platform. All together, we believe our work provides all the tools needed to further development in this class of algorithms.
 
 [TOC]
 
@@ -32,11 +32,11 @@ This paper aims to build a base on how to go about implementing streaming algori
 
 > This paper considers the parameterized Vertex Cover problem, abbreviated VC henceforth: given a graph G and a parameter k, decide if G has a vertex cover of at most k vertices. This problem was amongst the first few problems that were shown to be NP-hard [14]. In addition, the problem has been a central problem in the study of parameterized algorithms [11], and has applications in areas such as computational biochemistry and biology [6].
 
-Vertex cover is a classical graph theoretic problem. The decision version was one of Karp's 21 NP-complete problems[citation needed].
+Vertex cover is a classical graph-theoretic problem. The decision version was one of Karp's 21 NP-complete problems[citation needed].
 
-Imagine a heavily connected road network in a city. The city council wants to figure out the most cost effective placement of cameras so that they are able to see every road (assume the cameras can see 360$^\circ$). The way of calculating this mathematically would be as a vertex cover of a graph where each intersection was a node and each road between them is an edge. For cities nowadays, this graph can be too big to compute using traditional methods. So we need updated methods to handle this. The city now realises that they only have a certain number of cameras they're able to put up, $k$ cameras. The city decides the project won't be worth the investment if they're not able to cover the entire city. This is now the vertex cover problem. The city doesn't care for any solution that exceeds their budget of $k$ cameras.
+Imagine a heavily connected road network in a city. The city council wants to figure out the most cost-effective placement of cameras so that they are able to see every road (assume the cameras can see 360$^\circ$). The way of calculating this mathematically would be as a vertex cover of a graph where each intersection was a node and each road between them is an edge. For cities nowadays, this graph can be too big to compute using traditional methods. So we need updated methods to handle this. The city now realises that they only have a certain number of cameras they're able to put up, $k$ cameras. The city decides the project won't be worth the investment if they're not able to cover the entire city. This is now the vertex cover problem. The city doesn't care for any solution that exceeds their budget of $k$ cameras.
 
-Graph Theory as a field of study is about understanding these abstract ideas and then being able to apply them to real life scenarios. A graph is just a model for objects and the relationships between them. This has many more applications than just city road networks, applications have been found in many other physical and social sciences, from quantum field theory[citation needed] to lexical semantics[citation needed]
+Graph Theory as a field of study is about understanding these abstract ideas and then being able to apply them to real-life scenarios. A graph is a model for objects and the relationships between them. This has many more applications than city road networks, applications have been found in many other physical and social sciences, from quantum field theory[citation needed] to lexical semantics[citation needed]
 
 ### Parameterized Complexity
 
@@ -45,19 +45,19 @@ Graph Theory as a field of study is about understanding these abstract ideas and
 > - Non-parameterized SPACE :2000s
 > - parameterized SPACE :2015
 
-Time complexity has been at the forefront of algorithmic research for decades, ever since the discipline took off in the 1960s. At this time, we were more interested in whether a problem was tractable or not than how much memory it would take up. It wasn't until around the turn of the century did research into space complexity work it's way up. This was in time with the rise in size of datasets. We were entering the information age and suddenly space was a factor in whether a computer would be able to run an algorithm or not. Parameterized complexity thus gained traction in research.
+Time complexity has been at the forefront of algorithmic research for decades, ever since the discipline took off in the 1960s. At this time, we were more interested in whether a problem was tractable or not than how much memory it would take up. It wasn't until around the turn of the century did research into space complexity work it's way up. This was in time with the rise in the size of datasets. We were entering the information age and suddenly space was a factor in whether a computer would be able to run an algorithm or not. Parameterized complexity thus gained traction in research.
 
 The theory of parameterized (time) complexity was first developed in the 90s by Downey and Fellows[citation needed].
 
 Quote from their paper
 
-Most of this research has been focused on time complexity which has allowed us to run typically intractable problems in a way that limits their runtime to make them tractable. Now research has started on parameterized memory complexity. This aids us in algorithms with typically intractable memory usage, no matter the runtime. Introducing a parameter to limit their memory usage by allows us to run algorithms based on our maximum memory budget and therefore run them at the limits what is possible on our current machines.
+Most of this research has been focused on time complexity which has allowed us to run typically intractable problems in a way that limits their runtime to make them tractable. Now research has started on parameterized memory complexity. This aids us in algorithms with typically intractable memory usage, no matter the runtime. Introducing a parameter to limit their memory usage by allows us to run algorithms based on our maximum memory budget and thus run them at the limits what is possible on our current machines.
 
 Some bit on FPT algorithms
 
 ### Big Data and Streaming
 
-For most people when think think of streaming, video streaming will be the first thought that comes to mind. But Film and TV isn't the only thing that streaming can be used for. Streaming is now quite widely used in the enterprise space for real-time data. Where data is being reported from sensors in a system for use in monitoring. Streaming is also used in many systems for logging purposes. Actions that users make in a system need to be tracked for analytics so whenever they make an action an event log is created and sent to a stream of all the other users' actions. These can be then aggregated very quickly and efficiently to gain actual insight from.
+For most people when think of streaming, video streaming will be the first thought that comes to mind. But Film and TV isn't the only thing that streaming can be used for. Streaming is now quite widely used in the enterprise space for real-time data. Where data is being reported from sensors in a system for use in monitoring. Streaming is also used in many systems for logging purposes. Actions that users make in a system need to be tracked for analytics so whenever they make an action an event log is created and sent to a stream of all the other users' actions. These can be then aggregated very quickly and efficiently to gain actual insight from.
 
 We now live in a world where data is the most valuable resource. Given such, it's no surprise that we're drowning in it. Datasets have become larger than what we can store on hard drives. The solution is to not store the dataset. Simply stream it as one item at a time. Streaming algorithms have been developed to handle this, being able to gather information while having access to a limited amount of memory.
 
@@ -65,13 +65,13 @@ In 2014, the UK Government identified Big Data as one of "eight great technologi
 
 ### Aims
 
-Our work here focuses on two algorithms developed by Rajesh Chitnis et al: a branching method for solving VC($k$)[citation needed] and a kernelization method[citation needed]. The branching method is built on a traditional non-stream method for solving VC($k$) while the kernelization technique is entirely novel. This techniques are designed for non-dynamic undirected graph streams.
+Our work here focuses on two algorithms developed by Rajesh Chitnis et al: a branching method for solving VC($k$)[citation needed] and a kernelization method[citation needed]. The branching method is built on a traditional non-stream method for solving VC($k$) while the kernelization technique is entirely novel. These techniques are designed for non-dynamic undirected graph streams.
 
-Our main aim is to create a foundation for further work to be built upon. We identify three areas which we think would increase accessibility into the field.
+Our main aim is to create a foundation for further work to be built upon. We identify three areas which would increase accessibility into the field.
 
-1. As with any widely adopted algorithm, clear explanation of how the algorithm works in practice is essential. This includes efforts to visualise the algorithms in action. As with most state-of-the-art research it takes many years of studying to even be able to understand what the papers are talking about, let alone being able to understand the pseudocode that is provided.
-2. Practical evidence of performance of the algorithms. While Big-O notation is a good indicator of runtime and memory performance, those only refer to average performance which few, if any, datasets will fit. Seeing whether your problem area is suitable to have a specific algorithm applied to it is crucial.
-3. Aid in choosing the correct tools. There exist many tools and platforms nowadays for the development of streaming systems. As with many modern tooling, each have their fair share of buzzwords and jargon most are forced to wade through before fully understanding what a tools function even is.
+1. As with any widely adopted algorithm, a clear explanation of how the algorithm works in practice is essential. This includes efforts to visualise the algorithms in action. As with most state-of-the-art research it takes many years of studying to even be able to understand what the papers are talking about, let alone being able to understand the pseudocode that is provided.
+2. Practical evidence of the performance of the algorithms. While Big-O notation is a good indicator of runtime and memory performance, those only refer to average performance which few, if any, datasets will fit. Seeing whether your problem area is suitable to have a specific algorithm applied to it is crucial.
+3. Aid in choosing the correct tools. There exist many tools and platforms nowadays for the development of streaming systems. As with many modern tooling, each have their fair share of buzzwords and jargon most are forced to wade through before fully understanding what a tool's function even is.
 
 > My supervisor Rajesh Chitnis had previously been researching the problem of parameterized vertex cover. I found that none of the algorithms he talked about had ever been put into practice, only ever written theoretically.
 
@@ -91,7 +91,7 @@ $$
 
 **Parameterized complexity**: A branch of computational complexity theory that focusses on classifying computational problems according to their inherent difficulty with respect to multiple parameters of the input or output. The complexity of the problem is then measured as a function of those parameters. The vertex cover problem is fixed-parameter tractable, meaning that, while it may be NP-complete in terms of the input size only, it is polynomial in the output of a vertex cover size $k$.
 
-**Fixed Parameter Tractable** (FPT): A subset of parameterized problems, those that can be solved by algorithms that are exponential only in the size of the parameter but polynomial in the size of the input. These algorithms allow for efficient solving for small values of the fixed parameter.
+**Fixed-Parameter Tractable** (FPT): A subset of parameterized problems, those that can be solved by algorithms that are exponential only in the size of the parameter but polynomial in the size of the input. These algorithms allow for efficient solving for small values of the fixed parameter.
 
 **Parameterized Vertex Cover**: Also known as k-VC, the vertex cover problem is posed as a decision problem in which we are given a graph $G$ and a positive integer $k$ and we must find out whether $G$ has a vertex cover of size at most $k$. The $k$ value can be thought of as a "budget" to spend on the vertex cover. If we are limited but such a budget then we have no reason to consider solutions that exceeds this.
 
@@ -104,7 +104,7 @@ $$
 > There is a book on Kernelization (https://www.cambridge.org/core/books/kernelization/36F327A8BB97CB6BBEA564368BF1AD4A) that you can refer to.
 > There are more relevant references for both parameterized complexity and streaming in the "Towards a Theory of Parameterized Streaming Algorithms" paper...
 
-**Branching**: Trees have been used as a abstract data type in computer science for decades. They provide relatively easy logarithmic complexity, due to the fact that they split their data into $n$ sections recursively, and are simple to understand and implement, leading to them being a core concept in any University introduction-level algorithms course.
+**Branching**: Trees have been used as an abstract data type in computer science for decades. They provide relatively easy logarithmic complexity, due to the fact that they split their data into $n$ sections recursively, and are simple to understand and implement, leading to them being a core concept in any University introduction-level algorithms course.
 
 > In this section, we show how to reduce the number of passes to $2^k$ (while still maintaining the same storage) using the technique of bounded-depth search trees (also known as branching). The method of bounded-depth search trees gives a folklore FPT algorithm for k-VC which runs in $2^{O(k)} · n^{O(1)}$ time. The idea is simple: any vertex cover must contain at least one end-point of each edge. We now build a search tree as follows: choose an arbitrary edge, say $e = u − v$ in the graph. Start with the graph $G$ at the root node of the search tree. Branch into two options, viz. choosing either $u$ or $v$ into the vertex cover. The resulting graphs at the two children of the root node are $G − u$ and $G − v$. Continue the branching process. Note that at each step, we branch into two options and we only need to build the search tree to height $k$ for the k-VC problem. Hence, the binary search tree has $2^{O(k)}$ leaf nodes. If the resulting graph at any leaf node is empty (i.e. has no edges) then $G$ has a vertex cover of size $≤ k$ which can be obtained by following the path from the root node to the leaf node in the search tree. Conversely, if the resulting graphs at none of the leaf nodes of the search tree are empty then $G$ does not have a vertex cover of size $≤ k$: this is because at each step we branched on all the (two) possibilities at each node of the search tree.
 
@@ -127,7 +127,7 @@ $$
 > - How are you doing it?
 > - Why are you doing it this way?
 
-In researching for this paper, more often than, not we found that, while the core concepts weren't too difficult to get our heads around, the higher level explanations would often go right over our heads.
+In researching for this paper, more often than, not we found that, while the core concepts weren't too difficult to get our heads around, the higher-level explanations would often go right over our heads.
 
 We identified two attributes that mattered most when implementing vertex cover (or any graph-theoretic) algorithm. These two attributes, size and source, each bubble down to two sub-cases.
 
@@ -145,7 +145,7 @@ This allows us to break down our aims into three sections based on these attribu
 
 The second section is for out-of-memory sized local graphs. In our original plan, this section didn't exist as we assumed most implementation details would come forward when implementing into a real streaming framework. However, we found that this was too much of a jump so this middle step was envisioned to allow for a true streaming implementation while still being in the familiarity of the core Python libraries. So that's exactly what we'll be doing. Having the graph represented by an edge list stored in a file allows us to read from the file line by line and therefore edge by edge. This is exactly how a streaming application would see the input of a graph. Since the time taken to read from a file is negligible in comparison to any network activity, we will be able to gauge the performance of these algorithms with minimal external variables. This gives us a platform for accurate performance profiling.
 
-The final section is for out-of-memory sized networked graphs. This is what you'd consider to be an actual use case. This is most flexible section, in that, there are many ways of going about it depending on your situation. We're taking this as an opportunity to build a proof-of-concept system that covers the basics. Apache Kafka has shown promise in it's versatility as a streaming platform rather than being tied down to a particular workflow. This allows for our fairly custom implementation of stream processing. Most streaming platforms prioritise parallelisation in their processing which we don't concern ourselves with. Our data source will be external in the sense that it could be replicated to run on a server far, far away but for ease-of-development's sake it will be ran locally.
+The final section is for out-of-memory sized networked graphs. This is what you'd consider to be an actual use case. This is the most flexible section, in that, there are many ways of going about it depending on your situation. We're taking this as an opportunity to build a proof-of-concept system that covers the basics. Apache Kafka has shown promise in it's versatility as a streaming platform rather than being tied down to a particular workflow. This allows for our fairly custom implementation of stream processing. Most streaming platforms prioritise parallelisation in their processing which we don't concern ourselves with. Our data source will be external in the sense that it could be replicated to run on a server far, far away but for ease of development sake it will be ran locally.
 
 ### The Algorithms
 
@@ -209,7 +209,7 @@ while X != ♠ do
 if X = ♠ then Return NO
 ```
 
-In implementing this algorithm, we found that the way the pseudocode had been structured made implementation difficult. This is due to the fact that streaming platforms such as Kafka rely on brokers recording whether they have seen a message or not, this is counted as the number of `acks` (acknowledgements). If the algorithm were to exit before acknowledging all the edges in the stream then these edges would lay dormant until another algorithm was run and it would start reading them incorrectly. This caused us to rewrite the algorithm with the inner-most loop being based on looping through the edges rather than looping through the depths of the tree.
+In implementing this algorithm, we found that the way the pseudocode had been structured made implementation difficult. This is because streaming platforms such as Kafka rely on brokers recording whether they have seen a message or not; this is counted as the number of `acks` (acknowledgements). If the algorithm were to exit before acknowledging all the edges in the stream, then these edges would lay dormant until another algorithm was run and it would start reading them erroneously. This caused us to rewrite the algorithm with the inner-most loop being based on looping through the edges rather than looping through the depths of the tree.
 
 change this explanation a little to take out kafka
 
@@ -235,13 +235,15 @@ if X = ♠ then Return NO
 First devised by Buss[citation needed], given an input of an undirected graph $G$ and a number $k$, this algorithm works by applying the following rules until no more reductions can be made.
 
 1. If $k > 0$ and $v$ is a vertex of degree $> k$, remove $v$ from the graph and
-   decrease $k$ by 1.
+   decrease the value of $k$ by 1.
 2. If $v$ is an isolated vertex, remove it.
-3. If more than $k^2$ edges remain in the graph, and neither of the previous two
+3. If more than $k^2$ ~~edges remain in the graph, and neither of the previous two
    rules can be applied, then the graph cannot contain a vertex cover of size
-   $k$.
+   $k$.~~ reword this
 
-The output is a set of at most $k$ vertices that includes an endpoint of every edge in the graph, if such a set exists, or a failure exception if no such set exists. This is the first $\mathcal{O}(k^2)$ vertices kernel. This was then improved upon in Balasubramanian[citation needed] but for the sake of this paper we will be using the simpler Buss kernelization algorithm.
+reword this
+
+~~The output is a set of at most $k$ vertices that includes an endpoint of every edge in the graph, if such a set exists, or a failure exception if no such set exists.~~ This is the first $\mathcal{O}(k^2)$ vertices kernel. This was then improved upon in Balasubramanian[citation needed] but for the sake of this paper we will be using the simpler Buss kernelization algorithm.
 
 ```pseudocode
 vertex_cover ← ∅
@@ -327,7 +329,7 @@ There is even a limit for Visual Studio Code though.
 
 #### Testing and Comparison
 
-> We don't live in a world anymore where we have to hack our way around machines to push the limits of their memory just so we can play some games. We haven't for a while. This goes the same for algorithms. Most of the time, we will happily sacrifice memory efficiency for any extra pittance of time efficiency. Memory is is dispensable, our time is not. This may still be true for streaming algorithms, but only to an extent. We are very much interested in both time and space complexity here. And so, we need to test as such.
+> We don't live in a world anymore where we have to hack our way around machines to push the limits of their memory just so we can play some games. We haven't for a while. This goes the same for algorithms. Most of the time, we will happily sacrifice memory efficiency for any extra pittance of time efficiency. Memory is dispensable, our time is not. This may still be true for streaming algorithms, but only to an extent. We are very much interested in both time and space complexity here. And so, we need to test as such.
 
 For memory profiling, we will use the Python package `memory-profiler` which records memory usage at intervals of $0.1\text{s}$. It also allows for tagging of functions meaning that we can see when each function starts and ends. Creating a script to run both the local and stream versions of each algorithm allowed us to show the memory usage of each side by side.
 
@@ -335,7 +337,7 @@ For runtime analysis, we will use a Python package called `pyperf`. It includes 
 
 ### Stream - Proof-of-Concept
 
-This is the main case. In a typical situation, knowledge of the graph's attributes will be limited so it should be treated as a unbounded stream (a stream that has no end). The opposite of this would be treating it as a bounded stream, where we know there is an end to the stream.
+This is the main case. In a typical situation, knowledge of the graph's attributes will be limited so it should be treated as an unbounded stream (a stream that has no end). The opposite of this would be treating it as a bounded stream, where we know there is an end to the stream.
 
 #### Batch vs Stream processing
 
@@ -445,11 +447,11 @@ We built a graph streaming platform on top of Faust and Apache Kafka. Faust is a
 
 ![stream](..\images\stream_new.png)
 
-The front end is built with HTML/CSS/JS and uses Server-Sent Events (SSE) for the transmission of the stream and result logs. Originally, we had considered using WebSockets as the communication is bi-directional between the client and server but this introduced complexity in sorting through the different message types (job submission/stream log/results log). It was deemed SSE was the better option for the two logs and then HTTP POST request could be used for the job submission.
+The front end is built with HTML/CSS/JS and uses Server-Sent Events (SSE) for the transmission of the stream and result logs. Originally, we had considered using WebSockets as the communication is bi-directional between the client and server but this introduced complexity in sorting through the different message types (job submission/stream log/results log). It was deemed SSE was the better option for the two logs and then a HTTP POST request could be used for the job submission.
 
-As this is just a proof-of-concept, the second Faust instance was built purely for development purposes. Once a graph is requested, it streams the edge list from a file and then relays that into a Kafka topic. In the development environment, it is run locally but, because it's built with Kafka, can be setup over a network for a more typical production environment.
+As this is a proof-of-concept, the second Faust instance was built purely for development purposes. Once a graph is requested, it streams the edge list from a file and then relays that into a Kafka topic. In the development environment, it is run locally but, because it's built with Kafka, can be setup over a network for a more typical production environment.
 
-Kafka is platform agnostic in terms of the connections it allows since it just facilitates the messaging between connections. This means that many different data sources can be used, from databases to web crawlers.
+Kafka is platform agnostic in terms of the connections it allows since it only facilitates the messaging between connections. This means that many different data sources can be used, from databases to web crawlers.
 
 #### Control Flow
 
@@ -481,7 +483,7 @@ We were able to create two programs that show how each algorithm works step by s
 
 add some nicer bits before tearing myself apart
 
-As for the educational factor, whether they act as adequate aids in learning how each algorithm works, remains to be seen. If a student were to look at the visualisation before knowing how the algorithm behind worked then they would most likely struggle to gain any information from it. If used as a part of the learning process, we believe they could be invaluable in connecting the theory with students' representation they have constructed in their minds. This could be improved upon to take up a larger portion of the learning process. Using NetworkX and Matplotlib allowed for convenient code copied over from implementations but lacked features such as interactivity and a storyline for students to follow to guide their understanding of each algorithm. Command line programs, even with extensive documentation, are inherently less user-friendly than, say, a web page. Considering this, if we were to take a second shot at this task, we would probably attempt to create a web-based educational experience. A JavaScript library such as D3.js[citation needed] would give the flexibility to both accurately visualise the algorithm and allow the user to play around with values and the graph live in their browser. The page would be able to lead the student through how the algorithm works step by step and finish with the visualisation.
+As for the educational factor, whether they act as adequate aids in learning how each algorithm works, remains to be seen. If a student were to look at the visualisation before knowing how the algorithm behind worked then they would most likely struggle to gain any information from it. If used as a part of the learning process, we believe they could be invaluable in connecting the theory with students' representation they have constructed in their minds. This could be improved upon to take up a larger portion of the learning process. Using NetworkX and Matplotlib allowed for convenient code copied over from implementations but lacked features such as interactivity and a storyline for students to follow to guide their understanding of each algorithm. Command-line programs, even with extensive documentation, are inherently less user-friendly than, say, a web page. Considering this, if we were to take a second shot at this task, we would probably attempt to create a web-based educational experience. A JavaScript library such as D3.js[citation needed] would give the flexibility to both accurately visualise the algorithm and allow the user to play around with values and the graph live in their browser. The page would be able to lead the student through how the algorithm works step by step and finish with the visualisation.
 
 ### Benchmarking
 
@@ -498,7 +500,7 @@ The results shown on the front end are presented in a table drawn using box-draw
 
 As mentioned before, the Producer was built purely for development purposes and we wouldn't expect anyone to follow in these steps for a production environment. It was limited in the fact that the graphs it was able to provide was hard-coded. Given more time, work could have definitely been done to expand the Producer to be more dynamic as well as testing different data sources as the Producer to see how it would perform.
 
-As shown in the sequence diagrams, the difference in control flow between the kernelization and branching algorithms is a sign of inflexibility so any attempt at expansion on the number of algorithms the system provides access to will be met with resistance. This could be solved be designing an API for the Producer. This would include most of the common graph algorithm requirements. Having control over this design could allow for some algorithmic alterations. Take, for example, the branching algorithm, a depth-first search. In traditional implementations, it is not necessary to have to start from the root node after each path traversal. At the cost of memory, the stream algorithm could be changed so that a trail of breadcrumbs (states of the vertex cover) could be left behind and picked up after finishing a path rather than restarting. This would only be possible if the Producer had the functionality to be able to serve a graph from a specific starting point (remember the edges are always the same order). These kind of alterations would each have their own time and place for usage but having the ability to implement something like this gives more tools for algorithm designers to use which is never a bad thing.
+As shown in the sequence diagrams, the difference in control flow between the kernelization and branching algorithms is a sign of inflexibility so any attempt at expansion on the number of algorithms the system provides access to will be met with resistance. This could be solved be designing an API for the Producer. This would include most of the common graph algorithm requirements. Having control over this design could allow for some algorithmic alterations. Take, for example, the branching algorithm, a depth-first search. In traditional implementations, it is not necessary to have to start from the root node after each path traversal. At the cost of memory, the stream algorithm could be changed so that a trail of breadcrumbs (states of the vertex cover) could be left behind and picked up after finishing a path rather than restarting. This would only be possible if the Producer had the functionality to be able to serve a graph from a specific starting point (remember the edges are always the same order). These kinds of alterations would each have their own time and place for usage but having the ability to implement something like this gives more tools for algorithm designers to use which is never a bad thing.
 
 ## Discussion
 
