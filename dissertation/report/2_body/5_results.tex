@@ -16,7 +16,7 @@ top of having the entire graph in memory and the memory required for
 running each algorithm, memory is also needed for rendering the image
 for each frame.
 
-\begin{figure}[h]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{memory-error.jpg}
     \caption{Memory error}
@@ -26,7 +26,7 @@ for each frame.
 
 Being the visually more interesting and intricate algorithm, it made
 sense for us to focus our effort on the kernelization algorithm. In
-{[}Figure{]}, you can see that we have split the plot into two. On the
+Figure \ref{fig:kernelization_visualisation}, you can see that we have split the plot into two. On the
 left side we show the entire graph, marking which vertices and edges
 have been added to the kernel as well as which edge of the graph is
 currently being processed. A subtitle shows counts of the number of
@@ -41,13 +41,14 @@ matched vertex. A subtitle also shows information relating to the kernel
 at each step as well as how the kernel relates to the graph in terms of
 its size.
 
-bit about graph drawing?
-
-\begin{figure}[h]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{visuals_kernelization.png}
     \caption{Streaming Kernelization Visualisation}
+    \label{fig:kernelization_visualisation}
 \end{figure}
+
+bit about graph drawing?
 
 While the method we chose in Matplotlib for creating live demonstrations
 was rather crude, Matplotlib does include classes to create animations
@@ -68,16 +69,17 @@ shown towards the top left as well as an underscore under the current
 binary value. Below that is the current edge of the stream. A subtitle
 shows the current depth and edge index.
 
-\begin{figure}[h]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{visuals_branching.png}
     \caption{Streaming Branching Visualisation}
+    \label{fig:branching_visualisation}
 \end{figure}
 
 It should be noted that, due to the exponential nature of trees, a \(k\)
 value of 10 or more will take significantly longer to load. So, it is
 advised to only use the visualisation for \(k\) values smaller than
-this. From the {[}Figure{]} you can see that already at \(k=6\), the
+this. From the Figure \ref{fig:branching_visualisation} you can see that already at \(k=6\), the
 bottom line of vertices is getting cramped for space.
 
 \subsection{Performance Benchmarking}
@@ -89,34 +91,31 @@ truth laid out in front of you.
 
 \paragraph{Kernelization}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{benchmark_memory_kernelization_100_10000.png}
-    \caption{benchmark\_memory\_kernelization\_100\_10000}
+    \caption{Memory Profiling of Kernelization}
+    \label{fig:benchmark_mem_kernelization}
 \end{figure}
 
 \paragraph{Branching}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{benchmark_memory_branching_50_1000.png}
-    \caption{benchmark\_memory\_branching\_50\_1000}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{benchmark_memory_branching_10_100000_error.png}
-    \caption{benchmark\_memory\_branching\_10\_100000\_error}
+    \caption{Memory Profiling of Branching}
+    \label{fig:benchmark_mem_branching}
 \end{figure}
 
 \subsubsection{Runtime Analysis}
 
 \paragraph{Kernelization}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{benchmark_time_kernelization_1.png}
-    \caption{benchmark\_time\_kernelization}
+    \caption{Runtimes of Kernelization}
+    \label{fig:benchmark_time_kernelization}
 \end{figure}
 
 \paragraph{Branching}
@@ -125,10 +124,11 @@ Due to the branching algorithm having a runtime of \(O(2^k)\), it
 quickly became clear that we weren't going to be able to gather as much
 data as we had initially wanted.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{benchmark_time_branching.png}
-    \caption{benchmark\_time\_branching}
+    \includegraphics[width=\textwidth]{benchmark_time_branching.png}
+    \caption{Runtimes of Branching}
+    \label{fig:benchmark_time_branching}
 \end{figure}
 
 \subsection{Stream Implementation}
@@ -138,7 +138,7 @@ Faust is a Python stream processing library for use with Kafka. The
 platform consists of one Faust instance serving as both the processor
 performing the algorithms and a web server, and a second Faust instance
 serving as the source of the graph stream. The web server serves a front
-end to clients shown in {[}Figure{]}. From here users are able to create
+end to clients shown in Figure \ref{fig:stream_font_end}. From here users are able to create
 processing jobs by selecting the algorithm, graph, and the \(k\) value
 from the top left box. On submission of a job, the middle column shows
 the stream log of edges down the middle column and, on completion, the
@@ -151,10 +151,11 @@ the stream will be skipped. It has been left there as a visual cue that
 an algorithm is running, plus it's interesting to see the data being
 processed.
 
-\begin{figure}[h]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{stream_new.png}
-    \caption{stream}
+    \caption{Stream Implementation Front End}
+    \label{fig:stream_font_end}
 \end{figure}
 
 The front end is built with HTML/CSS/JS and uses Server-Sent Events
@@ -191,23 +192,28 @@ We have three actors present in our system:
           graph edges
 \end{itemize}
 
-For the kernelization algorithm the control flow is shown in
-{[}Figure{]}. The protocol used to communicate between each actor is
-shown as a note covering between them.
+For the kernelization algorithm the control flow is shown in Figure
+\ref{fig:stream_kernelization}. The protocol used to communicate between
+each actor is shown as a note covering between them.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{stream_kernelization.png}
-    \caption{stream\_kernelization}
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{stream_kernelization.png}
+        \captionof{figure}{Stream Kernelization Control Flow}
+        \label{fig:stream_kernelization}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{stream_branching.png}
+        \captionof{figure}{Stream Branching Control Flow}
+        \label{fig:stream_branching}
+    \end{minipage}
 \end{figure}
 
 The branching algorithm requires a slightly different sequence of events
 due to the fact that it is a multi-pass algorithm. The sequence is shown
-in {[}Figure{]}. As shown, some extra coordination is required for the
-Server to request the graph to be streamed again by the Producer.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.5\textwidth]{stream_branching.png}
-    \caption{stream\_branching}
-\end{figure}
+in Figure \ref{fig:stream_branching}. As shown, some extra coordination
+is required for the Server to request the graph to be streamed again by
+the Producer.

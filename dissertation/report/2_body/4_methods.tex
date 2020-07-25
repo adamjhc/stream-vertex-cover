@@ -84,12 +84,6 @@ every other path down the tree, choosing a different set of vertices on
 each path. If none of the paths work out then you can conclude that no
 vertex cover exists with a maximum size of \(k\).
 
-\begin{figure}[h]
-    \centering
-    \includegraphics{2^k-pass-bst.jpg}
-    \caption{k-VC with bounded-depth search trees}
-\end{figure}
-
 \begin{algorithm}[H]
     \caption{Branching - Classical}
     \DontPrintSemicolon
@@ -140,7 +134,7 @@ situations.
 
 \subsubsection{Branching - Stream}
 
-Rajesh et al 2019{[}citation needed{]} converted the above branching
+\cite{chitnis2019towards} converted the above branching
 algorithm into one that was compatible with the streaming model. This
 algorithm required \(O(k\cdot \log n)\) space and \(2^k\) passes. We
 noticed their pseudocode had an error. In their version, if the end of
@@ -187,7 +181,7 @@ change this explanation a little to take out Kafka
 
 \subsubsection{Kernelization - Classical}
 
-First devised by Buss{[}citation needed{]}, given an input of an
+First devised by \cite{buss1991nondeterminism}, given an input of an
 undirected graph \(G\) and a number \(k\), this algorithm works by
 applying the following rules until no more reductions can be made.
 
@@ -209,8 +203,8 @@ reword this
     endpoint of every edge in the graph, if such a set exists, or a failure
     exception if no such set exists.} This is the first \(O(k^2)\)
 vertices kernel. This was then improved upon in
-Balasubramanian{[}citation needed{]} but for the sake of this paper we
-will be using the simpler Buss kernelization algorithm.
+\cite{balasubramanian1998improved} but for the sake of this paper we will
+be using the simpler Buss kernelization algorithm.
 
 \begin{verbatim}
     vertex_cover ← empty
@@ -272,7 +266,7 @@ will be using the simpler Buss kernelization algorithm.
 
 \subsubsection{Kernelization - Stream}
 
-Rajesh et al 2015{[}citation needed{]} developed this algorithm. It
+\cite{chitnis2015parameterized} developed this algorithm. It
 works by greedily maintaining a maximal matching and for each matched
 vertex \(v\), keeping up to k edges incident on \(v\). If at any point
 the number of matched edges exceeds \(k\) then we can conclude no such
@@ -351,9 +345,9 @@ is \(O(k^2)\).
 This is the traditional case. The graph is small enough to use in-memory
 and you have local access to it so you are able to use which ever tools
 you wish to calculate the vertex cover. We will be using a library
-called NetworkX{[}citation needed{]}. NetworkX provides data structures
+called NetworkX \cite{hagberg2008exploring}. NetworkX provides data structures
 for graphs with an intuitive API. It also includes a module for drawing
-graphs with Matplotlib{[}citation needed{]}, a Python visualization
+graphs with Matplotlib \cite{hunter2007matplotlib}, a Python visualization
 library that has been around since 2003. With these tools we will be
 able to create programs that create visualisations of both the
 kernelization and branching stream algorithms.
@@ -390,7 +384,7 @@ with a low level of connectivity.
 Eventually you get to a point when the datasets become too large to even
 read.
 
-\begin{figure}[h]
+\begin{figure}[htb]
     \centering
     \includegraphics{dataset-too-big.jpg}
     \caption{Dataset too big 1}
@@ -400,7 +394,7 @@ Visual Studio Code, a more modern text editor, is able to open the file
 however not without performance issues even when wrapping and folding
 have been turned off.
 
-\begin{figure}[h]
+\begin{figure}[htb]
     \centering
     \includegraphics{dataset-too-big3.jpg}
     \caption{Dataset too big 3}
@@ -408,7 +402,7 @@ have been turned off.
 
 There is even a limit for Visual Studio Code though.
 
-\begin{figure}[h]
+\begin{figure}[htb]
     \centering
     \includegraphics{dataset-too-big2.jpg}
     \caption{Dataset too big 2}
