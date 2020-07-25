@@ -1,0 +1,61 @@
+\section{Background}
+
+For the reader unfamiliar with concepts covered in this paper, an
+explanation has been provided for each. For those simply unfamiliar with
+abbreviations, a glossary has been provided.
+
+\textbf{Graph Theory}: The study of mathematical structures (graphs)
+which are used to show pairwise relations between objects.
+
+\textbf{Vertex Cover}: A set of vertices such that each edge of a graph
+is incident to at least one vertex of the set. The problem of finding a
+minimum vertex cover (the smallest possible) is a classical optimization
+problem and is a typical example of an NP-hard problem. The decision
+version (where we only want a yes/no answer) is known as the Vertex
+Cover Problem. Formally, given a graph \(G = (V, E)\) and a vertex cover
+\(V'\): \[
+    V' \subset V \text{ such that } \forall (u, v) \in E \Rightarrow u \in V' \vee v \in V'
+\] \textbf{Maximal Matching}:
+
+\textbf{Parameterized complexity}: A branch of computational complexity
+theory that focusses on classifying computational problems according to
+their inherent difficulty with respect to multiple parameters of the
+input or output. The complexity of the problem is then measured as a
+function of those parameters. The vertex cover problem is
+fixed-parameter tractable, meaning that, while it may be NP-complete in
+terms of the input size only, it is polynomial in the output of a vertex
+cover size \(k\).
+
+\textbf{Fixed-Parameter Tractable} (FPT): A subset of parameterized
+problems, those that can be solved by algorithms that are exponential
+only in the size of the parameter but polynomial in the size of the
+input. These algorithms allow for efficient solving for small values of
+the fixed parameter.
+
+\textbf{Parameterized Vertex Cover}: Also known as k-VC, the vertex
+cover problem is posed as a decision problem in which we are given a
+graph \(G\) and a positive integer \(k\) and we must find out whether
+\(G\) has a vertex cover of size at most \(k\). The \(k\) value can be
+thought of as a ``budget'' to spend on the vertex cover. If we are
+limited but such a budget then we have no reason to consider solutions
+that exceeds this.
+
+\textbf{Streaming Algorithm}: An algorithm designed for processing
+either a bounded or unbounded data stream. Bounded streams may be
+replayed with either a fixed or random order. Unbounded streams are
+typically used for aggregation of data.
+
+\textbf{Streaming Model}: The stream is split into blocks of data
+
+\textbf{Kernelization}: Kernelization is a pre-processing method for
+minimising datasets into their core components known as a kernel.
+Processing completed on such a kernel will return the same output as
+that would be returned had the processing been run on the entire
+dataset.
+
+\textbf{Branching}: Trees have been used as an abstract data type in
+computer science for decades. They provide relatively easy logarithmic
+complexity, due to the fact that they split their data into \(n\)
+sections recursively, and are simple to understand and implement,
+leading to them being a core concept in any University
+introduction-level algorithms course.

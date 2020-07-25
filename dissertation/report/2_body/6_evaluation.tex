@@ -1,7 +1,88 @@
 \section{Evaluation}
 
+Overall, we consider our work a success.
+
+\subsection{Visualisation}
+
+We were able to create two programs that show how each algorithm works
+step by step. Visually, we find them interesting because it's always
+nice to see things being built up piece by piece.
+
+add some nicer bits before tearing myself apart
+
+As for the educational factor, whether they act as adequate aids in
+learning how each algorithm works, remains to be seen. If a student were
+to look at the visualisation before knowing how the algorithm behind
+worked then they would most likely struggle to gain any information from
+it. If used as a part of the learning process, we believe they could be
+invaluable in connecting the theory with students' representation they
+have constructed in their minds. This could be improved upon to take up
+a larger portion of the learning process. Using NetworkX and Matplotlib
+allowed for convenient code copied over from implementations but lacked
+features such as interactivity and a storyline for students to follow to
+guide their understanding of each algorithm. Command-line programs, even
+with extensive documentation, are inherently less user-friendly than,
+say, a web page. Considering this, if we were to take a second shot at
+this task, we would probably attempt to create a web-based educational
+experience. A JavaScript library such as D3.js{[}citation needed{]}
+would give the flexibility to both accurately visualise the algorithm
+and allow the user to play around with values and the graph live in
+their browser. The page would be able to lead the student through how
+the algorithm works step by step and finish with the visualisation.
+
+\subsection{Performance Benchmarking}
+
 \begin{itemize}
-    \item Did your idea work?
-    \item How did you test it?
-    \item What would you do differently?
+    \item
+          allow more time to get better results
+    \item
+          expand testing to graphs from different domains
 \end{itemize}
+
+\subsection{Stream Implementation}
+
+The stream implementation served as a great introduction for us into the
+world of streaming frameworks, so, for that alone, we think it served
+its purpose. As a system, we believe the architecture is cleanly built
+and can be used as a starting point of anyone building a stream
+processor using Kafka.
+
+The results shown on the front end are presented in a table drawn using
+box-drawing characters. This is passed as a string from the server where
+it is generated. It was done this way for the sake of simplicity however
+doesn't allow for much flexibility. Along with how the results are
+displayed, the results themselves are lacking in information. In a
+system where jobs could be running for days at a time, it would be
+useful to have progress logging as well as, on completion, details
+relating to the job itself. This could include things like runtime and
+memory usage. The system as a whole could be expanded in terms of job
+management, possibly allowing for pausing of jobs, jobs running in
+parallel, and queuing jobs. But that is beyond the scope of this
+project.
+
+As mentioned before, the Producer was built purely for development
+purposes and we wouldn't expect anyone to follow in these steps for a
+production environment. It was limited in the fact that the graphs it
+was able to provide was hard-coded. Given more time, work could have
+definitely been done to expand the Producer to be more dynamic as well
+as testing different data sources as the Producer to see how it would
+perform.
+
+As shown in the sequence diagrams, the difference in control flow
+between the kernelization and branching algorithms is a sign of
+inflexibility so any attempt at expansion on the number of algorithms
+the system provides access to will be met with resistance. This could be
+solved be designing an API for the Producer. This would include most of
+the common graph algorithm requirements. Having control over this design
+could allow for some algorithmic alterations. Take, for example, the
+branching algorithm, a depth-first search. In traditional
+implementations, it is not necessary to have to start from the root node
+after each path traversal. At the cost of memory, the stream algorithm
+could be changed so that a trail of breadcrumbs (states of the vertex
+cover) could be left behind and picked up after finishing a path rather
+than restarting. This would only be possible if the Producer had the
+functionality to be able to serve a graph from a specific starting point
+(remember the edges are always the same order). These kinds of
+alterations would each have their own time and place for usage but
+having the ability to implement something like this gives more tools for
+algorithm designers to use which is never a bad thing.

@@ -1,84 +1,128 @@
 \section{Introduction}
 
-\say{Remember your readers, especially your 2nd marker might have no knowledge of the topic of your project. The introduction is your chance to tell them what your project is about. What is the topic of your project? What are the problems? Why is it important? In the introduction you are trying, at a high-level to give the reader an idea of these issues. Convince them that your project is something interesting that's worth working on.}
+\subsection{Vertex Cover}
 
-% \gls{latex}
-% \acrshort{fpt}
+Calculating the vertex cover of a graph is a classical graph-theoretic
+problem. The decision version was one of Karp's 21 NP-complete
+problems{[}citation needed{]}.
+
+Imagine a heavily connected road network in a city. The city council
+wants to figure out the most cost-effective placement of cameras so that
+they are able to see every road (assume the cameras can see
+360\(^\circ\)). The way of calculating this mathematically would be as a
+vertex cover of a graph where each intersection was a node and each road
+between them is an edge. For cities nowadays, this graph can be too big
+to compute using traditional methods. So we need updated methods to
+handle this. The city now realises that they only have a certain number
+of cameras they're able to put up, \(k\) cameras. The city decides the
+project won't be worth the investment if they're not able to cover the
+entire city. This is now the vertex cover problem. The city doesn't care
+for any solution that exceeds their budget of \(k\) cameras.
+
+Graph Theory as a field of study is about understanding these abstract
+ideas and then being able to apply them to real-life scenarios. A graph
+is a model for objects and the relationships between them. This has many
+more applications than city road networks, applications have been found
+in many other physical and social sciences, from quantum field
+theory{[}citation needed{]} to lexical semantics{[}citation needed{]}
+
+\subsection{Parameterized Complexity}
+
+Time complexity has been at the forefront of algorithmic research for
+decades, ever since the discipline took off in the 1960s. At this time,
+we were more interested in whether a problem was tractable or not than
+how much memory it would take up. It wasn't until around the turn of the
+century did research into space complexity work it's way up. This was in
+time with the rise in the size of datasets. We were entering the
+information age and suddenly space was a factor in whether a computer
+would be able to run an algorithm or not. Parameterized complexity thus
+gained traction in research.
+
+The theory of parameterized (time) complexity was first developed in the
+90s by Downey and Fellows{[}citation needed{]}.
+
+Quote from their paper
+
+Most of this research has been focused on time complexity which has
+allowed us to run typically intractable problems in a way that limits
+their runtime to make them tractable. Now research has started on
+parameterized memory complexity. This aids us in algorithms with
+typically intractable memory usage, no matter the runtime. Introducing a
+parameter to limit their memory usage by allows us to run algorithms
+based on our maximum memory budget and thus run them at the limits what
+is possible on our current machines.
+
+Some bit on FPT algorithms
+
+\subsection{Big Data and Streaming}
+
+For most people when think of streaming, video streaming will be the
+first thought that comes to mind. But Film and TV isn't the only thing
+that streaming can be used for. Streaming is now quite widely used in
+the enterprise space for real-time data. Where data is being reported
+from sensors in a system for use in monitoring. Streaming is also used
+in many systems for logging purposes. Actions that users make in a
+system need to be tracked for analytics so whenever they make an action
+an event log is created and sent to a stream of all the other users'
+actions. These can be then aggregated very quickly and efficiently to
+gain actual insight from.
+
+We now live in a world where data is the most valuable resource. Given
+such, it's no surprise that we're drowning in it. Datasets have become
+larger than what we can store on hard drives. The solution is to not
+store the dataset. Simply stream it as one item at a time. Streaming
+algorithms have been developed to handle this, being able to gather
+information while having access to a limited amount of memory.
+
+In 2014, the UK Government identified Big Data as one of ``eight great
+technologies which will propel the UK to future growth''{[}citation
+needed{]}. Research into Big Data is therefore necessary to facilitate
+this growth.
+
+\subsection{Aims}
+
+Our work here focuses on two algorithms developed by Rajesh Chitnis et
+al: a branching method for solving VC(\(k\)){[}citation needed{]} and a
+kernelization method{[}citation needed{]}. The branching method is built
+on a traditional non-stream method for solving VC(\(k\)) while the
+kernelization technique is entirely novel. These techniques are designed
+for non-dynamic undirected graph streams.
+
+Our main aim is to create a foundation for further work to be built
+upon. We identify three areas which would increase accessibility into
+the field.
 
 \begin{enumerate}
-    \item What is the general problem?
-          \begin{itemize}
-              \item Parameterized Streaming Algorithms for k-VC
-                    \begin{enumerate}
-                        \item $2^k$-Pass BST using $O(k \cdot \text{log } n)$ bits
-                              % \begin{figure}[h]
-                              %     \includegraphics{2^k-pass-bst}
-                              %     \centering
-                              % \end{figure}
-                        \item $1$-Pass BST using $O(k^2 \cdot \text{log } n)$ bits
-                        \item Greedily maintain Maximal Matching $O(k^2)$ stored vertices and edges
-                              % \begin{figure}[h]
-                              %     \includegraphics{1-pass}
-                              %     \centering
-                              % \end{figure}
-                        \item $O(k^2)$ Kernel
-                    \end{enumerate}
-              \item \note{Copied from pdf}Recall that in the classical Vertex Cover problem, the goal is to find a min vertex cover. In the parameterized Vertex Cover problem, given a parameter k, we only want to know if $G$ has a vertex cover of size $\leq k$ or not. The goal is to develop fast algorithms when $k$ is small, even if the input size $n$ is large.
-              \item Definition: A parameterized problem with parameter $k$ and input size $n$ is said to be fixed-parameter tractable (FPT) if it can be solved in time $f(k) \cdot n^{O(1)}$, for some function $f$.
-          \end{itemize}
-    \item Why is it worth working on?
-          \begin{itemize}
-              \item Graphs have been shown to be excellent models for real world situations
-              \item Having a low enough algorithmic complexity to be able to solve some problems on graphs allows us to solve real world problems
-          \end{itemize}
-    \item Who else as worked on this problem?
-          \begin{itemize}
-              \item Rajesh Chitnis et al
-          \end{itemize}
-    \item What did they find?
-          \begin{itemize}
-              \item That this works in theory
-          \end{itemize}
-    \item Given this, what is the specific problem you will solve?
-          \begin{itemize}
-              \item Showing their performance vs real world datasets
-          \end{itemize}
+    \item
+          As with any widely adopted algorithm, a clear explanation of how the
+          algorithm works in practice is essential. This includes efforts to
+          visualise the algorithms in action. As with most state-of-the-art
+          research it takes many years of studying to even be able to understand
+          what the papers are talking about, let alone being able to understand
+          the pseudocode that is provided.
+    \item
+          Practical evidence of the performance of the algorithms. While Big-O
+          notation is a good indicator of runtime and memory performance, those
+          only refer to average performance which few, if any, datasets will
+          fit. Seeing whether your problem area is suitable to have a specific
+          algorithm applied to it is crucial.
+    \item
+          Aid in choosing the correct tools. There exist many tools and
+          platforms nowadays for the development of streaming systems. As with
+          many modern tooling, each have their fair share of buzzwords and
+          jargon most are forced to wade through before fully understanding what
+          a tool's function even is.
 \end{enumerate}
 
-\todo[inline]{Talk more about the work Rajesh has done}
+\begin{quote}
+    My supervisor Rajesh Chitnis had previously been researching the problem
+    of parameterized vertex cover. I found that none of the algorithms he
+    talked about had ever been put into practice, only ever written
+    theoretically.
+\end{quote}
 
-My supervisor Rajesh Chitnis had previously been researching the problem of parameterized vertex cover. I found that none of the algorithms he talked about had ever been put into practice, only ever written theoretically.
-
-\subsection{The Problem}
-
-Parameterized Streaming Algorithms for the Graph Theory problem of Vertex Cover. That is the problem. Let me break that down into its individual parts.
-
-Graph Theory: the study of mathematical structures which are used to show pairwise relations between objects.
-
-Vertex Cover: a set of vertices such that each edge of a graph is incident to at least one vertex of the set. The problem of finding a minimum vertex cover (the smallest possible) is a classical optimization problem and is a typical example of an NP-hard problem. The decision version (where we only want a yes/no answer), known as the Vertex Cover Problem, is one of Karp's 21 NP-complete problems. This makes is a very classical problem. Formally, given a graph \(G = (V, E)\) and a vertex cover \(V'\):
-
-\[V' \subset V \text{ such that } \forall (u, v) \in E \Rightarrow u \in V' \vee v \in V' \]
-
-Parameterized complexity: A branch of computational complexity theory that focusses on classifying computational problems according to their inherent difficulty with respect to multiple parameters of the input or output. The complexity of the problem is then measured as a function of those parameters. The vertex cover problem is fixed-parameter tractable, meaning that, while it may be NP-complete in terms of the input size only, it is polynomial in the output of a vertex cover size \emph{k}.
-
-Streaming Algorithms: We now live in a world where data is the most valuable resource. Given such, it's no surprise that we're drowning in it. Datasets have become larger than what we can store on hard drives. The solution is to not store the dataset. Simply stream it as one item at a time. Streaming algorithms have been developed to handle this, being able to gather information while having access to a limited amount of memory.
-
-\subsection{Why is this important?}
-
-Vertex cover is a classical problem which has found many use cases. Here's a typical example. Imagine a heavily connected road network in a city. The city council wants to figure out the most cost effective placement of cameras so that they are able to see every road (assume the cameras can see 360$^\circ$). The way of calculating this mathematically would be as a vertex cover of a graph where each intersection was a node and each road between them is an edge. For cities nowadays, this graph can be too big to compute using traditional methods. So we need updated methods to handle this.
-
-\subsection{Previous Contributions}
-
-\begin{itemize}
-    \item \cite{chitnis_parameterized_2014}
-    \item \cite{chitnis_kernelization_2015}
-\end{itemize}
-
-\subsection{What I Plan To Contribute}
-
-\subsubsection{Implementation of algorithms}
-\subsubsection{Typical use cases}
-\subsubsection{Implementation of use cases}
-\subsubsection{Proof-of-concept production environment (Kafka)}
-\subsubsection{Analysis and comparison of algorithmic complexity}
-\subsubsection{Platform on which to build further research into graph streaming algorithms}
+In the past, streaming algorithms had always interested us but we lacked
+a specific area to be able to begin learning as the topic is very broad.
+This is when the area of graph theory was brought to us by our
+supervisor. This project gave us the platform to be able to spend time
+learning about streaming algorithms and frameworks.
