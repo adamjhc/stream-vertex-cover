@@ -63,11 +63,6 @@ We now live in a world where data is the most valuable resource. Given such, it'
 
 In 2014, the UK Government identified Big Data as one of "eight great technologies which will propel the UK to future growth"[citation needed]. Research into Big Data is therefore necessary to facilitate this growth.
 
-> See references given by Rajesh in relation to the importance of Big Data in view of UK Govt
->
-> - https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/325024/informatics-bigdata.pdf
-> - https://data.gov.uk/data/contracts-finder-archive/download/1508537/821e7b57-36d3-4d7a-b8b7-9aa306dbe7c9
-
 ### Aims
 
 Our work here focuses on two algorithms developed by Rajesh Chitnis et al: a branching method for solving VC($k$)[citation needed] and a kernelization method[citation needed]. The branching method is built on a traditional non-stream method for solving VC($k$) while the kernelization technique is entirely novel. This techniques are designed for non-dynamic undirected graph streams.
@@ -214,7 +209,9 @@ while X != ♠ do
 if X = ♠ then Return NO
 ```
 
-In implementing this algorithm into a streaming platform such as Kafka, we found that the way the pseudo had been structured made implementation difficult. This is due to the fact that Kafka relies on brokers recording whether they have seen a message or not, this is counted as the number of `acks` (acknowledgements). If the algorithm were to exit before acknowledging all the edges in the stream then these edges would lay dormant until another algorithm was run and it would start reading them incorrectly. This caused us to rewrite the algorithm with the inner-most loop being based on looping through the edges rather than looping through the depths of the tree.
+In implementing this algorithm, we found that the way the pseudocode had been structured made implementation difficult. This is due to the fact that streaming platforms such as Kafka rely on brokers recording whether they have seen a message or not, this is counted as the number of `acks` (acknowledgements). If the algorithm were to exit before acknowledging all the edges in the stream then these edges would lay dormant until another algorithm was run and it would start reading them incorrectly. This caused us to rewrite the algorithm with the inner-most loop being based on looping through the edges rather than looping through the depths of the tree.
+
+change this explanation a little to take out kafka
 
 ```pseudocode
 while X != ♠ do
@@ -276,37 +273,30 @@ Rajesh et al 2015[citation needed] developed this algorithm. It works by greedil
 ```pseudocode
 kernel = Kernel(k)
 kernel_exists = True
-for line in stream:
-    u, v = line.split()[:2]
-
+maximal_matching = {}
+for u, v in stream
     is_neighbour = False
-
-    matching = self._get_if_in(u, self.matching)
-    if matching is not None:
+    if u is in maximal_matching
         is_neighbour = True
-
-        matched_edge, neighbours = matching
+        matched_edge, neighbours = maximal_matching.get_match(u)
         vertex_pos = matched_edge.index(u)
-        if len(neighbours[vertex_pos]) < self.k:
+        if len(neighbours[vertex_pos]) < k
             neighbours[vertex_pos].append((u, v))
 
-    else:
-        matching = self._get_if_in(v, self.matching)
-        if matching is not None:
-            is_neighbour = True
+    else if v is in maximal_matching
+        is_neighbour = True
+        matched_edge, neighbours = maximal_matching.get_match(v)
+        vertex_pos = matched_edge.index(v)
+        if len(neighbours[vertex_pos]) < self.k
+            neighbours[vertex_pos].append((u, v))
 
-            matched_edge, neighbours = matching
-            vertex_pos = matched_edge.index(v)
-            if len(neighbours[vertex_pos]) < self.k:
-                neighbours[vertex_pos].append((u, v))
+    if not is_neighbour
+        maximal_matching.add((u, v))
 
-    if not is_neighbour:
-        self.matching[(u, v)] = ([], [])
-
-        if len(self.matching) > self.k:
+        if len(maximal_matching) > k
             return null
 
-return kernel if kernel_exists else None
+return kernel
 ```
 
 ### Local - Visualisation
@@ -451,9 +441,11 @@ Due to the branching algorithm having a runtime of $O(2^k)$, it quickly became c
 
 ### Proof-of-Concept Implementation
 
-We built a graph streaming platform on top of Faust and Apache Kafka. Faust is a Python stream processing library for use with Kafka. The platform consists of one Faust instance serving as both the processor performing the algorithms and a web server, and a second Faust instance serving as the source of the graph stream. The web server serves a front end to clients shown in [Figure]. From here users are able to create processing jobs by selecting the algorithm, graph, and a $k$ value from the top left box. On submission of a job, the middle column shows the stream of edges down the middle column and, on completion, the right column displays results of the job.
+We built a graph streaming platform on top of Faust and Apache Kafka. Faust is a Python stream processing library for use with Kafka. The platform consists of one Faust instance serving as both the processor performing the algorithms and a web server, and a second Faust instance serving as the source of the graph stream. The web server serves a front end to clients shown in [Figure]. From here users are able to create processing jobs by selecting the algorithm, graph, and a $k$ value from the top left box. On submission of a job, the middle column shows the stream  log of edges down the middle column and, on completion, the right column displays a log of results of each job. In early iterations of the system, logging every edge from the incoming stream would freeze the entire site until the stream was finished. Due to this, the stream log has been throttled in the number of updates it is allowed to display per second and so should not be used as a true log as some edges from the stream will be skipped. It has been left there as a visual cue that an algorithm is running, plus it's interesting to see the data being processed.
 
 ![stream](..\images\stream_new.png)
+
+The front end is built with HTML/CSS/JS and uses Server-Sent Events (SSE) for the transmission of the stream and result logs. Originally, we had considered using WebSockets as the communication is bi-directional between the client and server but this introduced complexity in sorting through the different message types (job submission/stream log/results log). It was deemed SSE was the better option for the two logs and then HTTP POST request could be used for the job submission.
 
 As this is just a proof-of-concept, the second Faust instance was built purely for development purposes. Once a graph is requested, it streams the edge list from a file and then relays that into a Kafka topic. In the development environment, it is run locally but, because it's built with Kafka, can be setup over a network for a more typical production environment.
 
@@ -471,7 +463,7 @@ For the kernelization algorithm the control flow is shown in [Figure]. The proto
 
 ![stream_kernelization](..\images\stream_kernelization.png)
 
-The branching algorithm requires a slightly different sequence of events due to the fact that it is a multi-pass algorithm. The sequence is shown in [Figure]. As shown, some coordination is required
+The branching algorithm requires a slightly different sequence of events due to the fact that it is a multi-pass algorithm. The sequence is shown in [Figure]. As shown, some extra coordination is required for the Server to request the graph to be streamed again by the Producer.
 
 ![stream_branching](..\images\stream_branching.png)
 
@@ -485,20 +477,32 @@ Overall, we consider our work a success
 
 ### Visualisation
 
-- Increasing performance of visualisation using blits
-- Add interactivity to visualisations
+We were able to create two programs that show how each algorithm works step by step. Visually, we find them interesting because it's always nice to see things being built up piece by piece.
+
+add some nicer bits before tearing myself apart
+
+As for the educational factor, whether they act as adequate aids in learning how each algorithm works, remains to be seen. If a student were to look at the visualisation before knowing how the algorithm behind worked then they would most likely struggle to gain any information from it. If used as a part of the learning process, we believe they could be invaluable in connecting the theory with students' representation they have constructed in their minds. This could be improved upon to take up a larger portion of the learning process. Using NetworkX and Matplotlib allowed for convenient code copied over from implementations but lacked features such as interactivity and a storyline for students to follow to guide their understanding of each algorithm. Command line programs, even with extensive documentation, are inherently less user-friendly than, say, a web page. Considering this, if we were to take a second shot at this task, we would probably attempt to create a web-based educational experience. A JavaScript library such as D3.js[citation needed] would give the flexibility to both accurately visualise the algorithm and allow the user to play around with values and the graph live in their browser. The page would be able to lead the student through how the algorithm works step by step and finish with the visualisation.
 
 ### Benchmarking
 
+
+
 - allow more time to get better results
+- expand testing to graphs from different domains
 
-### Proof-of-Concept
+### Stream Implementation
 
-- better output of results
-- selection of graphs
-- moving responsibility out of producer
+The stream implementation served as a great introduction for us into the world of streaming frameworks, so, for that alone, we think it served its purpose. As a system, we believe the architecture is cleanly built and can be used as a starting point of anyone building a stream processor using Kafka.
+
+The results shown on the front end are presented in a table drawn using box-drawing characters. This is passed as a string from the server where it is generated. It was done this way for simplicity sake however doesn't allow for much flexibility. Along with how the results are displayed, the results themselves are lacking in information. In a system where jobs could be running for days at a time, it would be useful to have progress logging as well as, on completion, details relating to the job itself. This could include things like runtime and memory usage. The system as a whole could be expanded in terms of job management, possibly allowing for pausing of jobs, jobs running in parallel, and queuing jobs. But that is beyond the scope of this project.
+
+As mentioned before, the Producer was built purely for development purposes and we wouldn't expect anyone to follow in these steps for a production environment. It was limited in the fact that the graphs it was able to provide was hard-coded. Given more time, work could have definitely been done to expand the Producer to be more dynamic as well as testing different data sources as the Producer to see how it would perform.
+
+As shown in the sequence diagrams, the difference in control flow between the kernelization and branching algorithms is a sign of inflexibility so any attempt at expansion on the number of algorithms the system provides access to will be met with resistance. This could be solved be designing an API for the Producer. This would include most of the common graph algorithm requirements. Having control over this design could allow for some algorithmic alterations. Take, for example, the branching algorithm, a depth-first search. In traditional implementations, it is not necessary to have to start from the root node after each path traversal. At the cost of memory, the stream algorithm could be changed so that a trail of breadcrumbs (states of the vertex cover) could be left behind and picked up after finishing a path rather than restarting. This would only be possible if the Producer had the functionality to be able to serve a graph from a specific starting point (remember the edges are always the same order). These kind of alterations would each have their own time and place for usage but having the ability to implement something like this gives more tools for algorithm designers to use which is never a bad thing.
 
 ## Discussion
+
+basically other stuff I could continue this project with
 
 If I had more time I would look into
 
