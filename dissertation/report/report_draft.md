@@ -243,7 +243,7 @@ First devised by Buss[citation needed], given an input of an undirected graph $G
 
 reword this
 
-~~The output is a set of at most $k$ vertices that includes an endpoint of every edge in the graph, if such a set exists, or a failure exception if no such set exists.~~ This is the first $\mathcal{O}(k^2)$ vertices kernel. This was then improved upon in Balasubramanian[citation needed] but for the sake of this paper we will be using the simpler Buss kernelization algorithm.
+~~The output is a set of at most $k$ vertices that includes an endpoint of every edge in the graph, if such a set exists, or a failure exception if no such set exists.~~ This is the first $O(k^2)$ vertices kernel. This was then improved upon in Balasubramanian[citation needed] but for the sake of this paper we will be using the simpler Buss kernelization algorithm.
 
 ```pseudocode
 vertex_cover ← ∅
