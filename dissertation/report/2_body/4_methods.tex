@@ -1,6 +1,6 @@
 \section{Methods}
 
-In researching for this paper, more often than, not we found that, while
+In researching for this paper, more often than not, we found that, while
 the core concepts weren't too difficult to get our heads around, the
 higher-level explanations would often go right over our heads.
 
@@ -30,9 +30,9 @@ Source:
     \item
           Networked - One does not have direct access, the data is streamed to
           you in pieces. This may be either due to the size of the data (it
-          being too large to feasibly store) or due to the nature of the data.
+          being too large to store feasibly) or due to the nature of the data.
           This nature being that the data could be fragmented across databases
-          and so must be processed in some way to put it all together.
+          and so must be pre-processed in some way to put it all together.
 \end{itemize}
 
 This allows us to break down our aims into three sections based on these
@@ -51,7 +51,7 @@ so this middle step was envisioned to allow for a true streaming
 implementation while still being in the familiarity of the core Python
 libraries. So that's exactly what we'll be doing. Having the graph
 represented by an edge list stored in a file allows us to read from the
-file line by line and therefore edge by edge. This is exactly how a
+file line-by-line and therefore edge-by-edge. This is exactly how a
 streaming application would see the input of a graph. Since the time
 taken to read from a file is negligible in comparison to any network
 activity, we will be able to gauge the performance of these algorithms
@@ -63,7 +63,7 @@ what you'd consider to be an actual use case. This is the most flexible
 section, in that, there are many ways of going about it depending on
 your situation. We're taking this as an opportunity to build a
 proof-of-concept system that covers the basics. Apache Kafka has shown
-promise in it's versatility as a streaming platform rather than being
+promise in it's versatility as a streaming platform [citation needed] rather than being
 tied down to a particular workflow. This allows for our fairly custom
 implementation of stream processing. Most streaming platforms prioritise
 parallelisation in their processing which we don't concern ourselves
@@ -343,12 +343,12 @@ is \(O(k^2)\).
 \subsection{Local - Visualisation}
 
 This is the traditional case. The graph is small enough to use in-memory
-and you have local access to it so you are able to use which ever tools
+and you have local access to it, so you are able to use which ever tools
 you wish to calculate the vertex cover. We will be using a library
 called NetworkX \cite{hagberg2008exploring}. NetworkX provides data structures
 for graphs with an intuitive API. It also includes a module for drawing
 graphs with Matplotlib \cite{hunter2007matplotlib}, a Python visualization
-library that has been around since 2003. With these tools we will be
+library that has been around since 2003 [citation needed]. With these tools we will be
 able to create programs that create visualisations of both the
 kernelization and branching stream algorithms.
 
@@ -410,16 +410,14 @@ There is even a limit for Visual Studio Code though.
 
 \subsubsection{Testing and Comparison}
 
-\begin{quote}
-    We don't live in a world anymore where we have to hack our way around
-    machines to push the limits of their memory just so we can play some
-    games. We haven't for a while. This goes the same for algorithms. Most
-    of the time, we will happily sacrifice memory efficiency for any extra
-    pittance of time efficiency. Memory is dispensable, our time is not.
-    This may still be true for streaming algorithms, but only to an extent.
-    We are very much interested in both time and space complexity here. And
-    so, we need to test as such.
-\end{quote}
+We don't live in a world anymore where we have to hack our way around
+machines to push the limits of their memory just so we can play some
+games. We haven't for a while. This goes the same for algorithms. Most
+of the time, we will happily sacrifice memory efficiency for any extra
+pittance of time efficiency. Memory is dispensable, our time is not.
+This may still be true for streaming algorithms, but only to an extent.
+We are very much interested in both time and space complexity here. And
+so, we need to test as such.
 
 For memory profiling, we will use the Python package
 \texttt{memory-profiler} which records memory usage at intervals of

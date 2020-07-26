@@ -78,7 +78,7 @@ shows the current depth and edge index.
 
 It should be noted that, due to the exponential nature of trees, a \(k\)
 value of 10 or more will take significantly longer to load. So, it is
-advised to only use the visualisation for \(k\) values smaller than
+advised to use only the visualisation for \(k\) values smaller than
 this. From the Figure \ref{fig:branching_visualisation} you can see that already at \(k=6\), the
 bottom line of vertices is getting cramped for space.
 
@@ -160,8 +160,8 @@ processed.
 
 The front end is built with HTML/CSS/JS and uses Server-Sent Events
 (SSE) for the transmission of the stream and result logs. Originally, we
-had considered using WebSockets as the communication is bi-directional
-between the client and server but this introduced complexity in sorting
+had considered using WebSockets, as the communication is bi-directional
+between the client and server, but this introduced complexity in sorting
 through the different message types (job submission/stream log/results
 log). It was deemed SSE was the better option for the two logs and then
 a HTTP POST request could be used for the job submission.

@@ -6,12 +6,12 @@ Calculating the vertex cover of a graph is a classical graph-theoretic
 problem. The decision version was one of Karp's 21 NP-complete
 problems \cite{karp1972reducibility}.
 
-Imagine a heavily connected road network in a city. The city council
+Imagine a heavily connected road network in a city. The city
 wants to figure out the most cost-effective placement of cameras so that
-they are able to see every road (assume the cameras can see
+they are able to see every road (we assume the cameras can see
 360\(^\circ\)). The way of calculating this mathematically would be as a
 vertex cover of a graph where each intersection was a node and each road
-between them is an edge. For cities nowadays, this graph can be too big
+between them is an edge. For modern cities, this graph can be too big
 to compute using traditional methods. So we need updated methods to
 handle this. The city now realises that they only have a certain number
 of cameras they're able to put up, \(k\) cameras. The city decides the
@@ -22,7 +22,7 @@ for any solution that exceeds their budget of \(k\) cameras.
 Graph Theory as a field of study is about understanding these abstract
 ideas and then being able to apply them to real-life scenarios. A graph
 is a model for objects and the relationships between them. This has many
-more applications than city road networks, applications have been found
+more applications than city road networks; applications have been found
 in many other physical and social sciences, from quantum field
 theory{[}citation needed{]} to lexical semantics{[}citation needed{]}
 
@@ -32,7 +32,7 @@ Time complexity has been at the forefront of algorithmic research for
 decades, ever since the discipline took off in the 1960s. At this time,
 we were more interested in whether a problem was tractable or not than
 how much memory it would take up. It wasn't until around the turn of the
-century did research into space complexity work it's way up. This was in
+century that research into space complexity worked it's way up. This was in
 time with the rise in the size of datasets. We were entering the
 information age and suddenly space was a factor in whether a computer
 would be able to run an algorithm or not. Parameterized complexity thus
@@ -56,18 +56,7 @@ Some bit on FPT algorithms
 
 \subsection{Big Data and Streaming}
 
-For most people when think of streaming, video streaming will be the
-first thought that comes to mind. But Film and TV isn't the only thing
-that streaming can be used for. Streaming is now quite widely used in
-the enterprise space for real-time data. Where data is being reported
-from sensors in a system for use in monitoring. Streaming is also used
-in many systems for logging purposes. Actions that users make in a
-system need to be tracked for analytics so whenever they make an action
-an event log is created and sent to a stream of all the other users'
-actions. These can be then aggregated very quickly and efficiently to
-gain actual insight from.
-
-We now live in a world where data is the most valuable resource. Given
+We now live in a world where data is often touted to be more valuable than oil[citation needed]. Given
 such, it's no surprise that we're drowning in it. Datasets have become
 larger than what we can store on hard drives. The solution is to not
 store the dataset. Simply stream it as one item at a time. Streaming
@@ -75,9 +64,20 @@ algorithms have been developed to handle this, being able to gather
 information while having access to a limited amount of memory.
 
 In 2014, the UK Government identified Big Data as one of ``eight great
-technologies which will propel the UK to future growth''{[}citation
-needed{]}. Research into Big Data is therefore necessary to facilitate
-this growth.
+technologies which will propel the UK to future growth''
+\cite{intellectualpropertyoffice2014}. Research into Big Data is
+therefore necessary to facilitate this growth.
+
+Most people will think of video when it comes to streaming but Film and TV isn't the only thing
+that streaming can be used for. Streaming is just a way of processing data.
+
+Streaming is now widely used in industries for processing real-time data such as where data is being reported
+from sensors in a system for use in monitoring. Streaming is also used
+in many systems for logging purposes. Actions that users make in a
+system need to be tracked for analytics so whenever they make an action
+an event log is created and sent to a stream of all the other users'
+actions. These can be then aggregated very quickly and efficiently to
+gain actual insight from.
 
 \subsection{Aims}
 
@@ -114,12 +114,10 @@ the field.
           a tool's function even is.
 \end{enumerate}
 
-\begin{quote}
-    My supervisor Rajesh Chitnis had previously been researching the problem
-    of parameterized vertex cover. I found that none of the algorithms he
-    talked about had ever been put into practice, only ever written
-    theoretically.
-\end{quote}
+Dr. Rajesh Chitnis had previously been researching the problem
+of parameterized vertex cover. I found that none of the algorithms he
+talked about had ever been put into practice, only ever written
+theoretically.
 
 In the past, streaming algorithms had always interested us but we lacked
 a specific area to be able to begin learning as the topic is very broad.
