@@ -2,19 +2,19 @@
 
 In researching for this paper, more often than not, we found that, while the
 core concepts weren't too difficult to get our heads around, the higher-level
-explanations would often go right over our heads.
+explanations would often be much more difficult to grasp.
 
 We identified two attributes that mattered most when implementing vertex cover
-(or any graph-theoretic) algorithm. These two attributes, size and source, each
-bubble down to two sub-cases.
+(or any graph-theoretic) algorithms. These two attributes, size and source,
+each bubble down to two sub-cases.
 
 Size:
 
 \begin{itemize}
     \item
           In-memory - The graph is small enough to store within memory. This
-          means that actions can be performed on the graph taking in account
-          the entire graph.
+          means that actions can be performed such that the entire graph is
+          accounted for.
     \item
           Out-of-memory - The graph is too large to store within memory in it's
           entirety. Actions must now be made on small parts of the graph
@@ -35,13 +35,13 @@ Source:
           and so must be pre-processed in some way to put it all together.
 \end{itemize}
 
-This allows us to break down our aims into three sections based on these
-attributes. For in-memory sized local graphs (the traditional setting) we're
-able to provide traditional tools. This includes visualisations and simplified
-implementations using well-worn graph libraries. In this setting we can
-simulate streaming by looping through the edges of a graph. This gives us a
-particular advantage in seeing truly how the algorithms work as we are able to
-see the entire graph at the same time.
+These attributes allow us to break down our aims into three sections. The first
+section is for in-memory sized local graphs (the traditional setting) we're
+able to provide traditional tools, including visualisations and simplified
+implementations using graph libraries. In this setting we can simulate
+streaming by looping through the edges of a graph. This gives us a particular
+advantage in seeing truly how the algorithms work as we are able to see the
+entire graph at the same time.
 
 The second section is for out-of-memory sized local graphs. In our original
 plan, this section didn't exist as we assumed most implementation details would
@@ -57,70 +57,55 @@ gauge the performance of these algorithms with minimal external variables. This
 gives us a platform for accurate performance profiling.
 
 The final section is for out-of-memory sized networked graphs. This is what
-you'd consider to be an actual use case. This is the most flexible section, in
-that, there are many ways of going about it depending on your situation. We're
-taking this as an opportunity to build a proof-of-concept system that covers
-the basics. Apache Kafka has shown promise in it's versatility as a streaming
-platform [citation needed] rather than being tied down to a particular
-workflow. This allows for our fairly custom implementation of stream
-processing. Most streaming platforms prioritise parallelisation in their
-processing which we don't concern ourselves with. Our data source will be
-external in the sense that it could be replicated to run on a server far, far
-away but for ease of development sake it will be ran locally.
+you'd consider to be an actual use case. As the most flexible section, in that,
+there are many ways of going about it depending on your situation. We're taking
+this as an opportunity to build a proof-of-concept system that covers the
+basics. This allows for our fairly custom implementation of stream processing.
+Most streaming platforms prioritise parallelisation in their processing which
+we don't concern ourselves with. Our data source will be external in the sense
+that it could be replicated to run on a server far, far away but for ease of
+development it will be run locally.
 
 \subsection{The Algorithms}
+
+talk about the algorithms covered here or earlier?
 
 \subsubsection{Branching - Classical}
 
 Bounded Search Trees have been used to solve many parameterized problems due to
 their bounded nature. Starting with the whole graph, this version works by
-recursively branching on each edge, deleting a chosen vertex along the way. If
-you have an empty graph before you reach a depth of \(k\) then you will have
-your vertex cover. If not, then you simply try every other path down the tree,
-choosing a different set of vertices on each path. If none of the paths work
-out then you can conclude that no vertex cover exists with a maximum size of
-\(k\).
+recursively branching on each edge, deleting a chosen vertex each. If you have
+an empty graph before you reach a depth of \(k\) then you will have your vertex
+cover. If not, then you simply try every other path down the tree, choosing a
+different set of vertices on each path. If none of the paths work out then you
+can conclude that no vertex cover exists with a maximum size of \(k\).
 
 \begin{algorithm}[H]
     \caption{Branching - Classical}
-    \DontPrintSemicolon
-    \SetKwFunction{FBranching}{branching}
-    \SetKwFunction{FEdges}{numberOfEdges}
-    \SetKwFunction{FCopy}{copy}
+    \DontPrintSemicolon \SetKwFunction{FBranching}{branching}
+    \SetKwFunction{FEdges}{numberOfEdges} \SetKwFunction{FCopy}{copy}
     \SetKwFunction{FFirstEdge}{firstEdge}
-    \SetKwFunction{FRemoveNode}{removeNode}
-    \SetKwFunction{FAdd}{add}
+    \SetKwFunction{FRemoveNode}{removeNode} \SetKwFunction{FAdd}{add}
 
-    \KwInput{Graph $graph$ to calculate vertex cover on}
-    \KwInput{Value $k$ for maximum size of vertex cover}
-    \KwOutput{Vertex cover of maximum size $k$ if one exists}
-    \Func{\FBranching{graph\textnormal{: Graph, }k\textnormal{: int, }vertexCover\textnormal{: set}}}{
-        \If{\FEdges{graph} $= 0$}{
-            \Return vertexCover
-        }
-        \If{k $= 0$}{
-            \Return Null
-        }
-        $u, v \gets$ \FFirstEdge{graph}\;
+    \KwInput{Graph $graph$ to calculate vertex cover on} \KwInput{Value $k$ for
+        maximum size of vertex cover} \KwOutput{Vertex cover of maximum size
+        $k$ if one exists} \Func{\FBranching{graph\textnormal{:
+                Graph,}k\textnormal{: int, }vertexCover\textnormal{:
+                set}}}{\If{\FEdges{graph} $= 0$}{\Return vertexCover} \If{k $=
+                0$}{\Return Null} $u, v \gets$ \FFirstEdge{graph}\;
         \tcp{Run recursively on left side}
-        $leftGraph \gets$ \FCopy{graph}\;
-        \FRemoveNode{leftGraph, u}\;
-        $leftVertexCover \gets$ \FCopy{vertexCover}\;
-        \FAdd{leftVertexCover, u}\;
-        $leftVertexCover \gets$ \FBranching{leftGraph, k - 1, leftVertexCover}\;
+        $leftGraph \gets$ \FCopy{graph}\; \FRemoveNode{leftGraph, u}\;
+        $leftVertexCover \gets$ \FCopy{vertexCover}\; \FAdd{leftVertexCover,
+            u}\; $leftVertexCover \gets$ \FBranching{leftGraph, k - 1,
+            leftVertexCover}\;
 
-        \If{leftVertexCover \KwIs \KwNot Null}{
-            \Return leftVertexCover
-        }
+        \If{leftVertexCover \KwIs \KwNot Null}{\Return leftVertexCover}
 
         \tcp{Run recursively on right side}
-        $rightGraph \gets$ \FCopy{graph}\;
-        \FRemoveNode{rightGraph, u}\;
-        $rightVertexCover \gets$ \FCopy{vertexCover}\;
-        \FAdd{rightVertexCover, u}\;
-        $rightVertexCover \gets$ \FBranching{rightGraph, k - 1, rightVertexCover}\;
-        \Return rightVertexCover
-    }
+        $rightGraph \gets$ \FCopy{graph}\; \FRemoveNode{rightGraph, u}\;
+        $rightVertexCover \gets$ \FCopy{vertexCover}\; \FAdd{rightVertexCover,
+            u}\; $rightVertexCover \gets$ \FBranching{rightGraph, k - 1,
+            rightVertexCover}\; \Return rightVertexCover}
 
 \end{algorithm}
 
@@ -139,6 +124,8 @@ the program would presumably throw an exception as there were no more edges to
 read. This is due to the fact that the check for whether the end of the stream
 had been reached was put outside the inner-most loop. Below is our corrected
 version.
+
+It uses the same symbols as their paper for consistency. See symbols
 
 \begin{verbatim}
     while X != END do
@@ -169,15 +156,14 @@ change this explanation a little to take out Kafka
 
 \begin{algorithm}[H]
     \caption{Branching - Stream}
-    \DontPrintSemicolon
-    \SetKwFunction{FCalculateVC}{calculateVC}
+    \DontPrintSemicolon \SetKwFunction{FCalculateVC}{calculateVC}
 \end{algorithm}
 
 \subsubsection{Kernelization - Classical}
 
 First devised by \cite{buss1991nondeterminism}, given an input of an undirected
-graph \(G\) and a number \(k\), this algorithm works by applying the following
-rules until no more reductions can be made.
+graph \(G\) and a number \(k\), the classical kernelization algorithm works by
+applying the following rules until no more reductions can be made.
 
 \begin{enumerate}
     \item
@@ -203,7 +189,7 @@ of this paper we will be using the simpler Buss kernelization algorithm.
     vertex_cover ← empty
     while True
         reduction ← False
-        foreach node in graph.nodes
+        for each node in graph.nodes
             if k > 0 and node.degree > k:
                 reduction ← True
                 graph ← graph - node
@@ -224,48 +210,32 @@ of this paper we will be using the simpler Buss kernelization algorithm.
 
 \begin{algorithm}[H]
     \caption{Kernelization - Non-Stream}
-    \DontPrintSemicolon
-    \SetKwFunction{FKernelize}{kernelize}
-    \SetKwFunction{FCopy}{copy}
-    \SetKwFunction{FDegree}{degree}
+    \DontPrintSemicolon \SetKwFunction{FKernelize}{kernelize}
+    \SetKwFunction{FCopy}{copy} \SetKwFunction{FDegree}{degree}
 
-    \KwInput{Graph $graph$ to calculate vertex cover on}
-    \KwInput{Value $k$ for maximum size of vertex cover}
-    \KwOutput{Kernel of graph and vertex cover}
-    \Func{\FKernelize{graph\textnormal{: Graph, }k\textnormal{ : int}}}{
-        $kernel \gets$ \FCopy{graph}\;
-        $vertexCover$ : set\;
+    \KwInput{Graph $graph$ to calculate vertex cover on} \KwInput{Value $k$ for
+        maximum size of vertex cover} \KwOutput{Kernel of graph and vertex
+        cover} \Func{\FKernelize{graph\textnormal{: Graph, }k\textnormal{ :
+                int}}}{$kernel \gets$ \FCopy{graph}\; $vertexCover$ : set\;
         $reductionsCanBeMade \gets$ True\;
-        \While{reductionsCanBeMade}{
-            $reductionMade \gets$ False\;
-            \For{$node$ \KwIn $kernel$.nodes}{
-                \uIf{k > $0$ \KwAnd \FDegree{node} > k}{
-                    $reductionMade \gets$ False\;
-                    $kernel$.removeNode($node$)\;
-                    $vertexCover$.add($node$)\;
-                    $k \gets k - 1$\;
-                }
-                \ElseIf{\FDegree{node} = 0}{
-                    $kernel$.removeNode($node$)\;
-                }
-            }
-            \If{\KwNot reductionMade}{
-                $reductionsCanBeMade \gets$ False\;
-            }
-        }
-        \Return kernel, vertexCover\;
-    }
+        \While{reductionsCanBeMade}{$reductionMade \gets$ False\; \For{$node$
+                \KwIn $kernel$.nodes}{\uIf{k > $0$ \KwAnd \FDegree{node} >
+                    k}{$reductionMade \gets$ False\; $kernel$.removeNode($node$)\;
+                    $vertexCover$.add($node$)\; $k \gets k - 1$\;} \ElseIf{\FDegree{node} =
+                    0}{$kernel$.removeNode($node$)\;}} \If{\KwNot
+                reductionMade}{$reductionsCanBeMade \gets$ False\;}} \Return kernel,
+        vertexCover\;}
 \end{algorithm}
 
 \subsubsection{Kernelization - Stream}
 
-\cite{chitnis2015parameterized} developed this algorithm. It works by greedily
-maintaining a maximal matching and for each matched vertex \(v\), keeping up to
-k edges incident on \(v\). If at any point the number of matched edges exceeds
-\(k\) then we can conclude no such vertex cover exists of size \(\leq k\) and
-end the stream. If we reach the end of the stream then a kernel consisting of
-all the matched edges and their neighbours is returned. The space complexity of
-this algorithm is \(O(k^2)\).
+The streaming kernelization algorithm works by greedily maintaining a maximal
+matching and for each matched vertex \(v\), keeping up to k edges incident on
+\(v\). If at any point the number of matched edges exceeds \(k\) then we can
+conclude no such vertex cover of size \(\leq k\) exists and end the stream. If
+we reach the end of the stream then a kernel consisting of all the matched
+edges and their neighbours is returned. The space complexity of this algorithm
+is \(O(k^2)\).
 
 \begin{verbatim}
     kernel = Kernel(k)
@@ -298,38 +268,20 @@ this algorithm is \(O(k^2)\).
 
 \begin{algorithm}[H]
     \caption{Kernelization - Stream}
-    \DontPrintSemicolon
-    \SetKwFunction{FInit}{init}
-    \SetKwFunction{FNext}{next}
-    \SetKwFunction{FNeighbours}{neighbours}
-    \SetKwFunction{FLen}{length}
+    \DontPrintSemicolon \SetKwFunction{FInit}{init} \SetKwFunction{FNext}{next}
+    \SetKwFunction{FNeighbours}{neighbours} \SetKwFunction{FLen}{length}
 
-    \KwInput{Edges $u$, $v$ from a stream}
-    \KwInput{Value $k$ for maximum size of vertex cover}
-    \KwOutput{Boolean whether kernel exists}
-    \KwData{$k$, $matchings$}
-    \Func{\FInit{k\textnormal{: int}}}{
-        $k$ : int $\leftarrow$ $k$\;
-        $matchings$ : dict\;
-    }
-    \Func{\FNext{u, v}}{
-        $isNeighbour$ : bool $\gets$ False\;
-        \If{u $\KwIs$ $\KwIn$ matchings $\KwAnd$ $\FLen{\FNeighbours{u}}$ $\leq$ k}{
-            matchings$[u]$.append((u,v))\;
-            isNeighbour $\gets$ True\;
-        }
-        \If{v $\KwIs$ $\KwIn$ matchings $\KwAnd$ $\FLen{\FNeighbours{v}}$ $\leq$ k}{
-            $matchings[v]$.append($(u,v)$)\;
-            $isNeighbour$ $\gets$ True\;
-        }
-        \If{$\KwNot$ $isNeighbour$}{
-            $matchings$.append((u,v))\;
-            \If{$\FLen{matchings}$ $>$ k}{
-                \Return False\;
-            }
-        }
-        \Return True\;
-    }
+    \KwInput{Edges $u$, $v$ from a stream} \KwInput{Value $k$ for maximum size
+        of vertex cover} \KwOutput{Boolean whether kernel exists} \KwData{$k$,
+        $matchings$} \Func{\FInit{k\textnormal{: int}}}{$k$ : int $\leftarrow$
+        $k$\; $matchings$ : dict\;} \Func{\FNext{u, v}}{$isNeighbour$ : bool
+        $\gets$ False\; \If{u $\KwIs$ $\KwIn$ matchings $\KwAnd$
+            $\FLen{\FNeighbours{u}}$ $\leq$ k}{matchings$[u]$.append((u,v))\;
+            isNeighbour $\gets$ True\;} \If{v $\KwIs$ $\KwIn$ matchings $\KwAnd$
+            $\FLen{\FNeighbours{v}}$ $\leq$ k}{$matchings[v]$.append($(u,v)$)\;
+            $isNeighbour$ $\gets$ True\;} \If{$\KwNot$
+            $isNeighbour$}{$matchings$.append((u,v))\; \If{$\FLen{matchings}$ $>$
+                k}{\Return False\;}} \Return True\;}
 \end{algorithm}
 
 \subsection{Local - Visualisation}
@@ -355,7 +307,7 @@ tree.
 
 In this case the graph is no longer large enough to store in-memory but you are
 able to have direct access to it. The graph may be large but it is feasible to
-store the graph on disk since disk sizes are often many magnitudes larger than
+store the graph on disk since disk size is often many magnitudes larger than
 that of memory. Traditional algorithms are no longer applicable here, this is
 the first example where the invention of streaming algorithms is a necessity.
 
@@ -371,7 +323,7 @@ result, we would have to generate some graphs of our own. These graphs would
 have to have a large number of edges while simultaneously having a low vertex
 cover number. This leads to graphs with a low level of connectivity.
 
-Eventually you get to a point when the datasets become too large to even read.
+Eventually we get to a point where the datasets become too large to even read.
 
 \begin{figure}[htb]
     \centering
@@ -379,9 +331,9 @@ Eventually you get to a point when the datasets become too large to even read.
     \caption{Dataset too big 1}
 \end{figure}
 
-Visual Studio Code, a more modern text editor, is able to open the file however
-not without performance issues even when wrapping and folding have been turned
-off.
+Visual Studio Code, a more modern text editor, is able to open the file,
+however this is still not without performance issues even when wrapping and
+folding have been turned off.
 
 \begin{figure}[htb]
     \centering
@@ -389,7 +341,7 @@ off.
     \caption{Dataset too big 3}
 \end{figure}
 
-There is even a limit for Visual Studio Code though.
+Even with its ability to open large files, Visual Studio Code also has a limit.
 
 \begin{figure}[htb]
     \centering
@@ -399,11 +351,11 @@ There is even a limit for Visual Studio Code though.
 
 \subsubsection{Testing and Comparison}
 
-We don't live in a world anymore where we have to hack our way around machines
-to push the limits of their memory just so we can play some games. We haven't
-for a while. This goes the same for algorithms. Most of the time, we will
-happily sacrifice memory efficiency for any extra pittance of time efficiency.
-Memory is dispensable, our time is not. This may still be true for streaming
+We not longer live in a world where we have to hack our way around machines to
+push the limits of their memory just so we can play some games. We haven't for
+a while. This goes the same for algorithms. Most of the time, we will happily
+sacrifice memory efficiency for any extra pittance of time efficiency. Memory
+is dispensable, our time is not. This may still be true for streaming
 algorithms, but only to an extent. We are very much interested in both time and
 space complexity here. And so, we need to test as such.
 
@@ -411,37 +363,37 @@ For memory profiling, we will use the Python package \texttt{memory-profiler}
 which records memory usage at intervals of \(0.1\text{s}\). It also allows for
 tagging of functions meaning that we can see when each function starts and
 ends. Creating a script to run both the local and stream versions of each
-algorithm allowed us to show the memory usage of each side by side.
+algorithm will allow us to show the memory usage of each side-by-side.
 
 For runtime analysis, we will use a Python package called \texttt{pyperf}. It
 includes tools for writing, running, and analysing runtime benchmarks. By
-creating a script to run through a handful of graphs and \(k\) values and run
-them with both the local and stream versions of each algorithm, we should be
-able to paint a clearer picture of how the stream versions compare to their
-local counterparts.
+creating a script to run through a handful of graphs and \(k\) values and
+running them with both the local and stream versions of each algorithm, we
+should be able to paint a clearer picture of how the stream versions compare to
+their local counterparts.
 
 \subsection{Stream - Implementation}
 
 This is the main case. In a typical situation, knowledge of the graph's
 attributes will be limited so it should be treated as an unbounded stream (a
 stream that has no end). The opposite of this would be treating it as a bounded
-stream, where we know there is an end to the stream.
+stream, which we know has an end.
 
 \subsubsection{Batch vs Stream processing}
 
 Most ``streaming'' applications work on \textbf{unbounded} streams. These are
-data streams which are essentially infinite. Examples include: sensor readings
+data streams which are essentially infinite. Examples include sensor readings
 and application logging. In these cases, the objective is not to obtain a final
-result but to aggregate the data before storing it for future use. This would
-be classed as \textbf{stream processing}.
+result, rather to aggregate the data before storing it for future use. This
+would be classed as \textbf{stream processing}.
 
-Our problem of Vertex Cover would be classed as \textbf{batch processing}. We
-may be working on a data stream but once either algorithm has completed we
-won't need to run it again.
+The Vertex Cover problem would be classed as \textbf{batch processing}. We may
+be working on a data stream but once either algorithm has completed we won't
+need to run it again.
 
 Most streaming platforms (especially those in the Apache line up) work on
 unbounded stream processing. So finding a streaming platform appropriate for
-batch processing was a little more tricky. There are a number of ``graph''
+batch processing was a little tricky. There are a number of ``graph''
 processing frameworks.
 
 Streaming platforms are the base on which a data stream is sent and received.
@@ -482,10 +434,10 @@ have their own niche use cases. Examples include:
 
 \subsubsection{In-memory sized stream graphs}
 
-If you know beforehand the size of the graph and it's of an in-memory size then
-you don't need to go through the hassle of treating it as a stream. One pass
-through the graph will allow you to store the graph locally and therefore be
-able to use it as a local graph instead.
+If you know beforehand that the graph is an in-memory size then you don't need
+to go through the hassle of treating it as a stream. One pass through the graph
+will allow you to store the graph locally and therefore be able to use it as a
+local graph instead.
 
 \subsubsection{Actors}
 

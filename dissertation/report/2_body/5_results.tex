@@ -4,15 +4,16 @@
 
 We were able to develop command-line programs to show both the kernelization
 and branching algorithms working in real-time. Obviously, the speed of the
-algorithms have been slowed to allow for the user to understand what's
+algorithms has been slowed to allow the user to see and understand what's
 happening at each step. Both programs take a path to an edge list file and a
-\(k\) value as command-line arguments so visualisations can be produced of
-different graphs at different \(k\) values. This gives the ability to see how a
-kernel of a graph changes depending on the value of \(k\).
+\(k\) value as command-line arguments, so visualisations can be produced of
+different graphs at various \(k\) values. This gives us the ability to see how
+a kernel of a graph changes depending on the value of \(k\).
 
-Naturally, there is a limit to the size of the graph being displayed. On top of
-having the entire graph in memory and the memory required for running each
-algorithm, memory is also needed for rendering the image for each frame.
+Naturally, there is a limit to the size of the graph being displayed. This is
+because, on top of having the entire graph in memory and the memory required
+for running each algorithm, memory is also needed for rendering the image for
+each frame.
 
 \begin{figure}[htb]
     \centering
@@ -23,20 +24,19 @@ algorithm, memory is also needed for rendering the image for each frame.
 \subsubsection{Kernelization}
 
 Being the visually more interesting and intricate algorithm, it made sense for
-us to focus our effort on the kernelization algorithm. In Figure
+us to focus our efforts on the kernelization algorithm. In Figure
 \ref{fig:kernelization_visualisation}, you can see that we have split the plot
 into two. On the left side we show the entire graph, marking which vertices and
 edges have been added to the kernel as well as which edge of the graph is
-currently being processed. A subtitle shows counts of the number of nodes and
-edges in the graph. On the right we show the kernel being built up as the
-algorithm progresses. All vertices and edges of the kernel exist in the same
-position as they do in the graph so it is easy to see how the kernel resembles
-the core components of the whole graph once enough vertices have been added to
-the kernel. Red mark those vertices and edges that are part of the maximal
-matching the kernelization algorithm maintains. Black marks the neighbours of
-each matched vertex. A subtitle also shows information relating to the kernel
-at each step as well as how the kernel relates to the graph in terms of its
-size.
+currently being processed. A subtitle shows the number of nodes and edges in
+the graph. On the right we show the kernel being built up as the algorithm
+progresses. All vertices and edges of the kernel exist in the same position as
+they do in the graph, so it is easy to see how it resembles the core components
+of the whole graph once enough vertices have been added. Red marks those
+vertices and edges that are part of the maximal matching that the kernelization
+algorithm maintains. Black marks the neighbours of each matched vertex. The
+subtitle also shows information relating to the kernel at each step as well as
+how the kernel relates to the graph in terms of its size.
 
 \begin{figure}[htb]
     \centering
@@ -47,12 +47,12 @@ size.
 
 bit about graph drawing?
 
-While the method we chose in Matplotlib for creating live demonstrations was
-rather crude, Matplotlib does include classes to create animations with that
-are able to then be exported into video formats. Using this, we ported over the
-code used to generate the live demonstration into a new program that creates
-videos exported to whichever format is specified. This allows for easy sharing
-of GIFs showing the kernelization in practice.
+While the method we chose for creating live demonstrations was rather crude,
+Matplotlib does include classes for creating animations with that are able to
+then be exported into video formats. Using this, we ported over the code used
+to generate the live demonstration into a new program that creates videos
+exported to whichever format is specified. This allows for easy sharing of GIFs
+showing the kernelization in practice.
 
 \subsubsection{Branching}
 
@@ -60,9 +60,9 @@ The branching algorithm is much simpler visually. We created a live
 demonstration that shows the search tree and the depth-first search being
 applied to it. The yellow vertex marks the current vertex cover configuration
 being tested and a boldened trail of edges shows the current path being taken.
-The binary string being used for the path is shown towards the top left as well
-as an underscore under the current binary value. Below that is the current edge
-of the stream. A subtitle shows the current depth and edge index.
+The binary string being used for the path is shown towards the top left with an
+underscore under the current binary value, below that is the current edge of
+the stream. A subtitle shows the current depth and edge index.
 
 \begin{figure}[htb]
     \centering
@@ -72,10 +72,10 @@ of the stream. A subtitle shows the current depth and edge index.
 \end{figure}
 
 It should be noted that, due to the exponential nature of trees, a \(k\) value
-of 10 or more will take significantly longer to load. So, it is advised to use
-only the visualisation for \(k\) values smaller than this. From the Figure
-\ref{fig:branching_visualisation} you can see that already at \(k=6\), the
-bottom line of vertices is getting cramped for space.
+of 10 or more will take significantly longer to load. As such, it is advised to
+use only the visualisation for \(k\) values smaller than this. From the Figure
+\ref{fig:branching_visualisation} you can see that at \(k=6\), the bottom line
+of vertices is already getting cramped for space.
 
 \subsection{Performance Benchmarking}
 
@@ -131,19 +131,19 @@ initially wanted.
 We built a graph streaming platform on top of Faust and Apache Kafka. Faust is
 a Python stream processing library for use with Kafka. The platform consists of
 one Faust instance serving as both the processor performing the algorithms and
-a web server, and a second Faust instance serving as the source of the graph
-stream. The web server serves a front end to clients shown in Figure
-\ref{fig:stream_font_end}. From here users are able to create processing jobs
-by selecting the algorithm, graph, and the \(k\) value from the top left box.
-On submission of a job, the middle column shows the stream log of edges down
-the middle column and, on completion, the right column displays a log of
-results of each job. In early iterations of the system, logging every edge from
-the incoming stream would freeze the entire site until the stream was finished.
-Due to this, the stream log has been throttled in the number of updates it is
-allowed to display per second and so should not be used as a true log as some
-edges from the stream will be skipped. It has been left there as a visual cue
-that an algorithm is running, plus it's interesting to see the data being
-processed.
+as a web server, and a second Faust instance serving as the source of the graph
+stream. The web server serves a front end, shown in Figure
+\ref{fig:stream_font_end} to clients. From here, users are able to create
+processing jobs by selecting the algorithm, graph, and a \(k\) value from the
+top left box. On submission of a job, the middle column shows the streamed
+edges down the middle column and, on completion, the right column displays a
+log of results of each job. In early iterations of the system, logging every
+edge from the incoming stream would freeze the entire site until the stream was
+finished. Due to this, the stream log has been throttled in the number of
+updates it is allowed to display per second and so should not be used as a true
+log as some edges from the stream will be skipped. It has been left there as a
+visual cue that an algorithm is running, plus it's interesting to see the data
+being processed.
 
 \begin{figure}[htb]
     \centering
@@ -163,10 +163,10 @@ submission.
 As this is a proof-of-concept, the second Faust instance was built purely for
 development purposes. Once a graph is requested, it streams the edge list from
 a file and then relays that into a Kafka topic. In the development environment,
-it is run locally but, because it's built with Kafka, can be setup over a
+it is run locally, but because it's built with Kafka, it can be setup over a
 network for a more typical production environment.
 
-Kafka is platform agnostic in terms of the connections it allows since it only
+Kafka is platform agnostic in terms of the connections it allows, since it only
 facilitates the messaging between connections. This means that many different
 data sources can be used, from databases to web crawlers.
 
@@ -176,13 +176,13 @@ We have three actors present in our system:
 
 \begin{itemize}
     \item
-          App (Client) - The browser client of the user
+          App (Client) - The user's browser client
     \item
           App (Server) - The web server serving pages to the user and
           processing the algorithms
     \item
-          Producer - The ``external'' server as the source of the stream of
-          graph edges
+          Producer - The ``external'' server which is the source of the stream
+          of graph edges
 \end{itemize}
 
 For the kernelization algorithm the control flow is shown in Figure
@@ -207,5 +207,5 @@ actor is shown as a note covering between them.
 
 The branching algorithm requires a slightly different sequence of events due to
 the fact that it is a multi-pass algorithm. The sequence is shown in Figure
-\ref{fig:stream_branching}. As shown, some extra coordination is required for
-the Server to request the graph to be streamed again by the Producer.
+\ref{fig:stream_branching}. Some extra coordination is required for the Server
+to request the graph to be streamed again by the Producer.
