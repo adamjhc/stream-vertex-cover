@@ -2,104 +2,101 @@
 
 \subsection{Vertex Cover}
 
-Calculating the vertex cover of a graph is a classical graph-theoretic
-problem. The decision version was one of Karp's 21 NP-complete
-problems \cite{karp1972reducibility}.
+Calculating the vertex cover of a graph is a classical graph-theoretic problem.
+The decision version was one of Karp's 21 NP-complete problems
+\cite{karp1972reducibility}.
 
-Imagine a heavily connected road network in a city. The city
-wants to figure out the most cost-effective placement of cameras so that
-they are able to see every road (we assume the cameras can see
-360\(^\circ\)). The way of calculating this mathematically would be as a
-vertex cover of a graph where each intersection was a node and each road
-between them is an edge. For modern cities, this graph can be too big
-to compute using traditional methods. So we need updated methods to
-handle this. The city now realises that they only have a certain number
-of cameras they're able to put up, \(k\) cameras. The city decides the
-project won't be worth the investment if they're not able to cover the
-entire city. This is now the vertex cover problem. The city doesn't care
+Imagine a heavily connected road network in a city. The city wants to figure
+out the most cost-effective placement of cameras so that they are able to see
+every road (we assume the cameras can see 360\(^\circ\)). The way of
+calculating this mathematically would be as a vertex cover of a graph where
+each intersection was a node and each road between them is an edge. For modern
+cities, this graph can be too big to compute using traditional methods. So we
+need updated methods to handle this. The city now realises that they only have
+a certain number of cameras they're able to put up, \(k\) cameras. The city
+decides the project won't be worth the investment if they're not able to cover
+the entire city. This is now the vertex cover problem. The city doesn't care
 for any solution that exceeds their budget of \(k\) cameras.
 
-Graph Theory as a field of study is about understanding these abstract
-ideas and then being able to apply them to real-life scenarios. A graph
-is a model for objects and the relationships between them. This has many
-more applications than city road networks; applications have been found
-in many other physical and social sciences, from quantum field
-theory{[}citation needed{]} to lexical semantics{[}citation needed{]}
+Graph Theory as a field of study is about understanding these abstract ideas
+and then being able to apply them to real-life scenarios. A graph is a model
+for objects and the relationships between them. This has many more applications
+than city road networks; applications have been found in many other physical
+and social sciences, from quantum field theory{[}citation needed{]} to lexical
+semantics{[}citation needed{]}
 
 \subsection{Parameterized Complexity}
 
-Time complexity has been at the forefront of algorithmic research for
-decades, ever since the discipline took off in the 1960s. At this time,
-we were more interested in whether a problem was tractable or not than
-how much memory it would take up. It wasn't until around the turn of the
-century that research into space complexity worked it's way up. This was in
-time with the rise in the size of datasets. We were entering the
-information age and suddenly space was a factor in whether a computer
-would be able to run an algorithm or not. Parameterized complexity thus
-gained traction in research.
+Time complexity has been at the forefront of algorithmic research for decades,
+ever since the discipline took off in the 1960s. At this time, we were more
+interested in whether a problem was tractable or not than how much memory it
+would take up. It wasn't until around the turn of the century that research
+into space complexity worked it's way up. This was in time with the rise in the
+size of datasets. We were entering the information age and suddenly space was a
+factor in whether a computer would be able to run an algorithm or not.
+Parameterized complexity thus gained traction in research.
 
 The theory of parameterized (time) complexity was first developed in
 \cite{downey1999parameterized}.
 
 Quote from their paper
 
-Most of this research has been focused on time complexity which has
-allowed us to run typically intractable problems in a way that limits
-their runtime to make them tractable. Now research has started on
-parameterized memory complexity. This aids us in algorithms with
-typically intractable memory usage, no matter the runtime. Introducing a
-parameter to limit their memory usage by allows us to run algorithms
-based on our maximum memory budget and thus run them at the limits what
-is possible on our current machines.
+Most of this research has been focused on time complexity which has allowed us
+to run typically intractable problems in a way that limits their runtime to
+make them tractable. Now research has started on parameterized memory
+complexity. This aids us in algorithms with typically intractable memory usage,
+no matter the runtime. Introducing a parameter to limit their memory usage by
+allows us to run algorithms based on our maximum memory budget and thus run
+them at the limits what is possible on our current machines.
 
 Some bit on FPT algorithms
 
 \subsection{Big Data and Streaming}
 
-We now live in a world where data is often touted to be more valuable than oil[citation needed]. Given
-such, it's no surprise that we're drowning in it. Datasets have become
-larger than what we can store on hard drives. The solution is to not
-store the dataset. Simply stream it as one item at a time. Streaming
-algorithms have been developed to handle this, being able to gather
-information while having access to a limited amount of memory.
+We now live in a world where data is often touted to be more valuable than
+oil[citation needed]. Given such, it's no surprise that we're drowning in it.
+Datasets have become larger than what we can store on hard drives. The solution
+is to not store the dataset. Simply stream it as one item at a time. Streaming
+algorithms have been developed to handle this, being able to gather information
+while having access to a limited amount of memory.
 
 In 2014, the UK Government identified Big Data as one of ``eight great
 technologies which will propel the UK to future growth''
-\cite{intellectualpropertyoffice2014}. Research into Big Data is
-therefore necessary to facilitate this growth.
+\cite{intellectualpropertyoffice2014}. Research into Big Data is therefore
+necessary to facilitate this growth.
 
-Most people will think of video when it comes to streaming but Film and TV isn't the only thing
-that streaming can be used for. Streaming is just a way of processing data.
+Most people will think of video when it comes to streaming but Film and TV
+isn't the only thing that streaming can be used for. Streaming is just a way of
+processing data.
 
-Streaming is now widely used in industries for processing real-time data such as where data is being reported
-from sensors in a system for use in monitoring. Streaming is also used
-in many systems for logging purposes. Actions that users make in a
-system need to be tracked for analytics so whenever they make an action
-an event log is created and sent to a stream of all the other users'
-actions. These can be then aggregated very quickly and efficiently to
-gain actual insight from.
+Streaming is now widely used in industries for processing real-time data such
+as where data is being reported from sensors in a system for use in monitoring.
+Streaming is also used in many systems for logging purposes. Actions that users
+make in a system need to be tracked for analytics so whenever they make an
+action an event log is created and sent to a stream of all the other users'
+actions. These can be then aggregated very quickly and efficiently to gain
+actual insight from.
 
 \subsection{Aims}
 
-Our work here focuses on two algorithms developed by Chitnis et
-al: a branching method for solving VC(\(k\)) \cite{chitnis2019towards} and a
-kernelization method \cite{chitnis2015parameterized}. The branching method is built
-on a traditional non-stream method for solving VC(\(k\)) while the
-kernelization technique is entirely novel. These techniques are designed
-for non-dynamic undirected graph streams.
+Our work here focuses on two algorithms developed by Chitnis et al: a branching
+method for solving VC(\(k\)) \cite{chitnis2019towards} and a kernelization
+method \cite{chitnis2015parameterized}. The branching method is built on a
+traditional non-stream method for solving VC(\(k\)) while the kernelization
+technique is entirely novel. These techniques are designed for non-dynamic
+undirected graph streams.
 
-Our main aim is to create a foundation for further work to be built
-upon. We identify three areas which would increase accessibility into
-the field.
+Our main aim is to create a foundation for further work to be built upon. We
+identify three areas which would increase accessibility into the field.
 
 \begin{enumerate}
     \item
           As with any widely adopted algorithm, a clear explanation of how the
           algorithm works in practice is essential. This includes efforts to
           visualise the algorithms in action. As with most state-of-the-art
-          research it takes many years of studying to even be able to understand
-          what the papers are talking about, let alone being able to understand
-          the pseudocode that is provided.
+          research it takes many years of studying to even be able to
+          understand what the papers are talking about, let alone being able to
+          understand the pseudocode that is provided.
     \item
           Practical evidence of the performance of the algorithms. While Big-O
           notation is a good indicator of runtime and memory performance, those
@@ -110,17 +107,16 @@ the field.
           Aid in choosing the correct tools. There exist many tools and
           platforms nowadays for the development of streaming systems. As with
           many modern tooling, each have their fair share of buzzwords and
-          jargon most are forced to wade through before fully understanding what
-          a tool's function even is.
+          jargon most are forced to wade through before fully understanding
+          what a tool's function even is.
 \end{enumerate}
 
-Dr. Rajesh Chitnis had previously been researching the problem
-of parameterized vertex cover. I found that none of the algorithms he
-talked about had ever been put into practice, only ever written
-theoretically.
+Dr. Rajesh Chitnis had previously been researching the problem of parameterized
+vertex cover. I found that none of the algorithms he talked about had ever been
+put into practice, only ever written theoretically.
 
-In the past, streaming algorithms had always interested us but we lacked
-a specific area to be able to begin learning as the topic is very broad.
-This is when the area of graph theory was brought to us by our
-supervisor. This project gave us the platform to be able to spend time
-learning about streaming algorithms and frameworks.
+In the past, streaming algorithms had always interested us but we lacked a
+specific area to be able to begin learning as the topic is very broad. This is
+when the area of graph theory was brought to us by our supervisor. This project
+gave us the platform to be able to spend time learning about streaming
+algorithms and frameworks.
