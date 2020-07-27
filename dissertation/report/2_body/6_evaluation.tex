@@ -1,7 +1,5 @@
 \section{Evaluation}
 
-Overall, we consider our work a success.
-
 \subsection{Visualisation}
 
 We were able to create two programs that show how each algorithm works step by
@@ -31,12 +29,17 @@ visualisation.
 
 \subsection{Performance Benchmarking}
 
-\begin{itemize}
-    \item
-          allow more time to get better results
-    \item
-          expand testing to graphs from different domains
-\end{itemize}
+The performance benchmarking was fairly conclusive. The stream implementations
+outperform the classical implementation in both time and space. This was to be
+expected as they are the modern iterations on the problem. The classical
+algorithms fall behind in memory mainly because they require keeping copies of
+the graph for future use.
+
+As mentioned in the runtime branching results, we were held back from doing a
+full suite of testing due to lack of resources. The figures we got were from
+running on a laptop during downtimes. To do this again, we would definitely set
+up a dedicated machine to leave running for as long as there was time. Being
+able to run for longer would also allow testing of different types of graphs.
 
 \subsection{Stream Implementation}
 
