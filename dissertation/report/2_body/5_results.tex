@@ -11,15 +11,8 @@ different graphs at various \(k\) values. This gives us the ability to see how
 a kernel of a graph changes depending on the value of \(k\).
 
 Naturally, there is a limit to the size of the graph being displayed. This is
-because, on top of having the entire graph in memory and the memory required
-for running each algorithm, memory is also needed for rendering the image for
-each frame.
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=\textwidth]{memory-error.jpg}
-    \caption{Memory error}
-\end{figure}
+because, on top of the memory required to store the entire graph and to run
+each algorithm, memory is also needed for rendering the image for each frame.
 
 \subsubsection{Kernelization}
 
@@ -45,7 +38,12 @@ how the kernel relates to the graph in terms of its size.
     \label{fig:kernelization_visualisation}
 \end{figure}
 
-bit about graph drawing?
+Some considerations were made in choosing how the graphs were drawn. Graph
+drawing being it's own area of study, we didn't have much control other than
+choosing which algorithm looked better. Kamada-Kawai \cite{kamada1989drawing}
+worked well for smaller graphs (roughly $< 1000$) but required too much memory
+for bigger ones so we had to resort to using Spring (also known as the
+Fruchterman-Reingold force-directed algorithm) \cite{fruchterman1991graph}.
 
 While the method we chose for creating live demonstrations was rather crude,
 Matplotlib does include classes for creating animations with that are able to
@@ -71,6 +69,10 @@ the stream. A subtitle shows the current depth and edge index.
     \label{fig:branching_visualisation}
 \end{figure}
 
+To draw the tree we used Graphviz \cite{ellson2003graphviz}, a graph
+visualisation program that has many built in layouts. We used the "dot" layout
+for the hierarchical layout of a tree.
+
 It should be noted that, due to the exponential nature of trees, a \(k\) value
 of 10 or more will take significantly longer to load. As such, it is advised to
 use only the visualisation for \(k\) values smaller than this. From the Figure
@@ -81,50 +83,66 @@ of vertices is already getting cramped for space.
 
 \subsubsection{Memory Profiling}
 
-Nothing here surprised us but it's always nice to be able to see the truth laid
-out in front of you.
+We were able to get quite telling memory profiles of both of the algorithms.
+For each, the stream algorithms are labelled by light blue square brackets in
+the plot for when the function starts and ends. Similarly, the classical
+algorithms are labelled in light green. Time is plotted along the x-axis and
+memory usage along the y-axis. The red lines mark when peak memory usage occurs.
 
-\paragraph{Kernelization}
-
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{benchmark_memory_kernelization_100_10000.png}
     \caption{Memory Profiling of Kernelization}
     \label{fig:benchmark_mem_kernelization}
 \end{figure}
 
-\paragraph{Branching}
+Figure \ref{fig:benchmark_mem_kernelization} shows the kernelization algorithm.
+As you can see the stream function has seemingly fixed memory usage throughout
+its processing while the classical function climbs rapidly.
 
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{benchmark_memory_branching_50_1000.png}
     \caption{Memory Profiling of Branching}
     \label{fig:benchmark_mem_branching}
 \end{figure}
 
+Figure \ref{fig:benchmark_mem_branching} shows the branching algorithm. The
+stream function finished almost instantaneously with no discernible change in
+memory usage while the classical function continued to climb through it's
+processing.
+
 \subsubsection{Runtime Analysis}
 
-\paragraph{Kernelization}
+Results for runtime analysis are rather more even than memory usage which is
+expected. Though, the stream functions do still pull ahead fairly constantly at
+all graph sizes. We were able to test all algorithms with a wide range of graph
+sizes as well as \(k\) values to get a better picture of how they perform under
+different circumstances.
 
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{benchmark_time_kernelization.png}
     \caption{Runtimes of Kernelization}
     \label{fig:benchmark_time_kernelization}
 \end{figure}
 
-\paragraph{Branching}
+Figure \ref{fig:benchmark_time_kernelization} shows the runtimes of the
+kernelization methods. Being a 1-pass algorithm, it is expected that the
+runtime is fairly linear compared to the graph size which is what we see.
 
-Due to the branching algorithm having a runtime of \(O(2^k)\), it quickly
-became clear that we weren't going to be able to gather as much data as we had
-initially wanted.
-
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{benchmark_time_branching.png}
     \caption{Runtimes of Branching}
     \label{fig:benchmark_time_branching}
 \end{figure}
+
+Figure \ref{fig:benchmark_time_branching} shows the runtimes of the branching
+methods. Due to the branching algorithm having a runtime of \(O(2^k)\), it
+quickly became clear that we weren't going to be able to gather as much data as
+we had initially wanted. Fortunately, the data we were able to gather paints
+much the same picture as the kernelization algorithms.
 
 \subsection{Stream Implementation}
 
@@ -166,10 +184,6 @@ a file and then relays that into a Kafka topic. In the development environment,
 it is run locally, but because it's built with Kafka, it can be setup over a
 network for a more typical production environment.
 
-Kafka is platform agnostic in terms of the connections it allows, since it only
-facilitates the messaging between connections. This means that many different
-data sources can be used, from databases to web crawlers.
-
 \subsubsection{Control Flow}
 
 We have three actors present in our system:
@@ -189,7 +203,7 @@ For the kernelization algorithm the control flow is shown in Figure
 \ref{fig:stream_kernelization}. The protocol used to communicate between each
 actor is shown as a note covering between them.
 
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
     \begin{minipage}{.5\textwidth}
         \centering
