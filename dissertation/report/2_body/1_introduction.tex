@@ -5,7 +5,7 @@
 Calculating the vertex cover of a graph is a classical graph-theoretic problem.
 Posed as a decision problem, called the vertex cover problem (or \(k\)-Vertex
 Cover), we have to find whether a vertex cover of maximum size \(k\) exists for
-a given graph. This problem was one of Karp's 21 NP-complete problems
+a given graph. This is one of Karp's 21 NP-complete problems
 \cite{karp1972reducibility}.
 
 Imagine a densely connected road network in a city. The city wants to figure
@@ -14,18 +14,18 @@ road (we assume the cameras can see 360\(^\circ\)). The way of calculating this
 mathematically would be as a vertex cover of a graph where each intersection is
 a node, and each road between them is an edge. For modern cities, this graph
 can be too big to compute using traditional methods. So we need updated methods
-to handle this. The city now realises that they only have a certain number of
-cameras they are able to put up, \(k\) cameras, and so does not care for any
-solution that exceeds their budget. The city also decides the project will not
-be worth the investment if they are not able to cover the entire city. This is
-now the vertex cover problem.
+to handle this. The city now realise that they only have a certain number of
+cameras they are able to put up, \(k\) cameras, and so do not care for any
+solution that exceeds their budget. They also decide the project will not be
+worth the investment if they are not able to cover the entire city. This is now
+a \(k\)-Vertex Cover problem.
 
 Graph Theory as a field of study is about understanding these abstract ideas
 and then being able to apply them to real-life scenarios. A graph is a model
 for objects and the relationships between them. They has many more applications
-than city road networks; uses have been found in many other physical and social
+than city road networks; uses have been found in other physical and social
 sciences, from brain imaging \cite{vecchio2016brain} to social network analysis
-\cite{grandjean2016social}
+\cite{grandjean2016social}.
 
 \subsection{Parameterized Complexity}
 
@@ -62,17 +62,18 @@ technologies which will propel the UK to future growth''
 \cite{intellectualpropertyoffice2014}. Research into it is, therefore,
 necessary to facilitate this.
 
-These datasets have become larger than what we can store on hard drives. The
-solution is not to store the dataset: stream it one item at a time. Streaming
-algorithms have been developed to handle this, being able to gather information
-while having access to a limited amount of memory.
+These datasets have outgrown what we are currently able to store on hard
+drives. The solution is not to store the dataset: the solution is to stream it
+one item at a time. Streaming algorithms have been developed to handle this,
+being able to gather information while having access to a limited amount of
+memory.
 
 Streaming is now widely used in industries for processing real-time data such
 as sensor data for use in monitoring. Streaming is also used in many systems
 for logging purposes. Actions that users make in a system need to be tracked
 for analytics so whenever they make an action, an event log is created and sent
-to a stream of all the other users' actions. These can be then aggregated very
-quickly and efficiently to gain insight from.
+to a stream of all the other users' actions. These can then be aggregated very
+quickly and efficiently for gaining insight from.
 
 \subsection{Aims}
 
@@ -90,21 +91,20 @@ identify three areas which would increase accessibility into the field.
     \item
           As with any widely adopted algorithm, a clear explanation of how the
           algorithm works in practice is essential. This includes efforts to
-          visualise the algorithms in action. As with most state-of-the-art
-          research it takes many years of studying to be even able to
-          understand what the papers are talking about, let alone the
-          pseudocode that is provided.
+          visualise the algorithms in action. Most state-of-the-art research
+          takes many years of studying to be even able to understand what the
+          papers are talking about, let alone the pseudocode that is provided.
     \item
           Practical evidence of the performance of the algorithms. While Big-O
           notation is a good indicator of runtime and memory performance, those
           only refer to average performance which few, if any, datasets will
-          fit. Seeing whether your problem area is suitable to have a specific
+          fit. Seeing whether the problem area is suitable to have a specific
           algorithm applied to it is crucial.
     \item
           Aid in choosing the correct tools. There exist many tools and
           platforms nowadays for the development of streaming systems. As with
           many modern tooling, each has their fair share of buzzwords and
-          jargon users are forced to wade through before fully understanding
+          jargon which users are forced to wade through before fully understanding
           what a tool's function is.
 \end{enumerate}
 

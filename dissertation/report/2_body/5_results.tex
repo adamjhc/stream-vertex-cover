@@ -18,7 +18,7 @@ algorithm, memory is also needed for rendering the image for each frame.
 
 Being the visually more exciting and intricate algorithm, it made sense for us
 to focus our efforts on the kernelization algorithm. In Figure
-\ref{fig:kernelization_visualisation}, you can see that we have split the plot
+\ref{fig:kernelization_visualisation}, one can see that we have split the plot
 into two. On the left side, we show the entire graph, marking which vertices
 and edges have been added to the kernel as well as which edge of the graph is
 currently being processed. A subtitle shows the number of nodes and edges in
@@ -46,7 +46,7 @@ for bigger ones, so we had to resort to using Spring (also known as the
 Fruchterman-Reingold force-directed algorithm) \cite{fruchterman1991graph}.
 
 While the method we chose for creating live demonstrations was rather crude,
-Matplotlib does include classes for creating animations with that can then be
+Matplotlib does include classes for creating animations that can then be
 exported into video formats. Using this, we ported over the code used to
 generate the live demonstration into a new program that creates videos exported
 to whichever format is specified. This allows for easy sharing of GIFs showing
@@ -76,7 +76,7 @@ for the hierarchical layout of a tree.
 It should be noted that, due to the exponential nature of trees, a \(k\) value
 of 10 or more will take significantly longer to load. As such, it is advised to
 use only the visualisation for \(k\) values smaller than this. From Figure
-\ref{fig:branching_visualisation} you can see that at \(k=6\), the bottom line
+\ref{fig:branching_visualisation} one can see that at \(k=6\), the bottom line
 of vertices is already getting cramped for space.
 
 \subsection{Performance Benchmarking}
@@ -97,7 +97,7 @@ memory usage along the y-axis. The red lines mark when peak memory usage occurs.
 \end{figure}
 
 Figure \ref{fig:benchmark_mem_kernelization} shows the kernelization algorithm.
-As you can see the stream function has seemingly fixed memory usage throughout
+As one can see the stream function has seemingly fixed memory usage throughout
 its processing while the classical function climbs rapidly.
 
 \begin{figure}[htb]
@@ -151,7 +151,7 @@ a Python stream processing library for use with Kafka. The platform consists of
 one Faust instance serving as both the processor performing the algorithms and
 as a web server, and a second Faust instance serving as the source of the graph
 stream. The web server serves a front end, shown in Figure
-\ref{fig:stream_font_end} to clients. From here, users can create processing
+\ref{fig:stream_font_end}, to clients. From here, users can create processing
 jobs by selecting the algorithm, graph, and a \(k\) value from the top left
 box. On submission of a job, the middle column shows the streamed edges down
 the middle column and, on completion, the right column displays a log of

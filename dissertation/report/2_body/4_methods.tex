@@ -1,8 +1,8 @@
 \section{Methods}
 
 We identified two attributes with respect to the dataset that mattered most
-when implementing vertex cover (or any graph-theoretic) algorithms. These two
-attributes, size and source, each bubble down to two sub-cases.
+when implementing vertex cover (or any graph-theoretic) algorithms. These are
+size and source, each bubble down to two sub-cases.
 
 Size:
 
@@ -24,11 +24,11 @@ Source:
           Local - One has direct access to the graph, for example, in the form
           of a file.
     \item
-          Networked - One does not have direct access; the data is streamed to
-          you in pieces. This may be either due to the size of the data (it
-          being too large to store feasibly) or due to the nature of the data.
-          This nature being that the data could be fragmented across databases
-          and so must be pre-processed in some way to put it all together.
+          Networked - One does not have direct access; the data is streamed in
+          pieces. This may be either due to the size of the data (it being too
+          large to store feasibly) or due to the nature of the data. This
+          nature being that the data could be fragmented across databases and
+          so must be pre-processed in some way to put it all together.
 \end{itemize}
 
 These attributes allow us to break down our aims into three sections. The first
@@ -37,7 +37,7 @@ can provide traditional tools for, including visualisations and simplified
 implementations using graph libraries. In this setting, we can simulate
 streaming by looping through the edges of a graph. This gives us a particular
 advantage in seeing truly how the algorithms work as we can see the entire
-graph at the same time.
+graph at one time.
 
 The second section is for out-of-memory sized local graphs. In our original
 plan, this section did not exist as we assumed most implementation details
@@ -53,9 +53,9 @@ activity, we will be able to gauge the performance of these algorithms with
 minimal external variables. This gives us a platform for accurate performance
 profiling.
 
-The final section is for out-of-memory sized networked graphs. This is what you
-would consider to be an actual use case. As the most flexible section, in that,
-there are many ways of going about it depending on your situation. We are
+The final section is for out-of-memory sized networked graphs. This is what one
+would consider to be an actual use case. As the most flexible section, in that
+there are many ways of going about it depending on the situation, we are
 taking this as an opportunity to build a proof-of-concept system that covers
 the basics. This allows for our fairly custom implementation of stream
 processing. Most streaming platforms prioritise parallelisation in their
@@ -68,10 +68,10 @@ away, but for ease of development, it will be run locally.
 \subsubsection{Branching - Classical}
 
 The classical branching works by starting with the whole graph and recursively
-branching on each edge, deleting a chosen vertex each time. If you have a graph
-with no edges before you reach a depth of \(k\), then you will have your vertex
-cover. If not, then you simply try every other path down the tree, choosing a
-different set of vertices on each path. If none of the paths work out, then you
+branching on each edge, deleting a chosen vertex each time. If one has a graph
+with no edges before reaching a depth of \(k\), then one will have a vertex
+cover. If not, then one will simply try every other path down the tree, choosing a
+different set of vertices on each path. If none of the paths work out, then one
 can conclude that no vertex cover exists with a maximum size of \(k\). The
 algorithm runs in \(O(2^k \cdot n)\). The pseudocode is shown in Algorithm
 \ref{alg:branching_classical}.
@@ -93,7 +93,7 @@ algorithm runs in \(O(2^k \cdot n)\). The pseudocode is shown in Algorithm
         \FBranching{graph, k, vertexCover $\gets \emptyset$}
     }
     {
-        \uIf{\FEdges{graph} $= 0$}{
+        \uIf{graph.\FEdges{} $= 0$}{
             \Return vertexCover
         }
         \uIf{k $=0$}{
@@ -127,13 +127,13 @@ for a minimum vertex cover which may be more useful in some situations.
 
 The streaming branching algorithm requires \(O(k\cdot \log n)\) space and
 \(2^k\) passes. It works in much the same way as the classical algorithm
-except, instead of starting with the entire graph, you start with an empty
-vertex cover set. If you come upon an edge that is already covered by your
+except, instead of starting with the entire graph, one starts with an empty
+vertex cover set. If one comes upon an edge that is already covered by the
 vertex cover, then it can be skipped. If the edge is not covered, then one of
-the vertices are added to your vertex cover. Which vertex depends on the path
-being taken down the tree. If you reach the end of the stream before exceeding
-\(k\) vertices in your vertex cover then you have a vertex cover for the whole
-graph. If not, then you try another path.
+the vertices is added to the vertex cover. Which vertex depends on the path
+being taken down the tree. If one reaches the end of the stream before
+exceeding \(k\) vertices in the vertex cover then one has a vertex cover for
+the whole graph. If not, then one must try another path.
 
 We noticed Chitnis et al. had an error in their pseudocode. In their version,
 if the end of the edge stream (\(j\) in their pseudocode) was reached before a
@@ -141,8 +141,16 @@ depth (\(i\) in their pseudocode) of \(k\) was reached then the program would
 presumably throw an exception as there were no more edges to read. This is
 because the check for whether the end of the stream had been reached was put
 outside the inner-most loop. Algorithm \ref{alg:branching_correction} shows our
-corrected version. It uses the same symbols as their paper for consistency. See
-symbols
+corrected version. It uses the same symbols as their paper for consistency.
+
+\begin{quote}
+    ``Let \(V (G) = {v_1, v_2, \dots , v_n}\). Fix some ordering \(\phi\) on
+    \(V(G)\) as follows: \(v_1 < v_2 < v_3 < \dots < v_n\). Let \(\texttt{Dict}_k\) be
+    the dictionary ordering on the \(2^k\) binary strings of \(\{0, 1\}^k\).
+    Given a string \(X \subseteq \{0, 1\}^k\), let \(\texttt{Dict}_k(\texttt{Next}(X))\) denote
+    the string that comes immediately after \(X\) in the ordering \(\texttt{Dict}_k\).
+    We set \(\texttt{Dict}_k(\texttt{Next}(1^k)) = \spadesuit\)'' \cite{chitnis2019towards}
+\end{quote}
 
 \begin{algorithm}[htb]
     \caption{Branching - Stream (Corrected)}
@@ -172,7 +180,7 @@ symbols
                 \Return{S}
             }
         }
-        $X \gets Dictk(Next(X))$\;
+        $X \gets \texttt{Dict}_k(\texttt{Next}(X))$\;
     }
     \Return NO
 \end{algorithm}
@@ -224,7 +232,7 @@ depths of the tree. Algorithm \ref{alg:branching_stream} shows our version.
         \uIf{$i \leq k$}{
             \Return{S}
         }
-        $X \gets Dictk(Next(X))$\;
+        $X \gets \texttt{Dict}_k(\texttt{Next}(X))$\;
     }
     \Return NO
 \end{algorithm}
@@ -243,10 +251,10 @@ until no more reductions can be made.
 \end{enumerate}
 
 If more than \(k^2\) edges remain in the graph, and neither of the rules can be
-applied, then the graph cannot contain a vertex cover of size \(k\). On
-success, the output is a kernel that has at most \(k^2\) edges and \(2k^2\)
-vertices and a set of vertices that must be included in the vertex cover. The
-pseudocode is given in Algorithm \ref{alg:kernelization_classical}
+applied, then the graph cannot contain a vertex cover of size \(k\). If not,
+the output is a kernel that has at most \(k^2\) edges and \(2k^2\) vertices and
+a set of vertices that must be included in the vertex cover. The pseudocode is
+given in Algorithm \ref{alg:kernelization_classical}
 
 \begin{algorithm}[htb]
     \caption{Kernelization - Classical}
@@ -294,7 +302,7 @@ can conclude no such vertex cover of size \(\leq k\) exists and end the stream.
 If we reach the end of the stream, then a kernel consisting of all the matched
 edges and their neighbours is returned. The space complexity of this algorithm
 is \(O(k^2)\). The pseudocode is given in Algorithm
-\ref{alg:kernelization_stream}
+\ref{alg:kernelization_stream}.
 
 \begin{algorithm}[htb]
     \caption{Kernelization - Stream}
@@ -341,7 +349,7 @@ is \(O(k^2)\). The pseudocode is given in Algorithm
 \subsection{Local - Visualisation}
 
 This is the traditional case. The graph is small enough to use in-memory, and
-you have local access to it, so you are able to use whichever tools you wish to
+one has local access to it, so one is able to use whichever tools one wishes to
 calculate the vertex cover. We will be using a library called NetworkX
 \cite{hagberg2008exploring}. NetworkX provides data structures for graphs with
 an intuitive API. It also includes a module for drawing graphs with Matplotlib
@@ -358,12 +366,11 @@ search tree.
 
 \subsection{Local-Stream - Performance Benchmarking}
 
-In this case, the graph is no longer large enough to store in-memory, but you
-are able to have direct access to it. The graph may be large, but it is
-feasible to store the graph on disk since disk size is often many magnitudes
-more massive than that of memory. Traditional algorithms are no longer
-applicable here; this is the first example where the invention of streaming
-algorithms is a necessity.
+In this case, the graph is no longer large enough to store in-memory, but one
+is able to have direct access to it. The graph may be large, but it is feasible
+to store the graph on disk since disk size is often many magnitudes larger than
+that of memory. Traditional algorithms are no longer applicable here; this is
+the first example where the invention of streaming algorithms is a necessity.
 
 In order to accurately performance benchmark the algorithms, we will have to do
 both runtime analysis and memory profiling to get an accurate picture of how
@@ -443,8 +450,8 @@ most likely needed to handle the requests as well as facilitate getting the
 data from storage and sending it through the streaming platform.
 
 There is the fourth case based on the dataset's attributes in which the size of
-the graph is an in-memory size but comes from a networked source. If you know
-beforehand that the graph is of in-memory size, then you do not need to go
+the graph is an in-memory size but comes from a networked source. If one knows
+beforehand that the graph is of in-memory size, then one does not need to go
 through the hassle of treating it as a stream. One pass through the graph will
-allow you to store the graph locally and therefore be able to use it as a local
+allow one to store the graph locally and therefore be able to use it as a local
 graph instead.
