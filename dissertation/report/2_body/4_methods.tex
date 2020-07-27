@@ -24,7 +24,7 @@ Source:
           Local - One has direct access to the graph, for example, in the form
           of a file.
     \item
-          Networked - One does not have direct access, the data is streamed to
+          Networked - One does not have direct access; the data is streamed to
           you in pieces. This may be either due to the size of the data (it
           being too large to store feasibly) or due to the nature of the data.
           This nature being that the data could be fragmented across databases
@@ -32,35 +32,36 @@ Source:
 \end{itemize}
 
 These attributes allow us to break down our aims into three sections. The first
-section is for in-memory sized local graphs (the traditional setting) we're
-able to provide traditional tools, including visualisations and simplified
-implementations using graph libraries. In this setting we can simulate
+section is for in-memory sized local graphs (the traditional setting) which we
+can provide traditional tools for, including visualisations and simplified
+implementations using graph libraries. In this setting, we can simulate
 streaming by looping through the edges of a graph. This gives us a particular
-advantage in seeing truly how the algorithms work as we are able to see the
-entire graph at the same time.
+advantage in seeing truly how the algorithms work as we can see the entire
+graph at the same time.
 
 The second section is for out-of-memory sized local graphs. In our original
-plan, this section didn't exist as we assumed most implementation details would
-come forward when implementing into a real streaming framework. However, we
-found that this was too much of a jump so this middle step was envisioned to
-allow for a true streaming implementation while still being in the familiarity
-of the core Python libraries. So that's exactly what we'll be doing. Having the
-graph represented by an edge list stored in a file allows us to read from the
-file line-by-line and therefore edge-by-edge. This is exactly how a streaming
-application would see the input of a graph. Since the time taken to read from a
-file is negligible in comparison to any network activity, we will be able to
-gauge the performance of these algorithms with minimal external variables. This
-gives us a platform for accurate performance profiling.
+plan, this section did not exist as we assumed most implementation details
+would come forward when implementing into a real streaming framework. However,
+we found that this was too much of a jump, so this middle step was envisioned
+to allow for a true streaming implementation while still being in the
+familiarity of the core Python libraries. So that is exactly what we will be
+doing. Having the graph represented by an edge list stored in a file allows us
+to read from the file line-by-line and therefore edge-by-edge. This is
+precisely how a streaming application would see the input of a graph. Since the
+time taken to read from a file is negligible in comparison to any network
+activity, we will be able to gauge the performance of these algorithms with
+minimal external variables. This gives us a platform for accurate performance
+profiling.
 
-The final section is for out-of-memory sized networked graphs. This is what
-you'd consider to be an actual use case. As the most flexible section, in that,
-there are many ways of going about it depending on your situation. We're taking
-this as an opportunity to build a proof-of-concept system that covers the
-basics. This allows for our fairly custom implementation of stream processing.
-Most streaming platforms prioritise parallelisation in their processing which
-we don't concern ourselves with. Our data source will be external in the sense
-that it could be replicated to run on a server far, far away but for ease of
-development it will be run locally.
+The final section is for out-of-memory sized networked graphs. This is what you
+would consider to be an actual use case. As the most flexible section, in that,
+there are many ways of going about it depending on your situation. We are
+taking this as an opportunity to build a proof-of-concept system that covers
+the basics. This allows for our fairly custom implementation of stream
+processing. Most streaming platforms prioritise parallelisation in their
+processing which we do not concern ourselves with. Our data source will be
+external in the sense that it could be replicated to run on a server far, far
+away, but for ease of development, it will be run locally.
 
 \subsection{The Algorithms}
 
@@ -68,9 +69,9 @@ development it will be run locally.
 
 The classical branching works by starting with the whole graph and recursively
 branching on each edge, deleting a chosen vertex each time. If you have a graph
-with no edges before you reach a depth of \(k\) then you will have your vertex
+with no edges before you reach a depth of \(k\), then you will have your vertex
 cover. If not, then you simply try every other path down the tree, choosing a
-different set of vertices on each path. If none of the paths work out then you
+different set of vertices on each path. If none of the paths work out, then you
 can conclude that no vertex cover exists with a maximum size of \(k\). The
 algorithm runs in \(O(2^k \cdot n)\). The pseudocode is shown in Algorithm
 \ref{alg:branching_classical}.
@@ -124,24 +125,24 @@ for a minimum vertex cover which may be more useful in some situations.
 
 \subsubsection{Branching - Stream}
 
-The streaming branching algorithm requires \(O(k\cdot \log n)\) space and \(2^k\)
-passes. It works in much the same way as the classical algorithm except,
-instead of starting with the entire graph, you start with an empty vertex cover
-set. If you come upon an edge that is already covered by your vertex cover then
-it can be skipped. If the edge isn't covered then one of the vertices are added
-to your vertex cover. Which vertex depends on the path being taken down the
-tree. If you reach the end of the stream before exceeding \(k\) vertices in
-your vertex cover then you have a vertex cover for the whole graph. If not,
-then you try another path.
+The streaming branching algorithm requires \(O(k\cdot \log n)\) space and
+\(2^k\) passes. It works in much the same way as the classical algorithm
+except, instead of starting with the entire graph, you start with an empty
+vertex cover set. If you come upon an edge that is already covered by your
+vertex cover, then it can be skipped. If the edge is not covered, then one of
+the vertices are added to your vertex cover. Which vertex depends on the path
+being taken down the tree. If you reach the end of the stream before exceeding
+\(k\) vertices in your vertex cover then you have a vertex cover for the whole
+graph. If not, then you try another path.
 
-We noticed Chitnis et al had an error in their pseudocode. In their
-version, if the end of the edge stream (\(j\) in their pseudocode) was reached
-before a depth (\(i\) in their pseudocode) of \(k\) was reached then the
-program would presumably throw an exception as there were no more edges to
-read. This is due to the fact that the check for whether the end of the stream
-had been reached was put outside the inner-most loop. Algorithm
-\ref{alg:branching_correction} shows our corrected version. It uses the same
-symbols as their paper for consistency. See symbols
+We noticed Chitnis et al. had an error in their pseudocode. In their version,
+if the end of the edge stream (\(j\) in their pseudocode) was reached before a
+depth (\(i\) in their pseudocode) of \(k\) was reached then the program would
+presumably throw an exception as there were no more edges to read. This is
+because the check for whether the end of the stream had been reached was put
+outside the inner-most loop. Algorithm \ref{alg:branching_correction} shows our
+corrected version. It uses the same symbols as their paper for consistency. See
+symbols
 
 \begin{algorithm}[htb]
     \caption{Branching - Stream (Corrected)}
@@ -287,10 +288,10 @@ pseudocode is given in Algorithm \ref{alg:kernelization_classical}
 \subsubsection{Kernelization - Stream}
 
 The streaming kernelization algorithm works by greedily maintaining a maximal
-matching and for each matched vertex \(v\), keeping up to k edges incident on
-\(v\). If at any point the number of matched edges exceeds \(k\) then we can
-conclude no such vertex cover of size \(\leq k\) exists and end the stream. If
-we reach the end of the stream then a kernel consisting of all the matched
+matching and for each matched vertex \(v\), keeping up to \(k\) edges incident
+on \(v\). If at any point, the number of matched edges exceeds \(k\) then we
+can conclude no such vertex cover of size \(\leq k\) exists and end the stream.
+If we reach the end of the stream, then a kernel consisting of all the matched
 edges and their neighbours is returned. The space complexity of this algorithm
 is \(O(k^2)\). The pseudocode is given in Algorithm
 \ref{alg:kernelization_stream}
@@ -339,31 +340,32 @@ is \(O(k^2)\). The pseudocode is given in Algorithm
 
 \subsection{Local - Visualisation}
 
-This is the traditional case. The graph is small enough to use in-memory and
-you have local access to it, so you are able to use which ever tools you wish
-to calculate the vertex cover. We will be using a library called NetworkX
+This is the traditional case. The graph is small enough to use in-memory, and
+you have local access to it, so you are able to use whichever tools you wish to
+calculate the vertex cover. We will be using a library called NetworkX
 \cite{hagberg2008exploring}. NetworkX provides data structures for graphs with
 an intuitive API. It also includes a module for drawing graphs with Matplotlib
-\cite{hunter2007matplotlib}, a Python visualization library that has been
-around since 2003 \cite{matplotlib2003copyright}. With these tools we will be
+\cite{hunter2007matplotlib}, a Python visualisation library that has been
+around since 2003 \cite{matplotlib2003copyright}. With these tools, we will be
 able to create programs that create visualisations of both the kernelization
 and branching stream algorithms.
 
-There are some key aspects we'd like to highlight in both algorithms. For the
-kernelization algorithm, these include being able to compare the kernel to the
-whole graph and being able to see when edges are not added to the kernel. For
-the branching algorithm, these include the binary string and the binary search
-tree.
+There are some key aspects we would like to highlight in both algorithms. For
+the kernelization algorithm, these include being able to compare the kernel to
+the whole graph and being able to see when edges are not added to the kernel.
+For the branching algorithm, these include the binary string and the binary
+search tree.
 
 \subsection{Local-Stream - Performance Benchmarking}
 
-In this case the graph is no longer large enough to store in-memory but you are
-able to have direct access to it. The graph may be large but it is feasible to
-store the graph on disk since disk size is often many magnitudes larger than
-that of memory. Traditional algorithms are no longer applicable here, this is
-the first example where the invention of streaming algorithms is a necessity.
+In this case, the graph is no longer large enough to store in-memory, but you
+are able to have direct access to it. The graph may be large, but it is
+feasible to store the graph on disk since disk size is often many magnitudes
+more massive than that of memory. Traditional algorithms are no longer
+applicable here; this is the first example where the invention of streaming
+algorithms is a necessity.
 
-In order to properly performance benchmark the algorithms, we will have to do
+In order to accurately performance benchmark the algorithms, we will have to do
 both runtime analysis and memory profiling to get an accurate picture of how
 they perform.
 
@@ -372,7 +374,7 @@ against large graphs from all possible backgrounds
 (constructed/synthetic/real), we quickly realised that many, if not all, graphs
 we considered were of the same shape/form. That is, they all had relatively
 uniform density and so had a minimum vertex cover close to the number of
-vertices. In order to get any results that was anything more than a null
+vertices. In order to get any results that were anything more than a null
 result, we would have to generate some graphs of our own. These graphs would
 have to have a large number of edges while simultaneously having a low vertex
 cover number. This leads to graphs with a low level of connectivity.
@@ -400,13 +402,13 @@ stream, which we know has an end.
 Most streaming applications work on unbounded streams. These are data streams
 which are essentially infinite. Examples include sensor readings and
 application logging. In these cases, the objective is not to obtain a final
-result, rather to aggregate the data before storing it for future use. This
+result, instead to aggregate the data before storing it for future use. This
 would be classed as stream processing. Specifically, the Vertex Cover problem
-would be classed as batch processing. We may be working on a data stream but
-once either algorithm has completed we won't need to run it again.
+would be classed as batch processing. We may be working on a data stream, but
+once either algorithm has completed, we won't need to run it again.
 
 Most streaming platforms (especially those in the Apache line up) mainly work
-on unbounded stream processing but can be tweaked to also handle batch
+on unbounded stream processing but can be tweaked also to handle batch
 processing. At their base, these streaming platforms are just messaging
 platforms that have been built to be fault-tolerant and capable of handling
 masses of data at any one time. These facilitate the data stream transmission.
@@ -426,23 +428,23 @@ Examples include:
 Once we have the platform, we need an in-memory framework to handle the
 processing of each item in the stream. This is where the algorithms will
 actually run. There are a number of graph-specific processing frameworks,
-however these perform higher-level algorithms than the ones we are building
+however, these perform higher-level algorithms than the ones we are building
 here. Also, many have a focus on being distributed (read: parallelised) which
-is also something we're not interested in. Since we plan to write the other two
-sections in Python, it would make sense to continue as such. Faust is a Python
-stream processing library built for use with Apache Kafka so is a perfect
-candidate for us.
+is also something we are not interested in. Since we plan to write the other
+two sections in Python, it would make sense to continue as such. Faust is a
+Python stream processing library built for use with Apache Kafka so is a
+perfect candidate for us.
 
 There is another problem to tackle in this case which is the role of the data
 source. For the algorithms we will be implementing, it must be able to handle
 requests for graphs to be streamed to the stream processor. This rules out
-simply linking up a database as that wouldn't have the capability. A server is
+merely linking up a database as that would not have the capability. A server is
 most likely needed to handle the requests as well as facilitate getting the
 data from storage and sending it through the streaming platform.
 
 There is the fourth case based on the dataset's attributes in which the size of
 the graph is an in-memory size but comes from a networked source. If you know
-beforehand that the graph is an in-memory size then you don't need to go
+beforehand that the graph is of in-memory size, then you do not need to go
 through the hassle of treating it as a stream. One pass through the graph will
 allow you to store the graph locally and therefore be able to use it as a local
 graph instead.

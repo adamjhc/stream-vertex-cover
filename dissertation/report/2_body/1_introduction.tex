@@ -8,21 +8,21 @@ Cover), we have to find whether a vertex cover of maximum size \(k\) exists for
 a given graph. This problem was one of Karp's 21 NP-complete problems
 \cite{karp1972reducibility}.
 
-Imagine a heavily connected road network in a city. The city wants to figure
-out the most cost-effective placement of cameras so that they are able to see
-every road (we assume the cameras can see 360\(^\circ\)). The way of
-calculating this mathematically would be as a vertex cover of a graph where
-each intersection is a node and each road between them is an edge. For modern
-cities, this graph can be too big to compute using traditional methods. So we
-need updated methods to handle this. The city now realises that they only have
-a certain number of cameras they're able to put up, \(k\) cameras, and so
-doesn't care for any solution that exceeds their budget. The city also decides
-the project won't be worth the investment if they're not able to cover the
-entire city. This is now the vertex cover problem.
+Imagine a densely connected road network in a city. The city wants to figure
+out the most cost-effective placement of cameras so that they can see every
+road (we assume the cameras can see 360\(^\circ\)). The way of calculating this
+mathematically would be as a vertex cover of a graph where each intersection is
+a node, and each road between them is an edge. For modern cities, this graph
+can be too big to compute using traditional methods. So we need updated methods
+to handle this. The city now realises that they only have a certain number of
+cameras they are able to put up, \(k\) cameras, and so does not care for any
+solution that exceeds their budget. The city also decides the project will not
+be worth the investment if they are not able to cover the entire city. This is
+now the vertex cover problem.
 
 Graph Theory as a field of study is about understanding these abstract ideas
 and then being able to apply them to real-life scenarios. A graph is a model
-for objects and the relationships between them. This has many more applications
+for objects and the relationships between them. They has many more applications
 than city road networks; uses have been found in many other physical and social
 sciences, from brain imaging \cite{vecchio2016brain} to social network analysis
 \cite{grandjean2016social}
@@ -41,7 +41,7 @@ This quote from the book sums it up quite nicely:
 \end{quote}
 
 That is, a practical algorithm can be found for a problem of any input size as
-long a parameter \(k\) is kept small. Problems that are able to solved in this
+long a parameter \(k\) is kept small. Problems that are able to be solved in this
 way are known to be fixed-parameter tractable (FPT). Vertex Cover is one such
 problem.
 
@@ -59,29 +59,29 @@ machines.
 Big Data is the field of processing datasets too large for traditional methods.
 In 2014, the UK Government identified Big Data as one of ``eight great
 technologies which will propel the UK to future growth''
-\cite{intellectualpropertyoffice2014}. Research into it is therefore necessary
-to facilitate this.
+\cite{intellectualpropertyoffice2014}. Research into it is, therefore,
+necessary to facilitate this.
 
 These datasets have become larger than what we can store on hard drives. The
-solution is to not store the dataset: stream it one item at a time. Streaming
+solution is not to store the dataset: stream it one item at a time. Streaming
 algorithms have been developed to handle this, being able to gather information
 while having access to a limited amount of memory.
 
 Streaming is now widely used in industries for processing real-time data such
 as sensor data for use in monitoring. Streaming is also used in many systems
 for logging purposes. Actions that users make in a system need to be tracked
-for analytics so whenever they make an action an event log is created and sent
+for analytics so whenever they make an action, an event log is created and sent
 to a stream of all the other users' actions. These can be then aggregated very
 quickly and efficiently to gain insight from.
 
 \subsection{Aims}
 
-Our work here focuses on two algorithms developed by Chitnis et al: a branching
-method for solving \(k\)-VC \cite{chitnis2019towards} and a kernelization
-method \cite{chitnis2015parameterized}. These algorithms are designed for
-non-dynamic undirected graph streams. Non-dynamic means that the only messages
-received from the stream will be edge insertions as opposed to a dynamic stream
-which would also include edge deletions.
+Our work here focuses on two algorithms developed by Chitnis et al.: a
+branching method for solving \(k\)-VC \cite{chitnis2019towards} and a
+kernelization method \cite{chitnis2015parameterized}. These algorithms are
+designed for non-dynamic undirected graph streams. Non-dynamic means that the
+only messages received from the stream will be edge insertions as opposed to a
+dynamic stream which would also include edge deletions.
 
 Our main aim is to create a foundation for further work to be built upon. We
 identify three areas which would increase accessibility into the field.
@@ -91,7 +91,7 @@ identify three areas which would increase accessibility into the field.
           As with any widely adopted algorithm, a clear explanation of how the
           algorithm works in practice is essential. This includes efforts to
           visualise the algorithms in action. As with most state-of-the-art
-          research it takes many years of studying to even be able to
+          research it takes many years of studying to be even able to
           understand what the papers are talking about, let alone the
           pseudocode that is provided.
     \item
@@ -103,7 +103,7 @@ identify three areas which would increase accessibility into the field.
     \item
           Aid in choosing the correct tools. There exist many tools and
           platforms nowadays for the development of streaming systems. As with
-          many modern tooling, each have their fair share of buzzwords and
+          many modern tooling, each has their fair share of buzzwords and
           jargon users are forced to wade through before fully understanding
           what a tool's function is.
 \end{enumerate}
@@ -111,8 +111,8 @@ identify three areas which would increase accessibility into the field.
 \subsection{Motivation}
 
 In the past, streaming algorithms had always interested us, but we lacked a
-specific area to be able to begin learning as the topic is very broad. This is
-when the area of graph theory was brought to us by our supervisor. Dr. Chitnis
+specific area to be able to begin learning as the topic is extensive. This was
+when the area of graph theory was brought to us by our supervisor. Dr Chitnis
 had previously been researching the problem of parameterized vertex cover. We
 found that none of the algorithms he covered had ever been put into practice,
 only ever written theoretically. This project gave us the platform to be able

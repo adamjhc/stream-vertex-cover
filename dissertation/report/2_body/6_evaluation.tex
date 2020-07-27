@@ -4,42 +4,42 @@
 
 We were able to create two programs that show how each algorithm works step by
 step. We find seeing them build up the algorithms piece by piece visually
-interesting.
-
-add some nicer bits before tearing myself apart
+appealing. The kernelization algorithm translated better to visualisation
+compared to the branching algorithm. This we expected which is why the effort
+was focussed on the kernelization visualisation.
 
 As for the educational factor, whether they act as adequate aids in learning
 how each algorithm works remains to be seen. If a student were to look at the
-visualisation before knowing how the algorithm behind it worked then they would
-most likely struggle to gain any information from it. If used as a part of the
-learning process, we believe they could be invaluable in connecting the theory
-to students' own mental visualisations. This could take up a larger portion of
-the learning process if improved upon. Using NetworkX and Matplotlib allowed
-for convenient code copied over from implementations, but lacked features such
-as interactivity and a storyline for students to follow for guiding their
-understanding of each algorithm. Command-line programs, even with extensive
-documentation, are inherently less user-friendly than, say, a web page.
-Considering this, if we were to take a second shot at this task, we would
-attempt to create a web-based educational experience. A JavaScript library such
-as D3.js \cite{bostock2011d3} would give the flexibility to both accurately
-visualise the algorithm and allow the user to play around with parameters of
-the graph and algorithm live in their browser. The page would be able to lead
-the student through how the algorithm works step by step and finish with the
-visualisation.
+visualisation before knowing how the algorithm behind it worked, then they
+would most likely struggle to gain any information from it. If used as a part
+of the learning process, we believe they could be invaluable in connecting the
+theory to students' own mental visualisations. This could take up a more
+significant portion of the learning process if improved upon. Using NetworkX
+and Matplotlib allowed for convenient code copied over from implementations.
+However, it lacked features such as interactivity and a storyline for students
+to follow for guiding their understanding of each algorithm. Command-line
+programs, even with extensive documentation, are inherently less user-friendly
+than, say, a web page. Considering this, if we were to take a second shot at
+this task, we would attempt to create a web-based educational experience. A
+JavaScript library such as D3.js \cite{bostock2011d3} would give the
+flexibility to both accurately visualise the algorithm and allow the user to
+play around with parameters of the graph and algorithm live in their browser.
+The page would be able to lead the student through how the algorithm works step
+by step and finish with the visualisation.
 
 \subsection{Performance Benchmarking}
 
-The performance benchmarking was fairly conclusive. The stream implementations
-outperform the classical implementation in both time and space. This was to be
-expected as they are the modern iterations on the problem. The classical
-algorithms fall behind in memory mainly because they require keeping copies of
-the graph for future use.
+The performance benchmarking was reasonably conclusive. The stream
+implementations outperform the classical implementation in both time and space.
+This was to be expected as they are the modern iterations on the problem. The
+classical algorithms fall behind in memory mainly because they require keeping
+copies of the graph for future use.
 
 As mentioned in the runtime branching results, we were held back from doing a
 full suite of testing due to lack of resources. The figures we got were from
-running on a laptop during downtimes. To do this again, we would definitely set
-up a dedicated machine to leave running for as long as there was time. Being
-able to run for longer would also allow testing of different types of graphs.
+running on a laptop during downtimes. To do this again, we would set up a
+dedicated machine to leave running for as long as there was time. Being able to
+run for longer would also allow testing of different types of graphs.
 
 \subsection{Stream Implementation}
 
@@ -57,10 +57,11 @@ for days at a time, it would be useful to have progress logging as well as, on
 completion, details relating to the job itself. This could include things like
 runtime and memory usage. The system as a whole could be expanded in terms of
 job management, possibly allowing for pausing of jobs, jobs running in
-parallel, and queuing jobs. But that is beyond the scope of this project.
+parallel, and queuing jobs. Nevertheless, that is beyond the scope of this
+project.
 
-As mentioned before, the Producer was built purely for development purposes and
-we wouldn't expect anyone to follow in these steps for a production
+As mentioned before, the Producer was built purely for development purposes,
+and we would not expect anyone to follow in these steps for a production
 environment. It was limited in the fact that the graphs it was able to provide
 were hard-coded. Further work on this project would involve expanding the
 Producer's capabilities to be more dynamic as well as testing different data
