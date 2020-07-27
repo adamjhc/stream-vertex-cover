@@ -3,9 +3,10 @@
 \subsection{Vertex Cover}
 
 Calculating the vertex cover of a graph is a classical graph-theoretic problem.
-Posed as a decision problem, we have to find whether a vertex cover of maximum
-size \(k\) exists for a given graph. This problem was one of Karp's 21
-NP-complete problems \cite{karp1972reducibility}.
+Posed as a decision problem, called the vertex cover problem (or \(k\)-Vertex
+Cover), we have to find whether a vertex cover of maximum size \(k\) exists for
+a given graph. This problem was one of Karp's 21 NP-complete problems
+\cite{karp1972reducibility}.
 
 Imagine a heavily connected road network in a city. The city wants to figure
 out the most cost-effective placement of cameras so that they are able to see
@@ -23,81 +24,64 @@ Graph Theory as a field of study is about understanding these abstract ideas
 and then being able to apply them to real-life scenarios. A graph is a model
 for objects and the relationships between them. This has many more applications
 than city road networks; uses have been found in many other physical and social
-sciences, from quantum field theory{[}citation needed{]} to lexical
-semantics{[}citation needed{]}
+sciences, from brain imaging \cite{vecchio2016brain} to social network analysis
+\cite{grandjean2016social}
 
 \subsection{Parameterized Complexity}
 
-Time complexity has been at the forefront of algorithmic research for decades,
-ever since the discipline took off in the 1960s. At this time, we were more
-interested in whether a problem was tractable or not than how much memory it
-would take up. Research into space complexity didn't work it's way up until
-around the turn of the century. This was in time with the rise in the size of
-datasets. We were entering the information age and suddenly space became a
-factor in whether a computer would be able to run an algorithm or not.
-Parameterized complexity thus gained traction in research.
+The theory of parameterized (time) complexity was formalised by Downey and
+Fellows \cite{downey1999parameterized} as a workaround to NP-complete problems.
+This quote from the book sums it up quite nicely:
 
-Parameterized complexity was developed in the 90's way before space complexity
-research (mid 2005). The motivation is different: parameterized complexity
-arose because most useful problems were NP-hard. For VC, finding min-VC needed
-$2^n$ time, and parameterized complexity asked a refined question of what is time
-complexity of (just) checking if there is a k-VC?
+\begin{quote}
+    ``\dots the deal we attempt to cut with the devil is one that confines the
+    "inevitable" combinatorial explosion (which we \textit{expect} for
+    interesting problems) to some limited aspect (or distribution of the
+    problem).''
+\end{quote}
 
-The theory of parameterized (time) complexity was first developed in
-\cite{downey1999parameterized}.
-
-Quote from their paper
+That is, a practical algorithm can be found for a problem of any input size as
+long a parameter \(k\) is kept small. Problems that are able to solved in this
+way are known to be fixed-parameter tractable (FPT). Vertex Cover is one such
+problem.
 
 Most of this research has been focused on time complexity, which has allowed us
 to run typically intractable problems in a way that limits their runtime to
 make them tractable. Now research has started on parameterized memory
 complexity. This aids us in running algorithms with typically intractable
-memory usage, no matter the runtime. Introducing a parameter by which to limit their
-memory usage allows us to run algorithms based on our maximum memory budget
-and thus run them at the limits of what is possible on our current machines.
-
-Some bit on FPT algorithms
+memory usage, no matter the runtime. Introducing a parameter by which to limit
+their memory usage allows us to run algorithms based on our maximum memory
+budget and thus run them at the limits of what is possible on our current
+machines.
 
 \subsection{Big Data and Streaming}
 
+Big Data is the field of processing datasets too large for traditional methods.
 In 2014, the UK Government identified Big Data as one of ``eight great
 technologies which will propel the UK to future growth''
-\cite{intellectualpropertyoffice2014}. Research into Big Data is therefore
-necessary to facilitate this.
+\cite{intellectualpropertyoffice2014}. Research into it is therefore necessary
+to facilitate this.
 
-more on big data?
-
-We now live in a world where data is often touted to be more valuable than
-oil[citation needed]. Given such, it's no surprise that we're drowning in it.
-Datasets have become larger than what we can store on hard drives. The solution
-is to not store the dataset: stream it one item at a time.
-
-Most people will think of video when it comes to streaming but Film and TV
-aren't the only things streaming can be used for. At its roots, it is a
-technique for in processing large amounts of data while only having access to
-bits of it at a time.
-
-Streaming algorithms have been developed to handle this, being able to gather
-information while having access to a limited amount of memory.
+These datasets have become larger than what we can store on hard drives. The
+solution is to not store the dataset: stream it one item at a time. Streaming
+algorithms have been developed to handle this, being able to gather information
+while having access to a limited amount of memory.
 
 Streaming is now widely used in industries for processing real-time data such
-as where data is being reported from sensors in a system for use in monitoring.
-Streaming is also used in many systems for logging purposes. Actions that users
-make in a system need to be tracked for analytics so whenever they make an
-action an event log is created and sent to a stream of all the other users'
-actions. These can be then aggregated very quickly and efficiently to gain
-actual insight from.
+as sensor data for use in monitoring. Streaming is also used in many systems
+for logging purposes. Actions that users make in a system need to be tracked
+for analytics so whenever they make an action an event log is created and sent
+to a stream of all the other users' actions. These can be then aggregated very
+quickly and efficiently to gain insight from.
 
 \subsection{Aims}
 
 Our work here focuses on two algorithms developed by Chitnis et al: a branching
-method for solving VC(\(k\)) \cite{chitnis2019towards} and a kernelization
-method \cite{chitnis2015parameterized}. The branching method is built on a
-traditional non-stream method for solving VC(\(k\)) while the kernelization
-technique is entirely novel. These techniques are designed for non-dynamic
-undirected graph streams.
-
-explain kernelization and what non-dynamic undirected graph streams means
+method for solving \(k\)-VC \cite{chitnis2019towards} and a kernelization
+method \cite{chitnis2015parameterized}. These algorithms are designed for
+non-dynamic undirected graph streams. Non-dynamic means that the only messages
+received from the stream will be edge insertions as opposed to a dynamic stream
+which would also include edge deletions.
 
 Our main aim is to create a foundation for further work to be built upon. We
 identify three areas which would increase accessibility into the field.
@@ -126,12 +110,10 @@ identify three areas which would increase accessibility into the field.
 
 \subsection{Motivation}
 
-Dr. Rajesh Chitnis had previously been researching the problem of parameterized
-vertex cover. We found that none of the algorithms he talked about had ever been
-put into practice, only ever written theoretically.
-
 In the past, streaming algorithms had always interested us, but we lacked a
 specific area to be able to begin learning as the topic is very broad. This is
-when the area of graph theory was brought to us by our supervisor. This project
-gave us the platform to be able to spend time learning about streaming
-algorithms and frameworks.
+when the area of graph theory was brought to us by our supervisor. Dr. Chitnis
+had previously been researching the problem of parameterized vertex cover. We
+found that none of the algorithms he covered had ever been put into practice,
+only ever written theoretically. This project gave us the platform to be able
+to spend time learning about streaming algorithms and frameworks.
