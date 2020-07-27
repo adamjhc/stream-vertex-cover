@@ -1,12 +1,8 @@
 \section{Methods}
 
-In researching for this paper, more often than not, we found that, while the
-core concepts weren't too difficult to get our heads around, the higher-level
-explanations would often be much more difficult to grasp.
-
-We identified two attributes that mattered most when implementing vertex cover
-(or any graph-theoretic) algorithms. These two attributes, size and source,
-each bubble down to two sub-cases.
+We identified two attributes with respect to the dataset that mattered most
+when implementing vertex cover (or any graph-theoretic) algorithms. These two
+attributes, size and source, each bubble down to two sub-cases.
 
 Size:
 
@@ -68,45 +64,58 @@ development it will be run locally.
 
 \subsection{The Algorithms}
 
-talk about the algorithms covered here or earlier?
-
 \subsubsection{Branching - Classical}
 
-Bounded Search Trees have been used to solve many parameterized problems due to
-their bounded nature. Starting with the whole graph, this version works by
-recursively branching on each edge, deleting a chosen vertex each. If you have
-an empty graph before you reach a depth of \(k\) then you will have your vertex
+The classical branching works by starting with the whole graph and recursively
+branching on each edge, deleting a chosen vertex each time. If you have a graph
+with no edges before you reach a depth of \(k\) then you will have your vertex
 cover. If not, then you simply try every other path down the tree, choosing a
 different set of vertices on each path. If none of the paths work out then you
-can conclude that no vertex cover exists with a maximum size of \(k\).
+can conclude that no vertex cover exists with a maximum size of \(k\). The
+algorithm runs in \(O(2^k \cdot n)\). The pseudocode is shown in Algorithm
+\ref{alg:branching_classical}.
 
-\begin{algorithm}[H]
+\begin{algorithm}[htb]
     \caption{Branching - Classical}
-    \DontPrintSemicolon \SetKwFunction{FBranching}{branching}
-    \SetKwFunction{FEdges}{numberOfEdges} \SetKwFunction{FCopy}{copy}
+    \label{alg:branching_classical}
+    \DontPrintSemicolon
+    \SetKwFunction{FBranching}{branching}
+    \SetKwFunction{FEdges}{numberOfEdges}
+    \SetKwFunction{FCopy}{copy}
     \SetKwFunction{FFirstEdge}{firstEdge}
-    \SetKwFunction{FRemoveNode}{removeNode} \SetKwFunction{FAdd}{add}
 
-    \KwInput{Graph $graph$ to calculate vertex cover on} \KwInput{Value $k$ for
-        maximum size of vertex cover} \KwOutput{Vertex cover of maximum size
-        $k$ if one exists} \Func{\FBranching{graph\textnormal{:
-                Graph,}k\textnormal{: int, }vertexCover\textnormal{:
-                set}}}{\If{\FEdges{graph} $= 0$}{\Return vertexCover} \If{k $=
-                0$}{\Return Null} $u, v \gets$ \FFirstEdge{graph}\;
-        \tcp{Run recursively on left side}
-        $leftGraph \gets$ \FCopy{graph}\; \FRemoveNode{leftGraph, u}\;
-        $leftVertexCover \gets$ \FCopy{vertexCover}\; \FAdd{leftVertexCover,
-            u}\; $leftVertexCover \gets$ \FBranching{leftGraph, k - 1,
-            leftVertexCover}\;
+    \KwInput{Graph $graph$ to calculate vertex cover on}
+    \KwInput{Value $k$ for maximum size of vertex cover}
+    \KwOutput{Vertex cover of maximum size $k$ if one exists}
+    \Func
+    {
+        \FBranching{graph, k, vertexCover $\gets \emptyset$}
+    }
+    {
+        \uIf{\FEdges{graph} $= 0$}{
+            \Return vertexCover
+        }
+        \uIf{k $=0$}{
+            \Return \KwNull
+        }
+        $u, v \gets$ \FFirstEdge{graph}\;
 
-        \If{leftVertexCover \KwIs \KwNot Null}{\Return leftVertexCover}
+        leftGraph $\gets$ \FCopy{graph}\;
+        leftGraph $\gets$ leftGraph - u\;
+        leftVertexCover $\gets$ \FCopy{vertexCover}\;
+        leftVertexCover $\gets$ leftVertexCover $\cup$ \{u\}\;
+        leftVertexCover $\gets$ \FBranching{leftGraph, k - 1, leftVertexCover}\;
+        \uIf{leftVertexCover \KwIs \KwNot \KwNull}{
+            \Return leftVertexCover
+        }
 
-        \tcp{Run recursively on right side}
-        $rightGraph \gets$ \FCopy{graph}\; \FRemoveNode{rightGraph, u}\;
-        $rightVertexCover \gets$ \FCopy{vertexCover}\; \FAdd{rightVertexCover,
-            u}\; $rightVertexCover \gets$ \FBranching{rightGraph, k - 1,
-            rightVertexCover}\; \Return rightVertexCover}
-
+        rightGraph $\gets$ \FCopy{graph}\;
+        rightGraph $\gets$ rightGraph - u\;
+        rightVertexCover $\gets$ \FCopy{vertexCover}\;
+        rightVertexCover $\gets$ rightVertexCover $\cup$ \{u\}\;
+        rightVertexCover $\gets$ \FBranching{rightGraph, k - 1, rightVertexCover}\;
+        \Return rightVertexCover
+    }
 \end{algorithm}
 
 Being a search tree, it is noted that this algorithm can be tweaked to be a
@@ -115,116 +124,164 @@ for a minimum vertex cover which may be more useful in some situations.
 
 \subsubsection{Branching - Stream}
 
-\cite{chitnis2019towards} converted the above branching algorithm into one that
-was compatible with the streaming model. This algorithm required \(O(k\cdot
-\log n)\) space and \(2^k\) passes. We noticed their pseudocode had an error.
-In their version, if the end of the edge stream (\(j\) in their pseudocode) was
-reached before a depth (\(i\) in their pseudocode) of \(k\) was reached then
-the program would presumably throw an exception as there were no more edges to
+The streaming branching algorithm requires \(O(k\cdot \log n)\) space and \(2^k\)
+passes. It works in much the same way as the classical algorithm except,
+instead of starting with the entire graph, you start with an empty vertex cover
+set. If you come upon an edge that is already covered by your vertex cover then
+it can be skipped. If the edge isn't covered then one of the vertices are added
+to your vertex cover. Which vertex depends on the path being taken down the
+tree. If you reach the end of the stream before exceeding \(k\) vertices in
+your vertex cover then you have a vertex cover for the whole graph. If not,
+then you try another path.
+
+We noticed Chitnis et al had an error in their pseudocode. In their
+version, if the end of the edge stream (\(j\) in their pseudocode) was reached
+before a depth (\(i\) in their pseudocode) of \(k\) was reached then the
+program would presumably throw an exception as there were no more edges to
 read. This is due to the fact that the check for whether the end of the stream
-had been reached was put outside the inner-most loop. Below is our corrected
-version.
+had been reached was put outside the inner-most loop. Algorithm
+\ref{alg:branching_correction} shows our corrected version. It uses the same
+symbols as their paper for consistency. See symbols
 
-It uses the same symbols as their paper for consistency. See symbols
+\begin{algorithm}[htb]
+    \caption{Branching - Stream (Corrected)}
+    \label{alg:branching_correction}
+    \DontPrintSemicolon
 
-\begin{verbatim}
-    while X != END do
-        S = theta, i = 1, j = 1
-        while i != k + 1 do
-            Let e_j = u - v such that u < v under the ordering sigma
-            if Both u not in S and v not in S then
-                if X[i] = 0 then S ← S U {u}
-                else S ← S U {v}
-                i ← i + 1
-            j ← j + 1
-            if j = m + 1 then Return S and abort
-        X ← Dictk(Next(X))
-    if X = END then Return NO
-\end{verbatim}
+    \KwInput{Graph $graph$ to calculate vertex cover on}
+    \KwInput{Value $k$ for maximum size of vertex cover}
+    \KwOutput{Vertex cover of maximum size $k$ if one exists}
+
+    Let $X = 0^k$, and suppose the edges of the graph are seen in the order $e_1, e_2, \dots, e_m$\;
+    \While{X $\neq \spadesuit$}{
+        $S = \emptyset, i = 1, j = 1$\;
+        \While{$i \neq k + 1$}{
+            Let $e_j = u - v$ such that $u < v$ under the ordering $\phi$\;
+            \uIf{$u \notin S$ \KwAnd $v \notin S$}{
+                \uIf{$X[i] = 0$}{
+                    $S \gets S \cup \{u\}$
+                }
+                \uElse{
+                    $S \gets S \cup \{v\}$
+                }
+                $i \gets i + 1$\;
+            }
+            $j \gets j + 1$\;
+            \uIf{$j = m + 1$}{
+                \Return{S}
+            }
+        }
+        $X \gets Dictk(Next(X))$\;
+    }
+    \Return NO
+\end{algorithm}
 
 In implementing this algorithm, we found that the way the pseudocode had been
 structured made implementation difficult. This is because streaming platforms
-such as Kafka rely on brokers recording whether they have seen a message or
-not; this is counted as the number of \texttt{acks} (acknowledgements). If the
-algorithm were to exit before acknowledging all the edges in the stream, then
-these edges would lay dormant until another algorithm was run and it would
-start reading them erroneously. This caused us to rewrite the algorithm with
-the inner-most loop being based on looping through the edges rather than
-looping through the depths of the tree.
+record whether they have seen a message or not; this is counted as the number
+of \texttt{acks} (acknowledgements). If the algorithm were to exit before
+acknowledging all the edges in the stream intended for it, then these edges
+would lay dormant until another algorithm was run and it would start reading
+them erroneously. This caused us to rewrite the algorithm with the inner-most
+loop being based on looping through the edges rather than looping through the
+depths of the tree. Algorithm \ref{alg:branching_stream} shows our version.
 
-change this explanation a little to take out Kafka
+\begin{algorithm}[htb]
+    \caption{Branching - Stream (Updated)}
+    \label{alg:branching_stream}
+    \DontPrintSemicolon
+    \SetKw{KwContinue}{continue}
 
-\begin{algorithm}[H]
-    \caption{Branching - Stream}
-    \DontPrintSemicolon \SetKwFunction{FCalculateVC}{calculateVC}
+    \KwInput{Graph $graph$ to calculate vertex cover on}
+    \KwInput{Value $k$ for maximum size of vertex cover}
+    \KwOutput{Vertex cover of maximum size $k$ if one exists}
+
+    Let $X = 0^k$, and suppose the edges of the graph are seen in the order $e_0, e_1, \dots, e_{m-1}$\;
+    \While{X $\neq \spadesuit$}{
+        $S = \emptyset, i = 0, j = 0$\;
+        \While{$j \neq m$}{
+            \uIf{$i > k$}{
+                \KwContinue
+            }
+            Let $e_j = u - v$ such that $u < v$ under the ordering $\phi$\;
+            \uIf{$u \notin S$ \KwAnd $v \notin S$}{
+                \uIf{$i = k$}{
+                    $i \gets i + 1$\;
+                    \KwContinue
+                }
+
+                \uIf{$X[i] = 0$}{
+                    $S \gets S \cup \{u\}$
+                }
+                \uElse{
+                    $S \gets S \cup \{v\}$
+                }
+                $i \gets i + 1$\;
+            }
+            $j \gets j + 1$\;
+        }
+        \uIf{$i \leq k$}{
+            \Return{S}
+        }
+        $X \gets Dictk(Next(X))$\;
+    }
+    \Return NO
 \end{algorithm}
 
 \subsubsection{Kernelization - Classical}
 
-First devised by \cite{buss1991nondeterminism}, given an input of an undirected
-graph \(G\) and a number \(k\), the classical kernelization algorithm works by
-applying the following rules until no more reductions can be made.
+The classical kernelization algorithm works by applying the following rules
+until no more reductions can be made.
 
 \begin{enumerate}
     \item
           If \(k > 0\) and \(v\) is a vertex of degree \(> k\), remove \(v\)
           from the graph and decrease the value of \(k\) by 1.
     \item
-          If \(v\) is an isolated vertex, remove it.
-    \item
-          If more than \(k^2\) \sout{edges remain in the graph, and neither of
-              the previous two rules can be applied, then the graph cannot
-              contain a vertex cover of size \(k\).} reword this
+          If \(v\) is a vertex of degree 0, remove it.
 \end{enumerate}
 
-reword this
+If more than \(k^2\) edges remain in the graph, and neither of the rules can be
+applied, then the graph cannot contain a vertex cover of size \(k\). On
+success, the output is a kernel that has at most \(k^2\) edges and \(2k^2\)
+vertices and a set of vertices that must be included in the vertex cover. The
+pseudocode is given in Algorithm \ref{alg:kernelization_classical}
 
-\sout{The output is a set of at most \(k\) vertices that includes an endpoint
-    of every edge in the graph, if such a set exists, or a failure exception if
-    no such set exists.} This is the first \(O(k^2)\) vertices kernel. This was
-then improved upon in \cite{balasubramanian1998improved} but for the sake
-of this paper we will be using the simpler Buss kernelization algorithm.
+\begin{algorithm}[htb]
+    \caption{Kernelization - Classical}
+    \label{alg:kernelization_classical}
+    \DontPrintSemicolon
 
-\begin{verbatim}
-    vertex_cover ← empty
-    while True
-        reduction ← False
-        for each node in graph.nodes
-            if k > 0 and node.degree > k:
-                reduction ← True
-                graph ← graph - node
-                vertex_cover ← vertex_cover U {node}
-                k ← k - 1
-            else if node.degree = 0
-                reduction ← True
-                graph ← graph - node
+    \SetKwFunction{FNumberOfEdges}{numberOfEdges}
+    \SetKwFunction{FDegree}{degree}
 
-        if reduction = False
-            break
+    \KwInput{Graph $graph$ to calculate vertex cover on}
+    \KwInput{Value $k$ for maximum size of vertex cover}
+    \KwOutput{Kernel of graph and vertex cover}
 
-    if kernel.number_of_edges() > k^2:
-        return null
-
-    return graph
-\end{verbatim}
-
-\begin{algorithm}[H]
-    \caption{Kernelization - Non-Stream}
-    \DontPrintSemicolon \SetKwFunction{FKernelize}{kernelize}
-    \SetKwFunction{FCopy}{copy} \SetKwFunction{FDegree}{degree}
-
-    \KwInput{Graph $graph$ to calculate vertex cover on} \KwInput{Value $k$ for
-        maximum size of vertex cover} \KwOutput{Kernel of graph and vertex
-        cover} \Func{\FKernelize{graph\textnormal{: Graph, }k\textnormal{ :
-                int}}}{$kernel \gets$ \FCopy{graph}\; $vertexCover$ : set\;
-        $reductionsCanBeMade \gets$ True\;
-        \While{reductionsCanBeMade}{$reductionMade \gets$ False\; \For{$node$
-                \KwIn $kernel$.nodes}{\uIf{k > $0$ \KwAnd \FDegree{node} >
-                    k}{$reductionMade \gets$ False\; $kernel$.removeNode($node$)\;
-                    $vertexCover$.add($node$)\; $k \gets k - 1$\;} \ElseIf{\FDegree{node} =
-                    0}{$kernel$.removeNode($node$)\;}} \If{\KwNot
-                reductionMade}{$reductionsCanBeMade \gets$ False\;}} \Return kernel,
-        vertexCover\;}
+    vertexCover = $\emptyset$, reductionsCanBeMade = \KwTrue\;
+    \While{reductionsCanBeMade}{
+        reductionMade = \KwFalse\;
+        \For{node \KwIn graph.nodes}{
+            \uIf{$k > 0$ \KwAnd node.\FDegree{} $> k$}{
+                reductionMade $\gets$ \KwTrue\;
+                graph $\gets$ graph - node\;
+                vertexCover $\gets$ vertexCover $\cup$ \{node\}\;
+                $k \gets k - 1$\;
+            }
+            \ElseIf{node.\FDegree{} $= 0$}{
+                reductionMade $\gets$ \KwTrue\;
+                graph $\gets$ graph - node\;
+            }
+        }
+        \uIf{\KwNot reductionMade}{
+            reductionsCanBeMade $\gets$ \KwFalse\;
+        }
+    }
+    \uIf{graph.\FNumberOfEdges{} $> k^2$}{
+        \Return \KwNull
+    }
+    \Return graph, vertexCover\;
 \end{algorithm}
 
 \subsubsection{Kernelization - Stream}
@@ -235,53 +292,49 @@ matching and for each matched vertex \(v\), keeping up to k edges incident on
 conclude no such vertex cover of size \(\leq k\) exists and end the stream. If
 we reach the end of the stream then a kernel consisting of all the matched
 edges and their neighbours is returned. The space complexity of this algorithm
-is \(O(k^2)\).
+is \(O(k^2)\). The pseudocode is given in Algorithm
+\ref{alg:kernelization_stream}
 
-\begin{verbatim}
-    kernel = Kernel(k)
-    kernel_exists = True
-    maximal_matching = {}
-    for u, v in stream
-        is_neighbour = False
-        if u is in maximal_matching
-            is_neighbour = True
-            matched_edge, neighbours = maximal_matching.get_match(u)
-            vertex_pos = matched_edge.index(u)
-            if len(neighbours[vertex_pos]) < k
-                neighbours[vertex_pos].append((u, v))
-
-        else if v is in maximal_matching
-            is_neighbour = True
-            matched_edge, neighbours = maximal_matching.get_match(v)
-            vertex_pos = matched_edge.index(v)
-            if len(neighbours[vertex_pos]) < self.k
-                neighbours[vertex_pos].append((u, v))
-
-        if not is_neighbour
-            maximal_matching.add((u, v))
-
-            if len(maximal_matching) > k
-                return null
-
-    return kernel
-\end{verbatim}
-
-\begin{algorithm}[H]
+\begin{algorithm}[htb]
     \caption{Kernelization - Stream}
-    \DontPrintSemicolon \SetKwFunction{FInit}{init} \SetKwFunction{FNext}{next}
-    \SetKwFunction{FNeighbours}{neighbours} \SetKwFunction{FLen}{length}
+    \label{alg:kernelization_stream}
+    \DontPrintSemicolon
+    \SetKwFunction{FLen}{length}
+    \SetKwFunction{FGetMatch}{getMatch}
+    \SetKwFunction{FIndex}{index}
+    \SetKwFunction{FAppend}{append}
 
-    \KwInput{Edges $u$, $v$ from a stream} \KwInput{Value $k$ for maximum size
-        of vertex cover} \KwOutput{Boolean whether kernel exists} \KwData{$k$,
-        $matchings$} \Func{\FInit{k\textnormal{: int}}}{$k$ : int $\leftarrow$
-        $k$\; $matchings$ : dict\;} \Func{\FNext{u, v}}{$isNeighbour$ : bool
-        $\gets$ False\; \If{u $\KwIs$ $\KwIn$ matchings $\KwAnd$
-            $\FLen{\FNeighbours{u}}$ $\leq$ k}{matchings$[u]$.append((u,v))\;
-            isNeighbour $\gets$ True\;} \If{v $\KwIs$ $\KwIn$ matchings $\KwAnd$
-            $\FLen{\FNeighbours{v}}$ $\leq$ k}{$matchings[v]$.append($(u,v)$)\;
-            $isNeighbour$ $\gets$ True\;} \If{$\KwNot$
-            $isNeighbour$}{$matchings$.append((u,v))\; \If{$\FLen{matchings}$ $>$
-                k}{\Return False\;}} \Return True\;}
+    \KwInput{Edges $u$, $v$ from a stream}
+    \KwInput{Value $k$ for maximum size of vertex cover}
+    \KwOutput{Kernel of graph}
+
+    $maximalMatching$ = \{\}\;
+    \For{u, v \KwIn stream}{
+        isNeighbour $\gets$ \KwFalse\;
+        \uIf{u \KwIs \KwIn maximalMatching}{
+            isNeighbour $\gets$ \KwTrue\;
+            matchedEdge, neighbours = maximalMatching.\FGetMatch{u}\;
+            vertexPos = matchedEdge.\FIndex{u}\;
+            \uIf{\FLen{neighbours[vertexPos]} $< k$}{
+                matchings$[u]$.\FAppend{$(u,v)$}\;
+            }
+        }
+        \uElseIf{v \KwIs \KwIn maximalMatching}{
+            isNeighbour $\gets$ \KwTrue\;
+            matchedEdge, neighbours = maximalMatching.\FGetMatch{v}\;
+            vertexPos = matchedEdge.\FIndex{v}\;
+            \uIf{\FLen{neighbours[vertexPos]} $< k$}{
+                matchings$[v]$.\FAppend{$(u,v)$}\;
+            }
+        }
+        \uIf{\KwNot isNeighbour}{
+            maximalMatching.\FAppend{$(u,v)$}\;
+            \uIf{\FLen{maximalMatching} $> k$}{
+                \Return \KwNull\;
+            }
+        }
+    }
+    \Return maximalMatching\;
 \end{algorithm}
 
 \subsection{Local - Visualisation}
@@ -292,16 +345,15 @@ to calculate the vertex cover. We will be using a library called NetworkX
 \cite{hagberg2008exploring}. NetworkX provides data structures for graphs with
 an intuitive API. It also includes a module for drawing graphs with Matplotlib
 \cite{hunter2007matplotlib}, a Python visualization library that has been
-around since 2003 [citation needed]. With these tools we will be able to create
-programs that create visualisations of both the kernelization and branching
-stream algorithms.
+around since 2003 \cite{matplotlib2003copyright}. With these tools we will be
+able to create programs that create visualisations of both the kernelization
+and branching stream algorithms.
 
 There are some key aspects we'd like to highlight in both algorithms. For the
 kernelization algorithm, these include being able to compare the kernel to the
 whole graph and being able to see when edges are not added to the kernel. For
 the branching algorithm, these include the binary string and the binary search
 tree.
-
 
 \subsection{Local-Stream - Performance Benchmarking}
 
@@ -311,7 +363,9 @@ store the graph on disk since disk size is often many magnitudes larger than
 that of memory. Traditional algorithms are no longer applicable here, this is
 the first example where the invention of streaming algorithms is a necessity.
 
-\subsubsection{Datasets}
+In order to properly performance benchmark the algorithms, we will have to do
+both runtime analysis and memory profiling to get an accurate picture of how
+they perform.
 
 While the original intention for this section of the project was to test
 against large graphs from all possible backgrounds
@@ -322,42 +376,6 @@ vertices. In order to get any results that was anything more than a null
 result, we would have to generate some graphs of our own. These graphs would
 have to have a large number of edges while simultaneously having a low vertex
 cover number. This leads to graphs with a low level of connectivity.
-
-Eventually we get to a point where the datasets become too large to even read.
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics{dataset-too-big.jpg}
-    \caption{Dataset too big 1}
-\end{figure}
-
-Visual Studio Code, a more modern text editor, is able to open the file,
-however this is still not without performance issues even when wrapping and
-folding have been turned off.
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics{dataset-too-big3.jpg}
-    \caption{Dataset too big 3}
-\end{figure}
-
-Even with its ability to open large files, Visual Studio Code also has a limit.
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics{dataset-too-big2.jpg}
-    \caption{Dataset too big 2}
-\end{figure}
-
-\subsubsection{Testing and Comparison}
-
-We not longer live in a world where we have to hack our way around machines to
-push the limits of their memory just so we can play some games. We haven't for
-a while. This goes the same for algorithms. Most of the time, we will happily
-sacrifice memory efficiency for any extra pittance of time efficiency. Memory
-is dispensable, our time is not. This may still be true for streaming
-algorithms, but only to an extent. We are very much interested in both time and
-space complexity here. And so, we need to test as such.
 
 For memory profiling, we will use the Python package \texttt{memory-profiler}
 which records memory usage at intervals of \(0.1\text{s}\). It also allows for
@@ -379,24 +397,19 @@ attributes will be limited so it should be treated as an unbounded stream (a
 stream that has no end). The opposite of this would be treating it as a bounded
 stream, which we know has an end.
 
-\subsubsection{Batch vs Stream processing}
-
-Most ``streaming'' applications work on \textbf{unbounded} streams. These are
-data streams which are essentially infinite. Examples include sensor readings
-and application logging. In these cases, the objective is not to obtain a final
+Most streaming applications work on unbounded streams. These are data streams
+which are essentially infinite. Examples include sensor readings and
+application logging. In these cases, the objective is not to obtain a final
 result, rather to aggregate the data before storing it for future use. This
-would be classed as \textbf{stream processing}.
+would be classed as stream processing. Specifically, the Vertex Cover problem
+would be classed as batch processing. We may be working on a data stream but
+once either algorithm has completed we won't need to run it again.
 
-The Vertex Cover problem would be classed as \textbf{batch processing}. We may
-be working on a data stream but once either algorithm has completed we won't
-need to run it again.
-
-Most streaming platforms (especially those in the Apache line up) work on
-unbounded stream processing. So finding a streaming platform appropriate for
-batch processing was a little tricky. There are a number of ``graph''
-processing frameworks.
-
-Streaming platforms are the base on which a data stream is sent and received.
+Most streaming platforms (especially those in the Apache line up) mainly work
+on unbounded stream processing but can be tweaked to also handle batch
+processing. At their base, these streaming platforms are just messaging
+platforms that have been built to be fault-tolerant and capable of handling
+masses of data at any one time. These facilitate the data stream transmission.
 Examples include:
 
 \begin{itemize}
@@ -405,44 +418,31 @@ Examples include:
     \item
           Amazon Kinesis
     \item
-          Apache Spark Streaming
-    \item
           Google Cloud Pub/Sub
-    \item
-          Google Cloud DataFlow
     \item
           RabbitMQ
 \end{itemize}
 
-Once we have the platform we need an in-memory framework to handle the
+Once we have the platform, we need an in-memory framework to handle the
 processing of each item in the stream. This is where the algorithms will
-actually run. There are a whole number of frameworks for this, all of which
-have their own niche use cases. Examples include:
+actually run. There are a number of graph-specific processing frameworks,
+however these perform higher-level algorithms than the ones we are building
+here. Also, many have a focus on being distributed (read: parallelised) which
+is also something we're not interested in. Since we plan to write the other two
+sections in Python, it would make sense to continue as such. Faust is a Python
+stream processing library built for use with Apache Kafka so is a perfect
+candidate for us.
 
-\begin{itemize}
-    \item
-          Apache Spark
-    \item
-          Apache Spark GraphX
-    \item
-          Apache Flink
-    \item
-          Apache Beam
-    \item
-          Apache Samza
-\end{itemize}
+There is another problem to tackle in this case which is the role of the data
+source. For the algorithms we will be implementing, it must be able to handle
+requests for graphs to be streamed to the stream processor. This rules out
+simply linking up a database as that wouldn't have the capability. A server is
+most likely needed to handle the requests as well as facilitate getting the
+data from storage and sending it through the streaming platform.
 
-\subsubsection{In-memory sized stream graphs}
-
-If you know beforehand that the graph is an in-memory size then you don't need
-to go through the hassle of treating it as a stream. One pass through the graph
-will allow you to store the graph locally and therefore be able to use it as a
-local graph instead.
-
-\subsubsection{Actors}
-
-
-\begin{itemize}
-    \item
-          producer - explain role and abstract interface
-\end{itemize}
+There is the fourth case based on the dataset's attributes in which the size of
+the graph is an in-memory size but comes from a networked source. If you know
+beforehand that the graph is an in-memory size then you don't need to go
+through the hassle of treating it as a stream. One pass through the graph will
+allow you to store the graph locally and therefore be able to use it as a local
+graph instead.
